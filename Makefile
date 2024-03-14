@@ -1,0 +1,2 @@
+install:
+	stow --target=${HOME} .

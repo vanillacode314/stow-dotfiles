@@ -1,0 +1,9 @@
+os:
+  editPreset: "nvim"
+gui:
+  border: single
+git:
+  paging:
+    useConfig: false
+    colorArg: always
+    pager: delta -s --dark --paging=never

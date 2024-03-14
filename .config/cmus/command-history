@@ -1,0 +1,53 @@
+pl-import /home/media/Music/2
+pl-create A
+clear 
+clear
+pl-import /home/media/Music/Value.m3u
+win-remove 
+win-activate
+pl-import /home/media/Music/Love.m3u
+pl-import /home/media/Music/Favorites.m3u
+pl-import /home/media/Favorites.m3u
+cmus 
+delete
+pl-djj
+pl-import /home/media/Music/Crust.m3u
+bind -f common u shell ~/.config/cmus/scripts/refresh.sh
+add playlist
+add Crust
+add /home/media/Music/Favorites.m3u
+help 
+colorscheme gruvbox
+c
+live-filter7
+add
+pl-de
+pl-create
+q
+unbind common
+undo
+save
+pl-create Nostalgia
+player-pause-playback
+add Desktop/
+colorscheme night
+colorscheme theme
+colorscheme 
+colorscheme cyan
+bind -f 
+bind 
+add /home/media/Music/
+add /home/media/Music/*.m3u
+add /home/media/Music/Favourites.m3u
+set resume=true
+add Documents/
+refresh 
+update-cache 
+update
+win-update
+win-add-q
+set status_display_program=cmusfm
+win-add-Q
+colorscheme gruvbox-alt
+colorscheme gruvbox-aklt
+colorscheme gruvbox-dark

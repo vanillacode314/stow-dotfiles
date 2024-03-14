@@ -1,0 +1,174 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Astro
+file_extensions:
+  - astro
+  - ast
+scope: source.astro
+contexts:
+  main:
+
+    - match: ^\s*-\s+[^>].*$ # non_astro
+      scope: comment.line.number-sign.astro
+      name: non_astro
+
+    - match: \b0x(_?[A-Fa-f0-9])*((\.(_?[A-Fa-f0-9])+)?(p[+-]?)?[A-Fa-f0-9_]+)? # hexadecimal_numbers
+      scope: constant.numeric.astro
+      name: hexadecimal_numbers
+
+    - match: \b0o(_?[0-8])*((\.(_?[0-8])+)?(p[+-]?)?[0-8_]+)? # octal_numbers
+      scope: constant.numeric.astro
+      name: octal_numbers
+
+    - match: \b0b(_?[01])*((\.(_?[01])+)?(p[+-]?)?[01_]+)? # binary_numbers
+      scope: constant.numeric.astro
+      name: binary_numbers
+
+    - match: \b[0-9](_?[0-9])*((\.(_?[0-9])+)?(e[+-]?)?(_?[0-9])+)? # decimal_numbers
+      scope: constant.numeric.astro
+      name: decimal_numbers
+
+    - match: \@(?:[A-Za-z_][_A-Za-z0-9]*)|@\([^)]+\) # macros
+      scope: support.function.macro.astro
+      name: macros
+
+    - match: (#-) # multiline_comments
+      push: multiline_comments
+
+    - match: (#).*$ # single_line_comments
+      scope: comment.line.number-sign.astro
+      name: single_line_comments
+
+    - match: (?<=^|:|=)\s*(::|>:|<:) # type_annotation
+      push: type_annotation
+
+    - match: (?<!\.)(\.[A-Za-z_][_A-Za-z0-9]*!?(\.(?![.A-Za-z_0-9]))?)|(?<=,)\s*:[A-Za-z_][_A-Za-z0-9]*!? # dot_notation
+      scope: constant.numeric.astro
+      name: dot_notation
+
+    - match: \b(true|false|nil|NaN)\b # constant_keywords
+      scope: constant.language.astro
+      name: constant_keywords
+
+    - match: \b(?:try!|(for|end|if|\?|else|elif|async|await|return|delegate|yield|from|while|do|loop|try|ensure|raise|continue|break|fallthrough|pass|except)\b) # control_keywords
+      scope: keyword.control.astro
+      name: control_keywords
+
+    - match: \b(?:type|fun|let|var|import|export)\b # declaration_keywords
+      scope: storage.modifier.astro
+      name: declaration_keywords
+
+    - match: \b(and|or|not|in|is|mod|where|iso|ref|const|as|typeof)\b # keyword_operators
+      scope: keyword.control.astro"
+      name: keyword_operators
+
+    - match: ([A-Za-z_][_A-Za-z0-9]*)!?\.?(?=(\{.+\}\s*)?\() # function_calls
+      scope: entity.name.function.astro
+      name: function_calls
+
+    - match: (?<=,)\s*:(?=\() # function_extended_notation
+      scope: entity.name.function.astro
+      name: function_extended_notation
+
+    - match: ([A-Za-z_][_A-Za-z0-9]*( (?!and |or |not |in |is |mod |where |iso |ref |const |as |typeof )[A-Za-z_][_A-Za-z0-9]*)+\s*(?=[+-/*]?\=)) # multiple_declaration
+      scope: astro
+      name: multiple_declaration
+
+    - match: (?<!let |var |import )(\b[a-zA-Z_][A-Za-z_0-9]*!?)\s+(?=[A-Za-z_0-9]+|\"|'|`|(\|\|)|@|\$|\{|\[|\()(?!\b(and|or|not|in|is|mod|where|iso|ref|const|as|typeof)\b) # command_notation
+      scope: entity.name.function.astro
+      name: command_notation
+
+    - match: (?<=[_a-zA-Z0-9})\]])' # unquoted
+      scope: support.function.macro.astro
+      name: unquoted
+
+    - match: \"\"\" # multiline_single_quoted_string
+      scope: punctuation.definition.string.begin.astro
+      push: multiline_double_quoted_string
+
+    - match: \'\'\' # multiline_single_quoted_string
+      scope: punctuation.definition.string.begin.astro
+      push: multiline_single_quoted_string
+
+    - match: \" # double_quoted_string
+      scope: punctuation.definition.string.begin.astro
+      push: double_quoted_string
+
+    - match: \' # single_quoted_string
+      scope: punctuation.definition.string.begin.astro
+      push: single_quoted_string
+
+    - match: \`.\` # chars
+      scope: string.quoted.astro
+      name: chars
+
+    - match: \|\| # regex
+      scope: punctuation.definition.regexp.begin.astro
+      push: regex
+
+    - match: \.?(=|\||\&|\>|\<|!|\+|-|\*|\/|\^|%|\?|≥|≤|≠|≈|×|±|÷)+ # operators
+      scope: keyword.operator.astro
+      name: operators
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.astro
+    - match: \\(t|n|r|b|q|\"|'|\$|\\)
+      scope: constant.character.escape.astro
+    - match: \$[A-Za-z_][A-Za-z0-9_]*
+      scope: constant.character.escape.astro
+    - match: \$(|.+|)?\{
+      push: string_interpolate
+    - match: \"
+      scope: punctuation.definition.string.end.astro
+      pop: true
+
+  single_quoted_string:
+    - meta_scope: string.quoted.single.astro
+    - match: \\(t|n|r|b|q|\"|'|\$|\\)
+      scope: constant.character.escape.astro
+    - match: \$[A-Za-z_][A-Za-z0-9_]*
+      scope: constant.character.escape.astro
+    - match: \$(|.+|)?\{
+      push: string_interpolate
+    - match: \'
+      scope: punctuation.definition.string.end.astro
+      pop: true
+
+  multiline_double_quoted_string:
+    - meta_scope: string.quoted.double.astro
+    - match: \"\"\"
+      scope: punctuation.definition.string.end.astro
+      pop: true
+
+  multiline_single_quoted_string:
+    - meta_scope: string.quoted.single.astro
+    - match: \'\'\'
+      scope: punctuation.definition.string.end.astro
+      pop: true
+
+  regex:
+    - meta_scope: string.regexp.astro
+    - match: \\.
+      scope: constant.character.escape.astro
+    - match: \|\|
+      scope: punctuation.definition.regexp.begin.astro
+      pop: true
+
+  string_interpolate:
+    - meta_scope: constant.character.escape.astro
+    - match: \}
+      pop: true
+    - include: main
+
+  multiline_comments:
+    - meta_scope: comment.line.block.astro
+    - match: (#-)
+      push: multiline_comments
+    - match: -#
+      pop: true
+
+  type_annotation:
+    - meta_scope: comment.line.block.astro
+    - match: (?=;|$)
+      pop: true

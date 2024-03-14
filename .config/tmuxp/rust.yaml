@@ -1,0 +1,9 @@
+session_name: rust ${NAME}
+windows:
+  - window_name: cargo-watch
+    panes:
+      - shell_command: cargo watch
+  - window_name: nvim
+    focus: true
+    panes:
+      - shell_command: nvim

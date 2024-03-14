@@ -1,0 +1,23 @@
+import = ["/home/vc/.sources/base16-alacritty/colors/base16-gruvbox-material-dark-hard-256.toml"]
+
+[font]
+builtin_box_drawing = true
+size = 10
+
+[font.bold_italic]
+style = "Bold Italic"
+
+[font.italic]
+style = "Italic"
+
+[font.normal]
+family = "CaskaydiaCove Nerd Font"
+style = "Regular"
+
+[window]
+dynamic_padding = true
+opacity = 1
+
+[window.padding]
+x = 20
+y = 20

@@ -1,0 +1,21 @@
+session_name: client ${NAME}
+shell_command_before: cd client && nvm use
+windows:
+  - window_name: bun
+    panes:
+      - shell_command: bun dev
+  - focus: true
+    panes:
+      - shell_command: nvim
+    window_name: nvim
+
+session_name: server ${NAME}
+shell_command_before: cd server && nvm use
+windows:
+  - window_name: bun
+    panes:
+      - shell_command: bun dev
+  - focus: true
+    panes:
+      - shell_command: nvim
+    window_name: nvim
