@@ -1,0 +1,4 @@
+#!/bin/sh
+
+COMM="$(echo -e 'poweroff\nsuspend\nhibernate\nreboot' | tofi)"
+[ -n "$COMM" ] && systemctl $COMM

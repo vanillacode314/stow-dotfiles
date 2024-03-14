@@ -1,0 +1,9 @@
+#!/bin/sh
+Selection=true
+
+xrdb -merge ~/.Xresources
+
+# source /etc/profile does not have any effect
+. $HOME/.profile
+
+exec dbus-launch $@

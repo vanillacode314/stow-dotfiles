@@ -1,0 +1,72 @@
+#!/bin/sh
+
+run_once() {
+	killall -q -0 "$1" || "$@" &
+}
+
+source ~/.profile
+$HOME/.screenlayout/main.sh
+$HOME/.config/polybar/launch.sh
+xsetroot -cursor_name left_ptr &
+run_once sxhkd
+run_once picom
+run_once dunst
+run_once redshift-gtk -l 28.63576:77.22445
+run_once lxqt-policykit-agent
+run_once unclutter
+run_once batterylow
+# run_once kdeconnect-indicator
+# run_once noisetorch
+
+# immersive-wallpapers-x11-cli -f $(ls -t $HOME/.wall.* | head -1) -b "5,0;20,40"
+xwallpaper --zoom $(ls -t $HOME/.wall.* | head -1)
+nm-applet &
+blueman-applet &
+# jellyfin-mpv-shim &
+# xset dpms 300 300 300
+
+HDMI_STATUS=$(cat /sys/class/drm/card1/*HDMI*/status)
+echo $HDMI_STATUS >/tmp/hdmi_status
+if test $HDMI_STATUS = connected; then
+	bspc monitor HDMI-A-0 -d 1 2 3 4 5 6
+	bspc monitor eDP -d 7 8
+else
+	bspc monitor eDP -d 1 2 3 4 5 6 7 8
+fi
+
+bspc config border_width 1
+bspc config window_gap 0
+bspc config bottom_padding 30
+bspc config focus_follows_pointer false
+bspc config split_ratio 0.54
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+
+# Colors
+bspc config normal_border_color "#555555"
+bspc config focused_border_color "#ffffff"
+bspc config active_border_color "#555555"
+
+# Chat apps
+bspc rule -a "Jitsi Meet" desktop='^7' follow=on
+bspc rule -a "Element" desktop='^7' follow=on
+bspc rule -a "Signal" desktop='^7' follow=on
+bspc rule -a discord desktop='^7' follow=on
+bspc rule -a "*:telegram-desktop" desktop='^7' follow=on
+bspc rule -a *:slack desktop='^7' follow=on
+
+bspc rule -a Gimp desktop='^6' follow=on
+bspc rule -a "Transmission-remote-gtk" desktop='^8' follow=on
+bspc rule -a firefox desktop='^2' follow=on
+bspc rule -a Brave-browser desktop='^2' follow=on
+bspc rule -a Zathura desktop='^5' follow=on state=fullscreen
+bspc rule -a "Com.github.johnfactotum.Foliate" desktop='^5' follow=on state=fullscreen
+bspc rule -a "Citra" desktop='^6' follow=on
+bspc rule -a "yuzu" desktop='^6' follow=on
+bspc rule -a "Cemu" desktop='^6' follow=on
+bspc rule -a "*:keepassxc" desktop='^8' follow=on
+bspc rule -a "obs" desktop='^3' follow=on
+bspc rule -a *:Cmus desktop='^4' follow=on
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off

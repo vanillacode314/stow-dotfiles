@@ -1,0 +1,10 @@
+session_name: frontend ${NAME}
+shell_command_before: nvm use
+windows:
+  - window_name: pnpm
+    panes:
+      - shell_command: pnpm dev
+  - focus: true
+    panes:
+      - shell_command: nvim
+    window_name: nvim
