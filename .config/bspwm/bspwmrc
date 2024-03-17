@@ -25,22 +25,17 @@ blueman-applet &
 # jellyfin-mpv-shim &
 # xset dpms 300 300 300
 
-HDMI_STATUS=$(cat /sys/class/drm/card1/*HDMI*/status)
-echo $HDMI_STATUS >/tmp/hdmi_status
-if test $HDMI_STATUS = connected; then
-	bspc monitor HDMI-A-0 -d 1 2 3 4 5 6
-	bspc monitor eDP -d 7 8
-else
-	bspc monitor eDP -d 1 2 3 4 5 6 7 8
-fi
+bspc monitor HDMI-A-0 -d 1 2 3 4 5
+bspc monitor eDP -d 6 7 8 9 0
 
-bspc config border_width 1
-bspc config window_gap 0
-bspc config bottom_padding 30
+bspc config border_width 0
+bspc config window_gap 10
+bspc config top_padding 40
+bspc config bottom_padding 0
 bspc config focus_follows_pointer false
 bspc config split_ratio 0.54
 bspc config borderless_monocle true
-bspc config gapless_monocle true
+bspc config gapless_monocle false
 
 # Colors
 bspc config normal_border_color "#555555"
@@ -70,3 +65,6 @@ bspc rule -a *:Cmus desktop='^4' follow=on
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
+
+# ScratchPad
+bspc rule -a dropdown sticky=on private=on state=floating hidden=on center=true rectangle=1280x720+0+0

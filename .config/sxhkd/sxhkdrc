@@ -63,8 +63,14 @@ super + ctrl + {m,x,y,z}
 #
 
 # focus the node in the given direction
-super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+super + {_, shift +, ctrl +}{h,j,k,l}
+    set mode {f,s,n}; \
+    set direction {west,south,north,east}; \
+     if test $mode = "f"; \
+         bspc node -f $direction.local || bspc monitor -f $direction; \
+     else; \
+         bspc node -$mode $direction.local || bspc node -m $direction --follow; \
+     end
 
 # focus the node for the given path jump
 super + {p,b,comma,period}
@@ -96,27 +102,27 @@ super + {o,i}
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+	bspc {desktop -f,node -d} '^{1-9,10}' --follow
 
 #
 # preselect
 #
 
-# preselect the direction
-super + ctrl + {h,j,k,l}
-	bspc node -p {west,south,north,east}
-
-# preselect the ratio
-super + ctrl + {1-9}
-	bspc node -o 0.{1-9}
-
-# cancel the preselection for the focused node
-super + ctrl + space
-	bspc node -p cancel
-
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+# # preselect the direction
+# super + ctrl + {h,j,k,l}
+# 	bspc node -p {west,south,north,east}
+#
+# # preselect the ratio
+# super + ctrl + {1-9}
+# 	bspc node -o 0.{1-9}
+#
+# # cancel the preselection for the focused node
+# super + ctrl + space
+# 	bspc node -p cancel
+#
+# # cancel the preselection for the focused desktop
+# super + ctrl + shift + space
+# 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
 # move/resize
@@ -230,3 +236,7 @@ F12
 
 super + F12
   exec fish -c "cd ~/Screenshots; maim --select screenshot_(date  +%Y-%m-%dT%H:%M:%S%Z).png"
+
+# scratchpad
+super + u
+        ~/.config/bspwm/scripts/scratchpad.sh dropdown
