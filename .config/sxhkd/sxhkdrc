@@ -160,20 +160,9 @@ super + alt + d
 super + alt + w
   exec nsxiv -a -f -t /home/media/Sync/Wallpapers
 
-# file manager
-super + alt + f
-  exec kitty -e "lf"
-
+# pcmanfm
 super + alt + g
   exec pcmanfm
-
-# btm (task manager)
-super + alt + y
-  exec kitty -e "btm"
-
-# cmus
-super + alt + m
-  exec kitty --class "Cmus" -e "ncmpcpp"
 
 #
 # keyboard keys
@@ -233,4 +222,16 @@ super + F12
 
 # scratchpad
 super + u
-        ~/.config/bspwm/scripts/scratchpad.sh dropdown
+  exec ~/.config/bspwm/scripts/scratchpad.sh $SHELL
+
+# file manager
+super + alt + f
+  exec ~/.config/bspwm/scripts/scratchpad.sh lf
+
+# btm (task manager)
+super + alt + y
+  exec ~/.config/bspwm/scripts/scratchpad.sh btm
+
+# cmus
+super + alt + m
+  exec ~/.config/bspwm/scripts/scratchpad.sh ncmpcpp

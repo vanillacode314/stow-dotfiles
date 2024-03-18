@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 
-if [ -z $1 ]; then
-	echo "Usage: $0 <name of hidden scratchpad window>"
-	exit 1
-fi
-
+# ScratchPad
+bspc rule -a dropdown-${1} sticky=on private=on state=floating hidden=on center=true rectangle=1280x720+0+0
 pids=$(xdotool search --class ${1})
 if [ -z "$pids" ]; then
-	if tmux ls | grep scratchpad -q; then
-		kitty --class dropdown -- tmux a -t scratchpad &
-	else
-		kitty --class dropdown -- tmux new -s scratchpad &
-	fi
-
+	kitty --class dropdown-${1} -- "$@" &
 	sleep 0.2
 fi
 
