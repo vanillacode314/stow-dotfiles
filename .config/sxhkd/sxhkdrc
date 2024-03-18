@@ -88,6 +88,10 @@ super + s
     bspc node @HDMI-A-0:focused:/ -s @eDP:focused:/ || \
     bspc node @eDP:focused:/ -s @HDMI-A-0:focused:/;
 
+super + shift + s
+	bspc node -t floating
+
+
 # focus the older or newer node in the focus history
 super + {o,i}
 	bspc wm -h off; \
