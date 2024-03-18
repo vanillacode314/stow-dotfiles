@@ -5,19 +5,25 @@ killall -q polybar
 # If all your bars have ipc enabled, you can also use
 # polybar-msg cmd quit
 
-# Launch Polybar, using default config location ~/.config/polybar/config
-MONITOR=HDMI-A-0 polybar mainbar-bspwm 2>&1 | tee -a /tmp/polybar.log &
-disown
-MONITOR=eDP polybar secondary-bspwm 2>&1 | tee -a /tmp/polybar.log &
-disown
-
-# echo "Polybar launched..."
-# if type "xrandr"; then
-# 	for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-# 		MONITOR=$m polybar mainbar-bspwm 2>&1 | tee -a /tmp/polybar.log &
-# 		disown
-# 	done
-# else
-# 	polybar mainbar-bspwm 2>&1 | tee -a /tmp/polybar.log &
-# 	disown
-# fi
+IFS="
+"
+i=0
+for line in $(xrandr --listactivemonitors); do
+	if [ $i -eq 0 ]; then
+		i=$((i + 1))
+		continue
+	fi
+	IS_PRIMARY=$(
+		echo "$line" | grep -F '*' -q
+		echo $?
+	)
+	MONITOR=$(echo $line | cut -d' ' -f6)
+	export MONITOR
+	if [ $IS_PRIMARY -eq 0 ]; then
+		polybar mainbar-bspwm 2>&1 | tee -a /tmp/polybar.log &
+	else
+		polybar mainbar-bspwm 2>&1 | tee -a /tmp/polybar.log &
+	fi
+	disown
+	i=$((i + 1))
+done

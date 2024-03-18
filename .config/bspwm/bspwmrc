@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/env bash
 
 run_once() {
 	killall -q -0 "$1" || "$@" &
@@ -25,12 +25,26 @@ blueman-applet &
 # jellyfin-mpv-shim &
 # xset dpms 300 300 300
 
-bspc monitor HDMI-A-0 -d 1 2 3 4 5
-bspc monitor eDP -d 6 7 8 9 0
-# bsp-layout reload
-# for i in {0..9}; do
-# 	bsp-layout set tall $i
-# done
+IFS="
+"
+i=0
+for line in $(xrandr --listactivemonitors); do
+	if [ $i -eq 0 ]; then
+		i=$((i + 1))
+		continue
+	fi
+	IS_PRIMARY=$(
+		echo "$line" | grep -F '*' -q
+		echo $?
+	)
+	MONITOR=$(echo "$line" | cut -d' ' -f6)
+	if [ $IS_PRIMARY -eq 0 ]; then
+		bspc monitor $MONITOR -d 1 2 3 4 5
+	else
+		bspc monitor $MONITOR -d 6 7 8 9 0
+	fi
+	i=$((i + 1))
+done
 
 bspc config border_width 0
 bspc config window_gap 10
