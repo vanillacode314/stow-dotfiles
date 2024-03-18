@@ -14,7 +14,6 @@ center() {
 
 sticky_ids=$(bspc query -N -n any.sticky)
 sticky_focused=$(bspc query -N -n any.sticky.focused)
-notify-send "$sticky_focused"
 
 for id in $sticky_ids; do
 	bspc node $id -g sticky=off
