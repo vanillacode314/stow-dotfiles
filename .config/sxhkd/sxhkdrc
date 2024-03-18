@@ -64,13 +64,7 @@ super + ctrl + {m,x,y,z}
 
 # focus the node in the given direction
 super + {_, shift +, ctrl +}{h,j,k,l}
-    set mode {f,s,n}; \
-    set direction {west,south,north,east}; \
-     if test $mode = "f"; \
-         bspc node -f $direction.local || bspc monitor -f $direction; \
-     else; \
-         bspc node -$mode $direction.local || bspc node -m $direction --follow; \
-     end
+		~/.config/sxhkd/move.sh {f,s,n} {west,south,north,east}
 
 # focus the node for the given path jump
 super + {p,b,comma,period}
