@@ -19,3 +19,6 @@
 [submodule ".config/kitty/base16-kitty"]
 	path = .config/kitty/base16-kitty
 	url = https://github.com/kdrag0n/base16-kitty
+[submodule ".config/tmux/plugins/minimal-tmux-status"]
+	path = .config/tmux/plugins/minimal-tmux-status
+	url = https://git::@github.com/niksingh710/minimal-tmux-status
