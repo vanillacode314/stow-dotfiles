@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ScratchPad
-bspc rule -a dropdown-${1} sticky=on private=on state=floating hidden=on center=true rectangle=1280x720+0+0
+bspc rule -a dropdown-${1} sticky=on state=floating hidden=on center=on monitor=primary rectangle=1280x720+0+0
 pids=$(xdotool search --class ${1})
 if [ -z "$pids" ]; then
 	kitty --class dropdown-${1} -- "$@" &

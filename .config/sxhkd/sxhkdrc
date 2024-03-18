@@ -64,7 +64,7 @@ super + ctrl + {m,x,y,z}
 
 # focus the node in the given direction
 super + {_, shift +, ctrl +}{h,j,k,l}
-		~/.config/sxhkd/move.sh {f,s,n} {west,south,north,east}
+		exec ~/.config/sxhkd/move.sh {f,s,n} {west,south,north,east}
 
 # focus the node for the given path jump
 super + {p,b,comma,period}
@@ -84,7 +84,7 @@ super + {grave,Tab}
 
 # swap monitors
 super + s
-	bspc desktop ^1:focused -s ^2:focused
+	exec ~/.config/sxhkd/swap.sh 
 
 super + shift + s
 	bspc node -t floating
