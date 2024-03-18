@@ -11,7 +11,6 @@ require("lazy").setup({
 		-- version = 'release' -- To use the latest release
 		config = function()
 			require("gitsigns").setup()
-			require("scrollbar.handlers.gitsigns").setup()
 		end,
 	},
 
@@ -49,8 +48,8 @@ require("lazy").setup({
 				extra_groups = {}, -- table: additional groups that should be cleared
 				exclude_groups = {}, -- table: groups you don't want to clear
 			})
-			require("transparent").clear_prefix("BufferLine")
-			require("transparent").clear_prefix("lualine")
+			-- require("transparent").clear_prefix("BufferLine")
+			-- require("transparent").clear_prefix("lualine")
 		end,
 	},
 	"RRethy/nvim-base16",
@@ -230,20 +229,20 @@ require("lazy").setup({
 
 	{
 		"nvim-lualine/lualine.nvim",
-		enabled = false,
+		enabled = true,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("config.lualine")
 		end,
 	},
 
-	{
-		"freddiehaddad/feline.nvim",
-		lazy = false,
-		config = function()
-			require("config.feline")
-		end,
-	},
+	-- {
+	-- 	"freddiehaddad/feline.nvim",
+	-- 	lazy = false,
+	-- 	config = function()
+	-- 		require("config.feline")
+	-- 	end,
+	-- },
 	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 	{
 		"kylechui/nvim-surround",
@@ -289,21 +288,29 @@ require("lazy").setup({
 
 	{ "tzachar/cmp-tabnine", enabled = false, build = "./install.sh", dependencies = "hrsh7th/nvim-cmp" },
 	"lukas-reineke/cmp-under-comparator",
+
 	{
-		"lucastavaresa/SingleComment.nvim",
-		config = function()
-			-- comments the current line, or a number of lines 5gcc
-			vim.keymap.set("n", "gcc", require("SingleComment").SingleComment, { expr = true })
-			-- comments the selected lines
-			vim.keymap.set("v", "gc", require("SingleComment").Comment, {})
-			-- toggle a comment top/ahead of the current line
-			vim.keymap.set("n", "gca", require("SingleComment").ToggleCommentAhead, {})
-			-- comments ahead of the current line
-			vim.keymap.set("n", "gcA", require("SingleComment").CommentAhead, {})
-			-- comment a block, and removes the innermost block comment in normal mode
-			-- vim.keymap.set({ "n", "v" }, "gcb", require("SingleComment").BlockComment)
-		end,
+		"numToStr/Comment.nvim",
+		opts = {
+			-- add any options here
+		},
+		lazy = false,
 	},
+	-- {
+	-- 	"lucastavaresa/SingleComment.nvim",
+	-- 	config = function()
+	-- 		-- comments the current line, or a number of lines 5gcc
+	-- 		vim.keymap.set("n", "gcc", require("SingleComment").SingleComment, { expr = true })
+	-- 		-- comments the selected lines
+	-- 		vim.keymap.set("v", "gcc", require("SingleComment").Comment, {})
+	-- 		-- toggle a comment top/ahead of the current line
+	-- 		vim.keymap.set("n", "gca", require("SingleComment").ToggleCommentAhead, {})
+	-- 		-- comments ahead of the current line
+	-- 		vim.keymap.set("n", "gcA", require("SingleComment").CommentAhead, {})
+	-- 		-- comment a block, and removes the innermost block comment in normal mode
+	-- 		vim.keymap.set({ "n", "v" }, "gcb", require("SingleComment").BlockComment)
+	-- 	end,
+	-- },
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
 		config = true,
@@ -355,14 +362,14 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{
-		"akinsho/bufferline.nvim",
-		version = "v3.*",
-		dependencies = "nvim-tree/nvim-web-devicons",
-		opts = {
-			options = {},
-		},
-	},
+	-- {
+	-- 	"akinsho/bufferline.nvim",
+	-- 	version = "v3.*",
+	-- 	dependencies = "nvim-tree/nvim-web-devicons",
+	-- 	opts = {
+	-- 		options = {},
+	-- 	},
+	-- },
 	{
 		"phaazon/hop.nvim",
 		branch = "v1", -- optional but strongly recommended
@@ -679,10 +686,13 @@ require("lazy").setup({
 						]])
 		end,
 	},
-	{
-		"petertriho/nvim-scrollbar",
-		config = true,
-	},
+	-- {
+	-- 	"petertriho/nvim-scrollbar",
+	-- 	config = function()
+	-- 		require("scrollbar").setup()
+	-- 		require("scrollbar.handlers.gitsigns").setup()
+	-- 	end,
+	-- },
 	-- {
 	-- 	"gorbit99/codewindow.nvim",
 	-- 	config = function()
