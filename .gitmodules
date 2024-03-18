@@ -16,3 +16,6 @@
 [submodule ".config/tmux/plugins/tmux-resurrect"]
 	path = .config/tmux/plugins/tmux-resurrect
 	url = https://git::@github.com/tmux-plugins/tmux-resurrect
+[submodule ".config/kitty/base16-kitty"]
+	path = .config/kitty/base16-kitty
+	url = https://github.com/kdrag0n/base16-kitty
