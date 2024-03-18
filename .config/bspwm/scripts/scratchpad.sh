@@ -5,7 +5,7 @@ bspc rule -a dropdown-${1} sticky=on state=floating hidden=on center=on monitor=
 pids=$(xdotool search --class ${1})
 if [ -z "$pids" ]; then
 	kitty --class dropdown-${1} -- "$@" &
-	sleep 0.2
+	sleep 0.5
 fi
 
 pids=$(xdotool search --class ${1})
