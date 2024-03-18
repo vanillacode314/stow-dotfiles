@@ -289,13 +289,19 @@ require("lazy").setup({
 
 	{ "tzachar/cmp-tabnine", enabled = false, build = "./install.sh", dependencies = "hrsh7th/nvim-cmp" },
 	"lukas-reineke/cmp-under-comparator",
-
 	{
-		"numToStr/Comment.nvim",
+		"lucastavaresa/SingleComment.nvim",
 		config = function()
-			require("Comment").setup({
-				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-			})
+			-- comments the current line, or a number of lines 5gcc
+			vim.keymap.set("n", "gcc", require("SingleComment").SingleComment, { expr = true })
+			-- comments the selected lines
+			vim.keymap.set("v", "gc", require("SingleComment").Comment, {})
+			-- toggle a comment top/ahead of the current line
+			vim.keymap.set("n", "gca", require("SingleComment").ToggleCommentAhead, {})
+			-- comments ahead of the current line
+			vim.keymap.set("n", "gcA", require("SingleComment").CommentAhead, {})
+			-- comment a block, and removes the innermost block comment in normal mode
+			-- vim.keymap.set({ "n", "v" }, "gcb", require("SingleComment").BlockComment)
 		end,
 	},
 	{
@@ -1194,7 +1200,7 @@ require("lazy").setup({
 	},
 	{
 		"chrisgrieser/nvim-various-textobjs",
-		opts = { useDefaultKeymaps = true },
+		opts = { useDefaultKeymaps = true, disabledKeymaps = { "gc" } },
 	},
 	{
 		"bennypowers/splitjoin.nvim",
