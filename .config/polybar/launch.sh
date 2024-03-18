@@ -22,7 +22,7 @@ for line in $(xrandr --listactivemonitors); do
 	if [ $IS_PRIMARY -eq 0 ]; then
 		polybar mainbar-bspwm 2>&1 | tee -a /tmp/polybar.log &
 	else
-		polybar mainbar-bspwm 2>&1 | tee -a /tmp/polybar.log &
+		polybar secondary-bspwm 2>&1 | tee -a /tmp/polybar.log &
 	fi
 	disown
 	i=$((i + 1))
