@@ -44,6 +44,8 @@ require("lazy").setup({
 					"StatusLine",
 					"StatusLineNC",
 					"EndOfBuffer",
+					"WinBar",
+					"WinSeparator",
 				},
 				extra_groups = {}, -- table: additional groups that should be cleared
 				exclude_groups = {}, -- table: groups you don't want to clear
@@ -121,11 +123,11 @@ require("lazy").setup({
 				},
 				on_open = function()
 					-- io.popen("bspc node -t fullscreen")
-					vim.cmd([[ScrollbarHide]])
+					-- vim.cmd([[ScrollbarHide]])
 				end,
 				on_close = function()
 					-- io.popen("bspc node -t tiled")
-					vim.cmd([[ScrollbarShow]])
+					-- vim.cmd([[ScrollbarShow]])
 					if quitting then
 						quitting = false
 						vim.cmd("q")
