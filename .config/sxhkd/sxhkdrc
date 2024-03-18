@@ -84,9 +84,7 @@ super + {grave,Tab}
 
 # swap monitors
 super + s
-    bspc node @HDMI-A-0:focused:/ -s @eDP:focused:/ || \
-    bspc node @HDMI-A-0:focused:/ -s @eDP:focused:/ || \
-    bspc node @eDP:focused:/ -s @HDMI-A-0:focused:/;
+	bspc desktop ^1:focused -s ^2:focused
 
 super + shift + s
 	bspc node -t floating
