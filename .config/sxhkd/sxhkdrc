@@ -20,7 +20,7 @@ super + Escape
 
 # quit bspwm
 super + shift + q
-	bspc quit
+	pkill -u $USER
 
 # logout
 # super + shift + q
