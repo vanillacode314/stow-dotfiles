@@ -22,6 +22,7 @@ require("null-ls").setup({
 		null_ls.builtins.formatting.fish_indent,
 		-- null_ls.builtins.formatting.rustfmt,
 		null_ls.builtins.formatting.nixfmt,
+		null_ls.builtins.formatting.gofmt,
 		-- null_ls.builtins.diagnostics.pycodestyle,
 		-- null_ls.builtins.code_actions.refactoring,
 		-- null_ls.builtins.formatting.rome,
