@@ -40,9 +40,9 @@ if status is-interactive
     end
 
     function zl
-        set layout (fd -e yaml '.' "$HOME/.config/tmuxp/" -x echo {/.}| fzf)
+        set layout (fd -e conf '.' "$HOME/.config/tmux-up/" | sk)
         if test -n "$layout"
-            NAME=(basename $PWD) tmuxp load $layout
+            tmux-up "$layout"
         end
     end
 
@@ -82,6 +82,7 @@ if status is-interactive
     # bind -M insert \eI 'clear; commandline -f repaint'
 
     starship init fish | source
+    enable_transience
 end
 
 # pnpm
