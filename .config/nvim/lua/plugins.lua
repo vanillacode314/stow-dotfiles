@@ -46,6 +46,12 @@ require("lazy").setup({
 					"EndOfBuffer",
 					"WinBar",
 					"WinSeparator",
+					"lualine_b_normal",
+					"lualine_b_inactive",
+					"lualine_c_normal",
+					"lualine_c_inactive",
+					"lualine_y_normal",
+					"lualine_y_inactive",
 				},
 				extra_groups = {}, -- table: additional groups that should be cleared
 				exclude_groups = {}, -- table: groups you don't want to clear
