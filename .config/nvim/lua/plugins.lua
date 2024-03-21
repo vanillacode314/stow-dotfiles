@@ -205,8 +205,6 @@ require("lazy").setup({
 		config = true,
 	},
 
-	{ "https://gitlab.com/HiPhish/nvim-ts-rainbow2", enabled = false },
-
 	{
 		"windwp/nvim-ts-autotag",
 		dependencies = { "nvim-treesitter" },
@@ -1373,4 +1371,20 @@ require("lazy").setup({
 	{ "laytan/cloak.nvim", config = true },
 	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = {} },
 	{ "sainnhe/gruvbox-material" },
+	{
+		"HiPhish/rainbow-delimiters.nvim",
+		config = function()
+			require("rainbow-delimiters.setup").setup({
+				strategy = {
+					-- ...
+				},
+				query = {
+					-- ...
+				},
+				highlight = {
+					-- ...
+				},
+			})
+		end,
+	},
 })
