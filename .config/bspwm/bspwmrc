@@ -74,9 +74,11 @@ bspc rule -a firefox desktop='^2' follow=on
 bspc rule -a Brave-browser desktop='^2' follow=on
 bspc rule -a Zathura desktop='^5' follow=on state=fullscreen
 bspc rule -a "Com.github.johnfactotum.Foliate" desktop='^5' follow=on state=fullscreen
-bspc rule -a "Citra" desktop='^6' follow=on
-bspc rule -a "yuzu" desktop='^6' follow=on
-bspc rule -a "Cemu" desktop='^6' follow=on
+bspc rule -a "Citra" desktop='^5' follow=on
+bspc rule -a "yuzu" desktop='^5' follow=on
+bspc rule -a "suyu" desktop='^5' follow=on
+bspc rule -a "Cemu" desktop='^5' follow=on
+bspc rule -a "Retroarch" desktop='^5' follow=on
 bspc rule -a "*:keepassxc" desktop='^8' follow=on
 bspc rule -a "obs" desktop='^3' follow=on
 bspc rule -a *:Cmus desktop='^4' follow=on
