@@ -1,3 +1,4 @@
 Makefile
 .git
 test.py
+.mypy_cache
