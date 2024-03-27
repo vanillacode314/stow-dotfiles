@@ -100,8 +100,9 @@ button:hover {
   border-right: 0px;
 }
 
-#workspaces button:nth-child(even) {
-  background-color: #111111;
+#workspaces button.active {
+  color: #000000;
+  background-color: #ffffff;
 }
 
 /* If workspaces is the leftmost module, omit left margin */

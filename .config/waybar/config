@@ -9,7 +9,7 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "hyprland/submap", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "battery", "battery#bat2", "clock", "tray"],
+    "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "battery", "clock", "tray"],
     // Modules configuration
     // "hyprland/workspaces": {
     //     "disable-scroll": true,
@@ -71,10 +71,10 @@
         },
         "tooltip-format": "MPD (connected)",
         "tooltip-format-disconnected": "MPD (disconnected)",
-        "on-click-middle": "kitty ncmpcpp",
-        "on-click": "playerctl play-pause",
-        "on-scroll-up": "playerctl volume 0.05+",
-        "on-scroll-down": "playerctl volume 0.05-"
+        "on-click-right": "pypr toggle music",
+        "on-click": "playerctl -p mpd play-pause",
+        "on-scroll-up": "playerctl -p mpd volume 0.05+",
+        "on-scroll-down": "playerctl -p mpd volume 0.05-"
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -90,6 +90,7 @@
     "clock": {
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%I:%M %p}",
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
@@ -180,7 +181,7 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "hyprland/mode", "hyprland/scratchpad", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "hyprland/language", "battery", "battery#bat2", "clock", "tray"],
+    "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray"],
     // Modules configuration
     // "hyprland/workspaces": {
     //     "disable-scroll": true,
@@ -257,6 +258,7 @@
     "clock": {
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%I:%M %p}",
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
