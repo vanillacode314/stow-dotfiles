@@ -2,7 +2,7 @@
 
 COMM="$(echo -e 'poweroff\nsuspend\nhibernate\nreboot\nlock' | tofi)"
 if [ "$COMM" = "lock" ]; then
-	waylock -fork-on-lock
+	loginctl lock-session
 elif [ -n "$COMM" ]; then
 	systemctl $COMM
 fi
