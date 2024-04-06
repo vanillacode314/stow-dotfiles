@@ -12,6 +12,9 @@ require("mason-lspconfig").setup({
 		-- "tailwindcss",
 	},
 })
+require("mason-null-ls").setup({
+	ensure_installed = { "stylua", "jq", "black", "prettierd", "prettier" },
+})
 
 local function on_attach(noformat)
 	return function(client, bufnr)

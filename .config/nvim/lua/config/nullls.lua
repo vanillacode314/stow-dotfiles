@@ -56,5 +56,5 @@ require("null-ls").setup({
 			extra_args = { "--dialect", "sqlite" }, -- change to your dialect
 		}),
 	},
-	on_attach = require("config.lsp").on_attach,
+	-- on_attach = require("config.lsp").on_attach,
 })
