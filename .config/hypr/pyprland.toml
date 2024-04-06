@@ -14,25 +14,28 @@ size = "75% 60%"
 [scratchpads.music]
 animation = "fromTop"
 command = "kitty --class kitty-dropmusic -- ncmpcpp"
+lazy = true
 class = "kitty-dropmusic"
 size = "75% 60%"
 
 [scratchpads.top]
 animation = "fromTop"
-command = "kitty --class kitty-dropbtm -- btm"
-class = "kitty-dropbtm"
+command = "kitty --class kitty-droptop -- btm"
+lazy = true
+class = "kitty-droptop"
 size = "75% 60%"
 
 [scratchpads.fm]
 animation = "fromTop"
-command = "kitty --class kitty-droplf -- lf"
-class = "kitty-droplf"
+command = "kitty --class kitty-dropfm -- lf"
+class = "kitty-dropfm"
+lazy = true
 size = "75% 60%"
 
 [scratchpads.volume]
 animation = "fromRight"
-command = "pavucontrol"
-class = "pavucontrol"
+command = "kitty --class kitty-dropvolume -- pulsemixer"
+class = "kitty-dropvolume"
 lazy = true
 size = "40% 90%"
 unfocus = "hide"

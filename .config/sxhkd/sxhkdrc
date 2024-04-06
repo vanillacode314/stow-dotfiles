@@ -67,8 +67,8 @@ super + {_, shift +, ctrl +}{h,j,k,l}
 		exec ~/.config/sxhkd/move.sh {f,s,n} {west,south,north,east}
 
 # focus the node for the given path jump
-super + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
+super + {b,comma,period}
+	bspc node -f @{brother,first,second}
 
 # focus the next/previous window in the current desktop
 super + {_,shift + }c
@@ -226,14 +226,18 @@ super + F12
 super + u
   exec ~/.config/bspwm/scripts/scratchpad.sh $SHELL
 
+# pulsemixer
+super + p
+  exec ~/.config/bspwm/scripts/scratchpad.sh pulsemixer
+
 # file manager
-super + alt + f
+super + shift + f
   exec ~/.config/bspwm/scripts/scratchpad.sh lf
 
 # btm (task manager)
-super + alt + y
+super + shift + y
   exec ~/.config/bspwm/scripts/scratchpad.sh btm
 
 # cmus
-super + alt + m
+super + shift + m
   exec ~/.config/bspwm/scripts/scratchpad.sh ncmpcpp
