@@ -1363,6 +1363,7 @@ require("lazy").setup({
 				typescript = { { "prettierd", "prettier" } },
 				typescriptreact = { { "prettierd", "prettier" } },
 				javacsriptreact = { { "prettierd", "prettier" } },
+				sql = { { "sqlfmt" } },
 			},
 			format_on_save = {
 				-- These options will be passed to conform.format()
