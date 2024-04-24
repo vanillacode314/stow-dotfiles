@@ -1297,7 +1297,7 @@ require("lazy").setup({
 	{
 		"David-Kunz/gen.nvim",
 		opts = {
-			model = "stablelm2", -- The default model to use.
+			model = "llama3", -- The default model to use.
 			host = "localhost", -- The host running the Ollama service.
 			port = "11434", -- The port on which the Ollama service is listening.
 			display_mode = "float", -- The display mode. Can be "float" or "split".
@@ -1367,6 +1367,8 @@ require("lazy").setup({
 					javacsriptreact = { { "prettierd", "prettier" } },
 					sql = { { "sql_formatter" } },
 					json = { { "jq" } },
+					bash = { { "shfmt" } },
+					sh = { { "shfmt" } },
 					["*"] = { "injected" },
 				},
 				format_on_save = {
