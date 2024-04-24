@@ -21,10 +21,10 @@ M.on_attach = function(client, bufnr)
 	vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", client_opts)
 	vim.keymap.set("n", "gD", "<cmd>Lspsaga goto_definition<CR>", client_opts)
 	vim.keymap.set("n", "K", function()
-		local winid = require("ufo").peekFoldedLinesUnderCursor()
-		if not winid then
-			vim.cmd("Lspsaga hover_doc")
-		end
+		-- local winid = require("ufo").peekFoldedLinesUnderCursor()
+		-- if not winid then
+		vim.cmd("Lspsaga hover_doc")
+		-- end
 	end, client_opts)
 	vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", client_opts)
 	--[[ vim.keymap.set("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", client_opts) ]]

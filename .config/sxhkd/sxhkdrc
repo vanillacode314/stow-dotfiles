@@ -224,7 +224,7 @@ super + F12
 
 # scratchpad
 super + u
-  exec ~/.config/bspwm/scripts/scratchpad.sh $SHELL
+  exec ~/.config/bspwm/scripts/scratchpad.sh tmux new-session -A -s dropterm
 
 # pulsemixer
 super + p

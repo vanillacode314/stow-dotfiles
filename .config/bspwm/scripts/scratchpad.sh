@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ScratchPad
-bspc rule -a dropdown-${1} sticky=on state=floating hidden=on center=on monitor=primary rectangle=1280x720+0+0
+bspc rule -a dropdown-${1} sticky=on state=floating hidden=on center=on rectangle=1280x720+0+0
 pids=$(xdotool search --class ${1})
 if [ -z "$pids" ]; then
 	kitty --class dropdown-${1} -- "$@" &
@@ -10,5 +10,5 @@ fi
 
 pids=$(xdotool search --class ${1})
 for pid in $pids; do
-	bspc node $pid --flag hidden -f
+	bspc node $pid --flag hidden -f --to-monitor focused --follow
 done

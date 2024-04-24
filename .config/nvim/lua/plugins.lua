@@ -4,7 +4,6 @@ require("lazy").setup({
 	"folke/which-key.nvim",
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 	"folke/neodev.nvim",
-	"wbthomason/packer.nvim",
 	"lervag/vimtex",
 	{
 		"lewis6991/gitsigns.nvim",
@@ -184,13 +183,14 @@ require("lazy").setup({
 			require("config.treesitter")
 		end,
 	},
+
 	{
 		"virchau13/tree-sitter-astro",
 		ft = { "astro" },
 	},
 	{
 		"nvim-treesitter/playground",
-		requires = {
+		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 		},
 	},
@@ -269,9 +269,9 @@ require("lazy").setup({
 		end,
 		dependencies = {
 			"fivethree-team/vscode-svelte-snippets",
-			{ "solidjs-community/solid-snippets", filetypes = { "html", "typescriptreact" } },
+			{ "solidjs-community/solid-snippets", ft = { "html", "typescriptreact" } },
 			"rafamadriz/friendly-snippets",
-			{ "sdras/vue-vscode-snippets", filetypes = { "vue" } },
+			{ "sdras/vue-vscode-snippets", ft = { "vue" } },
 		},
 	},
 	{
@@ -320,7 +320,7 @@ require("lazy").setup({
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
 		config = true,
-		setup = function()
+		init = function()
 			vim.g.skip_ts_context_commentstring_module = true
 		end,
 	},
@@ -428,6 +428,7 @@ require("lazy").setup({
 	},
 	{
 		"kevinhwang91/nvim-ufo",
+		enabled = false,
 		dependencies = "kevinhwang91/promise-async",
 		init = function()
 			vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
@@ -470,7 +471,7 @@ require("lazy").setup({
 			end
 			require("ufo").setup({
 				provider_selector = function()
-					return { "treesitter", "indent" }
+					return { "treesitten", "indent" }
 				end,
 				fold_virt_text_handler = handler,
 			})
@@ -1353,23 +1354,41 @@ require("lazy").setup({
 	},
 	{
 		"stevearc/conform.nvim",
-		opts = {
-			formatters_by_ft = {
-				lua = { "stylua" },
-				-- Conform will run multiple formatters sequentially
-				python = { "isort", "black" },
-				-- Use a sub-list to run only the first available formatter
-				javascript = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
-				typescriptreact = { { "prettierd", "prettier" } },
-				javacsriptreact = { { "prettierd", "prettier" } },
-				sql = { { "sqlfmt" } },
-			},
-			format_on_save = {
-				-- These options will be passed to conform.format()
-				timeout_ms = 500,
-				lsp_fallback = true,
-			},
+		config = function()
+			require("conform").setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					-- Conform will run multiple formatters sequentially
+					python = { "isort", "black" },
+					-- Use a sub-list to run only the first available formatter
+					javascript = { { "prettierd", "prettier" } },
+					typescript = { { "prettierd", "prettier" } },
+					typescriptreact = { { "prettierd", "prettier" } },
+					javacsriptreact = { { "prettierd", "prettier" } },
+					sql = { { "sql_formatter" } },
+					json = { { "jq" } },
+					["*"] = { "injected" },
+				},
+				format_on_save = {
+					-- These options will be passed to conform.format()
+					timeout_ms = 500,
+					lsp_fallback = true,
+				},
+			})
+			require("conform").formatters.sql_formatter = {
+				prepend_args = { "-c", vim.fn.expand("~/.config/sql-formatter.json") },
+			}
+		end,
+	},
+	{ "wuelnerdotexe/vim-astro", ft = { "astro" } },
+	{
+		"Dronakurl/injectme.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
 		},
+		-- This is for lazy load and more performance on startup only
+		cmd = { "InjectmeToggle", "InjectmeSave", "InjectmeInfo", "InjectmeLeave" },
 	},
 })
