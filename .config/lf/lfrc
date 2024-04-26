@@ -7,8 +7,8 @@ set shell sh
 set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
-set previewer ctpv
-set cleaner ctpvclear
+set previewer ~/.config/lf/lf_kitty_preview
+set cleaner ~/.config/lf/lf_kitty_clean
 &ctpv -s $id
 &ctpvquit $id
 map <enter> shell
@@ -33,7 +33,7 @@ cmd link %{{
 }}
 map P :link
 map o &mimeopen $f
-map O $mimeopen --ask $f
+# map O $mimeopen --ask $f
 cmd open ${{
     test -L $f && f=$(readlink -f $f)
     case $(file --mime-type $f -b) in
