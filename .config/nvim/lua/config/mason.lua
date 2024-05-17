@@ -93,12 +93,11 @@ require("mason-lspconfig").setup_handlers({
 	end,
 
 	["astro"] = function()
-		return nil
-		-- require("lspconfig").astro.setup({
-		-- 	on_attach = on_attach(false),
-		-- 	capabilities = require("config.lsp").capabilities,
-		-- 	handlers = require("config.lsp").handlers,
-		-- })
+		require("lspconfig").astro.setup({
+			on_attach = on_attach(false),
+			capabilities = require("config.lsp").capabilities,
+			handlers = require("config.lsp").handlers,
+		})
 	end,
 
 	["lua_ls"] = function()

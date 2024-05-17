@@ -241,3 +241,11 @@ super + shift + y
 # cmus
 super + shift + m
   exec ~/.config/bspwm/scripts/scratchpad.sh ncmpcpp
+
+## Toggle
+# polybar
+super + F11
+		exec ~/.config/sxhkd/polybar.sh
+# border
+super + F10
+		exec ~/.config/sxhkd/gaps.sh

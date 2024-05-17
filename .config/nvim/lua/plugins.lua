@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 -- convert config to use lazy.nvim instead of packer.nvim
 require("lazy").setup({
+	require("plugins.treesitter"),
 	"folke/which-key.nvim",
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 	"folke/neodev.nvim",
@@ -173,64 +174,6 @@ require("lazy").setup({
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
-	},
-
-	-- TREESITTER
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function()
-			require("config.treesitter")
-		end,
-	},
-
-	{
-		"virchau13/tree-sitter-astro",
-		ft = { "astro" },
-	},
-	{
-		"nvim-treesitter/playground",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-	},
-	{
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-	},
-	{
-		"windwp/nvim-autopairs",
-		config = true,
-	},
-
-	{
-		"windwp/nvim-ts-autotag",
-		dependencies = { "nvim-treesitter" },
-		config = function()
-			require("nvim-ts-autotag").setup({
-				filetypes = {
-					"astro",
-					"html",
-					"javascript",
-					"typescript",
-					"javascriptreact",
-					"typescriptreact",
-					"svelte",
-					"vue",
-					"tsx",
-					"jsx",
-					"rescript",
-					"xml",
-					"php",
-					"markdown",
-					"glimmer",
-					"handlebars",
-					"hbs",
-				},
-			})
-		end,
 	},
 
 	{
@@ -708,91 +651,6 @@ require("lazy").setup({
 	-- 		codewindow.apply_default_keybinds()
 	-- 	end,
 	-- },
-	"RRethy/nvim-treesitter-textsubjects",
-	{
-		"nvim-treesitter/nvim-treesitter-context",
-		enabled = false,
-		config = function()
-			require("treesitter-context").setup({
-				enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-				max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-				trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-				min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-				patterns = {
-					-- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-					-- For all filetypes
-					-- Note that setting an entry here replaces all other patterns for this entry.
-					-- By setting the 'default' entry below, you can control which nodes you want to
-					-- appear in the context window.
-					default = {
-						"class",
-						"function",
-						"call",
-						"method",
-						"for",
-						"while",
-						"if",
-						"switch",
-						"case",
-					},
-					-- Patterns for specific filetypes
-					-- If a pattern is missing, *open a PR* so everyone can benefit.
-					tex = {
-						"chapter",
-						"section",
-						"subsection",
-						"subsubsection",
-					},
-					rust = {
-						"impl_item",
-						"struct",
-						"enum",
-					},
-					scala = {
-						"object_definition",
-					},
-					vhdl = {
-						"process_statement",
-						"architecture_body",
-						"entity_declaration",
-					},
-					markdown = {
-						"section",
-					},
-					elixir = {
-						"anonymous_function",
-						"arguments",
-						"block",
-						"do_block",
-						"list",
-						"map",
-						"tuple",
-						"quoted_content",
-					},
-					json = {
-						"pair",
-					},
-					yaml = {
-						"block_mapping_pair",
-					},
-				},
-				exact_patterns = {
-					-- Example for a specific filetype with Lua patterns
-					-- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-					-- exactly match "impl_item" only)
-					-- rust = true,
-				},
-				-- [!] The options below are exposed but shouldn't require your attention,
-				--     you can safely ignore them.
-
-				zindex = 20, -- The Z-index of the context window
-				mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
-				-- Separator between context and content. Should be a single character string, like '-'.
-				-- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-				separator = nil,
-			})
-		end,
-	},
 	{
 		"kkoomen/vim-doge",
 		build = ":call doge#install()",
@@ -1339,17 +1197,7 @@ require("lazy").setup({
 	{
 		"HiPhish/rainbow-delimiters.nvim",
 		config = function()
-			require("rainbow-delimiters.setup").setup({
-				strategy = {
-					-- ...
-				},
-				query = {
-					-- ...
-				},
-				highlight = {
-					-- ...
-				},
-			})
+			require("rainbow-delimiters.setup").setup({})
 		end,
 	},
 	{
@@ -1364,6 +1212,7 @@ require("lazy").setup({
 					javascript = { { "prettierd", "prettier" } },
 					typescript = { { "prettierd", "prettier" } },
 					typescriptreact = { { "prettierd", "prettier" } },
+					proto = { "buf" },
 					javacsriptreact = { { "prettierd", "prettier" } },
 					sql = { { "sql_formatter" } },
 					json = { { "jq" } },
@@ -1382,7 +1231,6 @@ require("lazy").setup({
 			}
 		end,
 	},
-	{ "wuelnerdotexe/vim-astro", ft = { "astro" } },
 	{
 		"Dronakurl/injectme.nvim",
 		dependencies = {

@@ -9,6 +9,7 @@ $HOME/.screenlayout/main.sh
 $HOME/.config/polybar/launch.sh
 xsetroot -cursor_name left_ptr &
 run_once sxhkd
+run_once xfce4-clipman
 run_once picom
 run_once dunst
 run_once redshift-gtk -l 28.63576:77.22445
