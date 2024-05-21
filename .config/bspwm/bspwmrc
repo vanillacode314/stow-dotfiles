@@ -16,6 +16,7 @@ run_once redshift-gtk -l 28.63576:77.22445
 run_once lxqt-policykit-agent
 run_once unclutter
 run_once batterylow
+run_once xss-lock -- betterlockscreen --lock --quiet
 # run_once kdeconnect-indicator
 # run_once noisetorch
 
