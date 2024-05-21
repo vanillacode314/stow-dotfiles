@@ -156,26 +156,10 @@ require("lazy").setup({
 			})
 		end,
 	},
-
-	{
-		"booperlv/nvim-gomove",
-		config = true,
-	},
-	{
-		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-		enabled = false,
-		config = true,
-	},
-
-	"onsails/lspkind-nvim",
-
-	{
-		"nvimtools/none-ls.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-	},
-
+	{ "booperlv/nvim-gomove", config = true },
+	{ "https://git.sr.ht/~whynothugo/lsp_lines.nvim", enabled = false, config = true },
+	{ "onsails/lspkind-nvim" },
+	{ "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
 	{
 		"nvim-lualine/lualine.nvim",
 		enabled = true,
@@ -192,7 +176,7 @@ require("lazy").setup({
 	-- 		require("config.feline")
 	-- 	end,
 	-- },
-	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+	-- { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 	{
 		"kylechui/nvim-surround",
 		-- version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -319,48 +303,55 @@ require("lazy").setup({
 	-- 		options = {},
 	-- 	},
 	-- },
+	-- {
+	-- 	"phaazon/hop.nvim",
+	-- 	branch = "v1", -- optional but strongly recommended
+	-- 	config = function()
+	-- 		require("hop").setup({})
+	-- 		-- place this in one of your configuration file(s)
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"n",
+	-- 			"f",
+	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
+	-- 			{}
+	-- 		)
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"n",
+	-- 			"F",
+	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
+	-- 			{}
+	-- 		)
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"o",
+	-- 			"f",
+	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
+	-- 			{}
+	-- 		)
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"o",
+	-- 			"F",
+	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
+	-- 			{}
+	-- 		)
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"",
+	-- 			"t",
+	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
+	-- 			{}
+	-- 		)
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"",
+	-- 			"T",
+	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
+	-- 			{}
+	-- 		)
+	-- 	end,
+	-- },
 	{
-		"phaazon/hop.nvim",
-		branch = "v1", -- optional but strongly recommended
+		"ggandor/leap.nvim",
+		dependencies = { "tpope/vim-repeat" },
 		config = function()
-			require("hop").setup({})
-			-- place this in one of your configuration file(s)
-			vim.api.nvim_set_keymap(
-				"n",
-				"f",
-				"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
-				{}
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"F",
-				"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
-				{}
-			)
-			vim.api.nvim_set_keymap(
-				"o",
-				"f",
-				"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
-				{}
-			)
-			vim.api.nvim_set_keymap(
-				"o",
-				"F",
-				"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
-				{}
-			)
-			vim.api.nvim_set_keymap(
-				"",
-				"t",
-				"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
-				{}
-			)
-			vim.api.nvim_set_keymap(
-				"",
-				"T",
-				"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
-				{}
-			)
+			require("leap").create_default_mappings()
 		end,
 	},
 	{
