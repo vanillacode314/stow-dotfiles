@@ -7,6 +7,7 @@ run_once() {
 source ~/.profile
 $HOME/.screenlayout/main.sh
 $HOME/.config/polybar/launch.sh
+xhost +local:0
 xsetroot -cursor_name left_ptr &
 run_once sxhkd
 run_once xfce4-clipman
@@ -16,7 +17,8 @@ run_once redshift-gtk -l 28.63576:77.22445
 run_once lxqt-policykit-agent
 run_once unclutter
 run_once batterylow
-run_once xss-lock -- betterlockscreen --lock --quiet
+run_once xss-lock -- betterlockscreen --lock --quiet --wall
+run_once jellyfin-mpv-shim
 # run_once kdeconnect-indicator
 # run_once noisetorch
 
