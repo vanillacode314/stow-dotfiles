@@ -17,7 +17,8 @@ run_once redshift-gtk -l 28.63576:77.22445
 run_once lxqt-policykit-agent
 run_once unclutter
 run_once batterylow
-run_once xss-lock -- betterlockscreen --lock --quiet --wall
+# run_once xss-lock -- betterlockscreen --lock --quiet
+# run_once sunshine
 run_once jellyfin-mpv-shim
 # run_once kdeconnect-indicator
 # run_once noisetorch
@@ -84,7 +85,7 @@ bspc rule -a "suyu" desktop='^5' follow=on
 bspc rule -a "Cemu" desktop='^5' follow=on
 bspc rule -a "Retroarch" desktop='^5' follow=on
 bspc rule -a "*:keepassxc" desktop='^8' follow=on
-bspc rule -a "obs" desktop='^3' follow=on
+bspc rule -a "obs" desktop='^9' follow=on
 bspc rule -a *:Cmus desktop='^4' follow=on
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on

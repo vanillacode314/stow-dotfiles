@@ -1146,6 +1146,7 @@ require("lazy").setup({
 	},
 	{
 		"rest-nvim/rest.nvim",
+		enabled = false,
 		ft = { "http", "rest" },
 		keys = {
 			{ "<leader>rr", "<Plug>RestNvim", mode = { "n" }, desc = "Run HTTP Request" },
