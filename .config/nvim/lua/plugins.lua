@@ -1247,4 +1247,5 @@ require("lazy").setup({
 		-- This is for lazy load and more performance on startup only
 		cmd = { "InjectmeToggle", "InjectmeSave", "InjectmeInfo", "InjectmeLeave" },
 	},
+	"kovetskiy/sxhkd-vim",
 })
