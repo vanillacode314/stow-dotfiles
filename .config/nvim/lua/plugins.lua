@@ -1215,15 +1215,15 @@ require("lazy").setup({
 					-- Conform will run multiple formatters sequentially
 					python = { "isort", "black" },
 					-- Use a sub-list to run only the first available formatter
-					javascript = { { "prettierd", "prettier" } },
-					typescript = { { "prettierd", "prettier" } },
-					typescriptreact = { { "prettierd", "prettier" } },
+					javascript = { "prettierd", "prettier", stop_after_first = true },
+					typescript = { "prettierd", "prettier", stop_after_first = true },
+					typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 					proto = { "buf" },
-					javacsriptreact = { { "prettierd", "prettier" } },
-					sql = { { "sql_formatter" } },
-					json = { { "jq" } },
-					bash = { { "shfmt" } },
-					sh = { { "shfmt" } },
+					javacsriptreact = { "prettierd", "prettier", stop_after_first = true },
+					sql = { "sql_formatter" },
+					json = { "jq" },
+					bash = { "shfmt" },
+					sh = { "shfmt" },
 					["*"] = { "injected" },
 				},
 				format_on_save = {
