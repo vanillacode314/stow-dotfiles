@@ -439,8 +439,8 @@ separator_color = "#abb2bf"
 
 [base16_low]
     msg_urgency = low
-    background = "#353b45"
-    foreground = "#545862"
+    background = "#000000"
+    foreground = "#d5c4a1"
     timeout = 3
 
 # [base16_normal]
@@ -457,7 +457,7 @@ separator_color = "#abb2bf"
 
 [base16_critical]
     msg_urgency = critical
-    background = "#860000"
-    foreground = "#cccccc"
+    background = "#000000"
+    foreground = "#d5c4a1"
     timeout = 10
 # vim: ft=cfg
