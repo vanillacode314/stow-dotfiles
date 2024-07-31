@@ -9,7 +9,6 @@ $HOME/.screenlayout/main.sh
 $HOME/.config/polybar/launch.sh
 xhost +local:0
 xsetroot -cursor_name left_ptr &
-run_once sxhkd
 run_once xfce4-clipman
 run_once picom
 run_once dunst
@@ -17,13 +16,14 @@ run_once redshift-gtk -l 28.63576:77.22445
 run_once lxqt-policykit-agent
 run_once unclutter
 run_once batterylow
-run_once playerctld
+run_once playerctld daemon
 # run_once kdeconnect-indicator
 run_once autoadb ~/scripts/android-webcam.sh
 # run_once xss-lock -- betterlockscreen --lock --quiet
 # run_once sunshine
 run_once jellyfin-mpv-shim
 # run_once noisetorch
+run_once sxhkd
 
 # immersive-wallpapers-x11-cli -f $(ls -t $HOME/.wall.* | head -1) -b "5,0;20,40"
 xwallpaper --zoom $(ls -t $HOME/.wall.* | head -1)

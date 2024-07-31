@@ -186,6 +186,8 @@ XF86MonBrightnessUp
   exec brightnessctl up
 XF86AudioPlay
   exec playerctl play-pause
+XF86AudioPause
+  exec playerctl play-pause
 XF86AudioNext
   exec playerctl next
 XF86AudioPrev
