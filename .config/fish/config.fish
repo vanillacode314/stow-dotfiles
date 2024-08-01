@@ -1,3 +1,12 @@
+set plugins \
+    https://github.com/kidonng/plug.fish \
+    https://github.com/edc/bass \
+    https://github.com/jorgebucaran/nvm.fish \
+    https://github.com/patrickf1/fzf.fish \
+    https://github.com/kidonng/zoxide.fish \
+    https://github.com/fabioantunes/base16-fish-shell \
+    https://github.com/lilyball/nix-env.fish
+source $__fish_user_data_dir/plugins/plug.fish/conf.d/plugin_load.fish
 # bass source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 # if status is-interactive
 #     and not set -q TMUX
@@ -83,6 +92,7 @@ if status is-interactive
 
     starship init fish | source
     enable_transience
+
 end
 
 # pnpm

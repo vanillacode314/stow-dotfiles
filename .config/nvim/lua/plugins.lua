@@ -1224,6 +1224,8 @@ require("lazy").setup({
 					json = { "jq" },
 					bash = { "shfmt" },
 					sh = { "shfmt" },
+					fish = { "fish_indent" },
+					nix = { "nixfmt" },
 					["*"] = { "injected" },
 				},
 				format_on_save = {
