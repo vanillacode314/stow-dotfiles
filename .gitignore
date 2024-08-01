@@ -1,2 +1,4 @@
-.config/fish/functions
+.config/fish/functions/*.fish
+!.config/fish/functions/nix-fish-shell.fish
 .config/fish/fish_variables
+
