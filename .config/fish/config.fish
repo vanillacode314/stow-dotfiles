@@ -7,6 +7,7 @@ set plugins \
     https://github.com/fabioantunes/base16-fish-shell \
     https://github.com/lilyball/nix-env.fish
 source $__fish_user_data_dir/plugins/plug.fish/conf.d/plugin_load.fish
+direnv hook fish | source
 # bass source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 # if status is-interactive
 #     and not set -q TMUX
