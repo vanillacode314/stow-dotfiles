@@ -52,6 +52,13 @@ require("lazy").setup({
 					"lualine_c_inactive",
 					"lualine_y_normal",
 					"lualine_y_inactive",
+					"lualine_y_filetype_DevIconLua_terminal",
+					"lualine_y_filetype_DevIconLua_inactive",
+					"lualine_y_filetype_DevIconLua_replace",
+					"lualine_y_filetype_DevIconLua_command",
+					"lualine_y_filetype_DevIconLua_visual",
+					"lualine_y_filetype_DevIconLua_normal",
+					"lualine_y_filetype_DevIconLua_insert",
 				},
 				extra_groups = {}, -- table: additional groups that should be cleared
 				exclude_groups = {}, -- table: groups you don't want to clear
