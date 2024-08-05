@@ -1,4 +1,4 @@
 Makefile
 .git
-test.py
+update_gitmodules.py
 .mypy_cache
