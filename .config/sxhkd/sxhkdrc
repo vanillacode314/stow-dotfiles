@@ -151,6 +151,7 @@ super + alt + {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
+
 #
 # applications
 #
@@ -212,7 +213,7 @@ F10
   exec powermenu
 
 # quickclip
-super + shift + p
+super + p
 	exec quickclip
 
 # quickclip
@@ -234,7 +235,7 @@ super + u
   exec ~/.config/bspwm/scripts/scratchpad.sh tmux new-session -A -s dropterm
 
 # pulsemixer
-super + p
+super + shift + p
   exec ~/.config/bspwm/scripts/scratchpad.sh pulsemixer
 
 # file manager
@@ -256,3 +257,7 @@ super + F11
 # border
 super + F10
 		exec ~/.config/sxhkd/gaps.sh
+
+# scratchpad
+super + z
+  exec ~/.config/sxhkd/zen-mode.sh 
