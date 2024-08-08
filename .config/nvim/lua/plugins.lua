@@ -4,7 +4,18 @@ require("lazy").setup({
 	require("plugins.treesitter"),
 	"folke/which-key.nvim",
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
-	"folke/neodev.nvim",
+	{
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 	"lervag/vimtex",
 	{
 		"lewis6991/gitsigns.nvim",
@@ -39,12 +50,13 @@ require("lazy").setup({
 					"LineNr",
 					"NonText",
 					"SignColumn",
-					"CursorLine",
-					"CursorLineNr",
+					-- "CursorLine",
+					-- "CursorLineNr",
 					"StatusLine",
 					"StatusLineNC",
 					"EndOfBuffer",
 					"WinBar",
+					"WinBarNC",
 					"WinSeparator",
 					"lualine_b_normal",
 					"lualine_b_inactive",
@@ -52,19 +64,13 @@ require("lazy").setup({
 					"lualine_c_inactive",
 					"lualine_y_normal",
 					"lualine_y_inactive",
-					"lualine_y_filetype_DevIconLua_terminal",
-					"lualine_y_filetype_DevIconLua_inactive",
-					"lualine_y_filetype_DevIconLua_replace",
-					"lualine_y_filetype_DevIconLua_command",
-					"lualine_y_filetype_DevIconLua_visual",
-					"lualine_y_filetype_DevIconLua_normal",
-					"lualine_y_filetype_DevIconLua_insert",
 				},
 				extra_groups = {}, -- table: additional groups that should be cleared
 				exclude_groups = {}, -- table: groups you don't want to clear
 			})
-			-- require("transparent").clear_prefix("BufferLine")
-			-- require("transparent").clear_prefix("lualine")
+			require("transparent").clear_prefix("BufferLine")
+			require("transparent").clear_prefix("DapUI")
+			require("transparent").clear_prefix("lualine_y_filetype")
 		end,
 	},
 	"RRethy/nvim-base16",
@@ -697,6 +703,13 @@ require("lazy").setup({
 		"mfussenegger/nvim-dap",
 		config = function()
 			local dap = require("dap")
+			vim.keymap.set("n", "<leader>qc", dap.continue)
+			vim.keymap.set("n", "<leader>qs", dap.step_over)
+			vim.keymap.set("n", "<leader>qi", dap.step_into)
+			vim.keymap.set("n", "<leader>qo", dap.step_out)
+			vim.keymap.set("n", "<leader>qb", dap.toggle_breakpoint)
+			vim.keymap.set("n", "<leader>qr", dap.restart)
+
 			dap.adapters.lldb = {
 				type = "executable",
 				command = "/usr/bin/lldb-vscode", -- adjust as needed, must be absolute path
@@ -734,7 +747,62 @@ require("lazy").setup({
 			dap.configurations.rust = dap.configurations.cpp
 		end,
 	},
-	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
+	{
+		"jay-babu/mason-nvim-dap.nvim",
+		config = function()
+			require("mason-nvim-dap").setup({
+				automatic_installation = false,
+				ensure_installed = { "firefox", "python" },
+				handlers = {
+					function(config)
+						require("mason-nvim-dap").default_setup(config)
+					end,
+					firefox = function(config)
+						config.configurations = {
+							{
+								name = "Debug with Firefox",
+								type = "firefox",
+								request = "launch",
+								reAttach = true,
+								url = "http://localhost:5173",
+								webRoot = "${workspaceFolder}",
+								firefoxExecutable = "/usr/bin/firefox",
+							},
+						}
+						config.filetypes =
+							{ "javascriptreact", "typescriptreact", "typescript", "javascript", "svelte", "astro" }
+						require("mason-nvim-dap").default_setup(config) -- don't forget this!
+					end,
+				},
+			})
+		end,
+		dependencies = {
+			"williamboman/mason.nvim",
+			"mfussenegger/nvim-dap",
+		},
+	},
+	{ "theHamsta/nvim-dap-virtual-text", config = true },
+	{ "sigmasd/deno-nvim" },
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+		config = function()
+			require("dapui").setup()
+			local dap, dapui = require("dap"), require("dapui")
+			dap.listeners.before.attach.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.launch.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated.dapui_config = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited.dapui_config = function()
+				dapui.close()
+			end
+		end,
+	},
 	{
 		"williamboman/mason.nvim",
 		config = function()
@@ -1264,6 +1332,21 @@ require("lazy").setup({
 			show_icons = true,
 			leader_key = ";", -- Recommended to be a single key
 			buffer_leader_key = "m", -- Per Buffer Mappings
+		},
+	},
+	{
+		"yamatsum/nvim-cursorline",
+		opts = {
+			cursorline = {
+				enable = true,
+				timeout = 0,
+				number = false,
+			},
+			cursorword = {
+				enable = true,
+				min_length = 3,
+				hl = { underline = true },
+			},
 		},
 	},
 })

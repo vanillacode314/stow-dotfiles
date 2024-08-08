@@ -102,5 +102,5 @@ require("lualine").setup({
 		lualine_z = { "location" },
 	},
 	tabline = {},
-	extensions = { "nvim-tree", "trouble", "mason", "lazy", "symbols-outline" },
+	extensions = { "nvim-tree", "trouble", "mason", "lazy", "symbols-outline", "nvim-dap-ui" },
 })
