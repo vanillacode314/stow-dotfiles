@@ -64,7 +64,7 @@ bspc config gapless_monocle false
 
 # Colors
 bspc config normal_border_color "#555555"
-bspc config focused_border_color "#ffffff"
+bspc config focused_border_color "#fde047"
 bspc config active_border_color "#555555"
 
 # Chat apps
@@ -88,6 +88,7 @@ bspc rule -a "Cemu" desktop='^5' follow=on
 bspc rule -a "Retroarch" desktop='^5' follow=on
 bspc rule -a "*:keepassxc" desktop='^8' follow=on
 bspc rule -a "*:*:Picture in picture" state=floating
+bspc rule -a "*:*:Picture-in-Picture" state=floating
 bspc rule -a "*:*:Dialog" state=floating
 bspc rule -a "obs" desktop='^9' follow=on
 bspc rule -a *:Cmus desktop='^4' follow=on
