@@ -5,5 +5,6 @@ vim.filetype.add({
 		postcss = "css",
 		pcss = "css",
 		wgsl = "wgsl",
+		["http"] = "http",
 	},
 })

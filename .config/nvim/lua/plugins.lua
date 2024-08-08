@@ -747,6 +747,8 @@ require("lazy").setup({
 			dap.configurations.rust = dap.configurations.cpp
 		end,
 	},
+	{ "LiadOz/nvim-dap-repl-highlights", config = true },
+	-- { "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },
 	{
 		"jay-babu/mason-nvim-dap.nvim",
 		config = function()
@@ -1155,7 +1157,60 @@ require("lazy").setup({
 	},
 	{
 		"chrisgrieser/nvim-various-textobjs",
-		opts = { useDefaultKeymaps = true, disabledKeymaps = { "gc" } },
+		event = "UIEnter",
+		config = function()
+			require("various-textobjs").setup({
+				{ useDefaultKeymaps = true, disabledKeymaps = { "gc" } },
+			})
+			vim.keymap.set("n", "dsi", function()
+				-- select outer indentation
+				require("various-textobjs").indentation("outer", "outer")
+
+				-- plugin only switches to visual mode when a textobj has been found
+				local indentationFound = vim.fn.mode():find("V")
+				if not indentationFound then
+					return
+				end
+
+				-- dedent indentation
+				vim.cmd.normal({ "<", bang = true })
+
+				-- delete surrounding lines
+				local endBorderLn = vim.api.nvim_buf_get_mark(0, ">")[1]
+				local startBorderLn = vim.api.nvim_buf_get_mark(0, "<")[1]
+				vim.cmd(tostring(endBorderLn) .. " delete") -- delete end first so line index is not shifted
+				vim.cmd(tostring(startBorderLn) .. " delete")
+			end, { desc = "Delete Surrounding Indentation" })
+			vim.keymap.set("n", "ysii", function()
+				local startPos = vim.api.nvim_win_get_cursor(0)
+
+				-- identify start- and end-border
+				require("various-textobjs").indentation("outer", "outer")
+				local indentationFound = vim.fn.mode():find("V")
+				if not indentationFound then
+					return
+				end
+				vim.cmd.normal({ "V", bang = true }) -- leave visual mode so the '< '> marks are set
+
+				-- copy them into the + register
+				local startLn = vim.api.nvim_buf_get_mark(0, "<")[1] - 1
+				local endLn = vim.api.nvim_buf_get_mark(0, ">")[1] - 1
+				local startLine = vim.api.nvim_buf_get_lines(0, startLn, startLn + 1, false)[1]
+				local endLine = vim.api.nvim_buf_get_lines(0, endLn, endLn + 1, false)[1]
+				vim.fn.setreg("+", startLine .. "\n" .. endLine .. "\n")
+
+				-- highlight yanked text
+				local ns = vim.api.nvim_create_namespace("ysi")
+				vim.api.nvim_buf_add_highlight(0, ns, "IncSearch", startLn, 0, -1)
+				vim.api.nvim_buf_add_highlight(0, ns, "IncSearch", endLn, 0, -1)
+				vim.defer_fn(function()
+					vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+				end, 1000)
+
+				-- restore cursor position
+				vim.api.nvim_win_set_cursor(0, startPos)
+			end, { desc = "Yank surrounding indentation" })
+		end,
 	},
 	{
 		"bennypowers/splitjoin.nvim",
@@ -1338,14 +1393,96 @@ require("lazy").setup({
 		"yamatsum/nvim-cursorline",
 		opts = {
 			cursorline = {
-				enable = true,
-				timeout = 0,
+				enable = false,
+				timeout = 1000,
 				number = false,
 			},
 			cursorword = {
 				enable = true,
 				min_length = 3,
 				hl = { underline = true },
+			},
+		},
+	},
+	{
+		"mrcjkb/rustaceanvim",
+		version = "^5", -- Recommended
+		lazy = false, -- This plugin is already lazy
+	},
+	{
+		"andrewferrier/debugprint.nvim",
+		opts = {},
+		dependencies = {
+			"echasnovski/mini.nvim", -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
+		},
+		-- The 'keys' and 'cmds' sections of this configuration are optional and only needed if
+		-- you want to take advantage of `lazy.nvim` lazy-loading. If you decide to
+		-- customize the keys/commands (see below), you'll need to change these too.
+		keys = {
+			{ "g?", mode = "n" },
+			{ "g?", mode = "x" },
+		},
+		cmd = {
+			"ToggleCommentDebugPrints",
+			"DeleteDebugPrints",
+		},
+	},
+	{
+		"mistweaverco/kulala.nvim",
+		filetype = { "http" },
+		keys = {
+			{
+				"<leader>kr",
+				function()
+					require("kulala").run()
+				end,
+				desc = "Kulala Run",
+				noremap = true,
+				silent = true,
+			},
+			{
+				"<leader>kn",
+				function()
+					require("kulala").jump_next()
+				end,
+				desc = "Kulala Jump Next",
+				noremap = true,
+				silent = true,
+			},
+			{
+				"<leader>kp",
+				function()
+					require("kulala").jump_prev()
+				end,
+				desc = "Kulala Jump Prev",
+				noremap = true,
+				silent = true,
+			},
+			{
+				"<leader>ks",
+				function()
+					require("kulala").scratchpad()
+				end,
+				desc = "Kulala Scratchpad",
+				noremap = true,
+				silent = true,
+			},
+		},
+		config = function()
+			require("kulala").setup()
+		end,
+	},
+	{
+		"m-gail/escape.nvim",
+		keys = {
+			{
+				"<leader>ke",
+				function()
+					require("escape").escape()
+				end,
+				mode = { "x", "v" },
+				desc = "Escape String",
+				noremap = true,
 			},
 		},
 	},
