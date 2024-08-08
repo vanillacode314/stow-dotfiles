@@ -65,6 +65,12 @@ require("lualine").setup({
 				update_in_insert = false, -- Update diagnostics in insert mode.
 				always_visible = false, -- Show diagnostics even if there are none.
 			},
+			{
+				function()
+					local statusline = require("arrow.statusline")
+					return statusline.text_for_statusline_with_icons() -- Same, but with an bow and arrow icon ;D
+				end,
+			},
 		},
 		lualine_x = {},
 		lualine_y = {
