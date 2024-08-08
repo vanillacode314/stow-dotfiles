@@ -32,7 +32,7 @@ cmd link %{{
     lf -remote "send clear"
 }}
 map P :link
-map o &mimeopen $f
+map o &mimeopen -n $f
 # map O $mimeopen --ask $f
 cmd open ${{
     test -L $f && f=$(readlink -f $f)
