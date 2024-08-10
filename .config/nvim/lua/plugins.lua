@@ -1381,14 +1381,14 @@ require("lazy").setup({
 	},
 	"kovetskiy/sxhkd-vim",
 	-- { "tenxsoydev/karen-yank.nvim", config = true },
-	{
-		"otavioschwanck/arrow.nvim",
-		opts = {
-			show_icons = true,
-			leader_key = ";", -- Recommended to be a single key
-			buffer_leader_key = "m", -- Per Buffer Mappings
-		},
-	},
+	-- {
+	-- 	"otavioschwanck/arrow.nvim",
+	-- 	opts = {
+	-- 		show_icons = true,
+	-- 		leader_key = ";", -- Recommended to be a single key
+	-- 		buffer_leader_key = "m", -- Per Buffer Mappings
+	-- 	},
+	-- },
 	{
 		"yamatsum/nvim-cursorline",
 		opts = {
