@@ -237,32 +237,22 @@ require("lazy").setup({
 
 	{
 		"numToStr/Comment.nvim",
-		opts = {
-			-- add any options here
+		config = function()
+			require("Comment").setup({
+				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+			})
+		end,
+		dependencies = {
+			{
+				"JoosepAlviste/nvim-ts-context-commentstring",
+				config = function()
+					require("ts_context_commentstring").setup({
+						enable_autocmd = false,
+					})
+				end,
+			},
 		},
 		lazy = false,
-	},
-	-- {
-	-- 	"lucastavaresa/SingleComment.nvim",
-	-- 	config = function()
-	-- 		-- comments the current line, or a number of lines 5gcc
-	-- 		vim.keymap.set("n", "gcc", require("SingleComment").SingleComment, { expr = true })
-	-- 		-- comments the selected lines
-	-- 		vim.keymap.set("v", "gcc", require("SingleComment").Comment, {})
-	-- 		-- toggle a comment top/ahead of the current line
-	-- 		vim.keymap.set("n", "gca", require("SingleComment").ToggleCommentAhead, {})
-	-- 		-- comments ahead of the current line
-	-- 		vim.keymap.set("n", "gcA", require("SingleComment").CommentAhead, {})
-	-- 		-- comment a block, and removes the innermost block comment in normal mode
-	-- 		vim.keymap.set({ "n", "v" }, "gcb", require("SingleComment").BlockComment)
-	-- 	end,
-	-- },
-	{
-		"JoosepAlviste/nvim-ts-context-commentstring",
-		config = true,
-		init = function()
-			vim.g.skip_ts_context_commentstring_module = true
-		end,
 	},
 
 	"wellle/targets.vim",
