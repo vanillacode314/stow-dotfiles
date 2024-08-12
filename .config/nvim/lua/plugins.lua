@@ -58,6 +58,8 @@ require("lazy").setup({
 					"WinBar",
 					"WinBarNC",
 					"WinSeparator",
+					"TroubleNormal",
+					"TroubleNormalNC",
 					"lualine_b_normal",
 					"lualine_b_inactive",
 					"lualine_c_normal",
@@ -189,7 +191,7 @@ require("lazy").setup({
 	-- 		require("config.feline")
 	-- 	end,
 	-- },
-	-- { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 	{
 		"kylechui/nvim-surround",
 		-- version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -305,57 +307,6 @@ require("lazy").setup({
 	-- 	opts = {
 	-- 		options = {},
 	-- 	},
-	-- },
-	-- {
-	-- 	"phaazon/hop.nvim",
-	-- 	branch = "v1", -- optional but strongly recommended
-	-- 	config = function()
-	-- 		require("hop").setup({})
-	-- 		-- place this in one of your configuration file(s)
-	-- 		vim.api.nvim_set_keymap(
-	-- 			"n",
-	-- 			"f",
-	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
-	-- 			{}
-	-- 		)
-	-- 		vim.api.nvim_set_keymap(
-	-- 			"n",
-	-- 			"F",
-	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
-	-- 			{}
-	-- 		)
-	-- 		vim.api.nvim_set_keymap(
-	-- 			"o",
-	-- 			"f",
-	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
-	-- 			{}
-	-- 		)
-	-- 		vim.api.nvim_set_keymap(
-	-- 			"o",
-	-- 			"F",
-	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>",
-	-- 			{}
-	-- 		)
-	-- 		vim.api.nvim_set_keymap(
-	-- 			"",
-	-- 			"t",
-	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
-	-- 			{}
-	-- 		)
-	-- 		vim.api.nvim_set_keymap(
-	-- 			"",
-	-- 			"T",
-	-- 			"<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
-	-- 			{}
-	-- 		)
-	-- 	end,
-	-- },
-	-- {
-	-- 	"ggandor/leap.nvim",
-	-- 	dependencies = { "tpope/vim-repeat" },
-	-- 	config = function()
-	-- 		require("leap").create_default_mappings()
-	-- 	end,
 	-- },
 	{
 		"folke/flash.nvim",
@@ -477,17 +428,50 @@ require("lazy").setup({
 	{
 		"folke/trouble.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
-		config = function()
-			require("trouble").setup({})
-			local opts = { silent = true, noremap = true }
-			vim.keymap.set("n", "<leader>xx", "<cmd>Trouble<cr>", opts)
-			vim.keymap.set("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", opts)
-			vim.keymap.set("n", "<leader>xt", "<cmd>Trouble todo<cr>", opts)
-			vim.keymap.set("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>", opts)
-			vim.keymap.set("n", "<leader>xl", "<cmd>Trouble loclist<cr>", opts)
-			vim.keymap.set("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", opts)
-			vim.keymap.set("n", "gR", "<cmd>Trouble lsp_references<cr>", opts)
-		end,
+		opts = {},
+		keys = {
+			{
+				"<leader>xx",
+				"<cmd>Trouble diagnostics toggle<cr>",
+				desc = "Diagnostics (Trouble)",
+			},
+			{
+				"<leader>xX",
+				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+				desc = "Buffer Diagnostics (Trouble)",
+			},
+			{
+				"<leader>cs",
+				"<cmd>Trouble symbols toggle focus=false<cr>",
+				desc = "Symbols (Trouble)",
+			},
+			{
+				"<leader>cl",
+				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+				desc = "LSP Definitions / references / ... (Trouble)",
+			},
+			{
+				"<leader>xL",
+				"<cmd>Trouble loclist toggle<cr>",
+				desc = "Location List (Trouble)",
+			},
+			{
+				"<leader>xQ",
+				"<cmd>Trouble qflist toggle<cr>",
+				desc = "Quickfix List (Trouble)",
+			},
+		},
+		-- config = function()
+		-- 	require("trouble").setup({})
+		-- 	local opts = { silent = true, noremap = true }
+		-- 	vim.keymap.set("n", "<leader>xx", "<cmd>Trouble<cr>", opts)
+		-- 	vim.keymap.set("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", opts)
+		-- 	vim.keymap.set("n", "<leader>xt", "<cmd>Trouble todo<cr>", opts)
+		-- 	vim.keymap.set("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>", opts)
+		-- 	vim.keymap.set("n", "<leader>xl", "<cmd>Trouble loclist<cr>", opts)
+		-- 	vim.keymap.set("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", opts)
+		-- 	vim.keymap.set("n", "gR", "<cmd>Trouble lsp_references<cr>", opts)
+		-- end,
 	},
 	{
 		"vimpostor/vim-tpipeline",
@@ -826,37 +810,7 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{
-		"anuvyklack/windows.nvim",
-		dependencies = {
-			"anuvyklack/middleclass",
-			"anuvyklack/animation.nvim",
-		},
-		config = function()
-			vim.o.winwidth = 10
-			vim.o.winminwidth = 10
-			vim.o.equalalways = false
-			require("windows").setup({
-				autowidth = {
-					enable = true,
-					winwidth = 5,
-					filetype = {
-						help = 2,
-					},
-				},
-				ignore = {
-					buftype = { "quickfix" },
-					filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "lspsagaoutline", "Outline" },
-				},
-				animation = {
-					enable = true,
-					duration = 300,
-					fps = 30,
-					easing = "in_out_sine",
-				},
-			})
-		end,
-	},
+	{ "nvim-focus/focus.nvim", version = "*", opts = {} },
 	{
 		"sindrets/winshift.nvim",
 		config = function()
@@ -1054,11 +1008,11 @@ require("lazy").setup({
 	},
 	{
 		"ThePrimeagen/refactoring.nvim",
-		enabled = true,
 		dependencies = {
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-treesitter/nvim-treesitter" },
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
 		},
+		opts = {},
 	},
 	{
 		"danymat/neogen",
@@ -1126,12 +1080,6 @@ require("lazy").setup({
 	},
 	{ "axieax/typo.nvim", config = true },
 	{ "stevearc/dressing.nvim", config = true },
-	{
-		"lvimuser/lsp-inlayhints.nvim",
-		enabled = true,
-		config = true,
-	},
-	{ "simrat39/rust-tools.nvim" },
 	{
 		"saecki/crates.nvim",
 		-- branch = "v0.3.0",
@@ -1397,6 +1345,58 @@ require("lazy").setup({
 	{
 		"mrcjkb/rustaceanvim",
 		version = "^5", -- Recommended
+		init = function()
+			local function on_attach(noformat)
+				return function(client, bufnr)
+					if noformat then
+						client.server_capabilities.documentFormattingProvider = false
+						client.server_capabilities.documentRangeFormattingProvider = false
+					end
+					require("config.lsp").on_attach(client, bufnr)
+				end
+			end
+			vim.g.rustaceanvim = {
+				server = {
+					on_attach = on_attach(true),
+					default_settings = {
+						["rust-analyzer"] = {
+							inlayHints = {
+								bindingModeHints = {
+									enable = false,
+								},
+								chainingHints = {
+									enable = true,
+								},
+								closingBraceHints = {
+									enable = true,
+									minLines = 25,
+								},
+								closureReturnTypeHints = {
+									enable = "never",
+								},
+								lifetimeElisionHints = {
+									enable = "never",
+									useParameterNames = false,
+								},
+								maxLength = 25,
+								parameterHints = {
+									enable = true,
+								},
+								reborrowHints = {
+									enable = "never",
+								},
+								renderColons = true,
+								typeHints = {
+									enable = true,
+									hideClosureInitialization = false,
+									hideNamedConstructor = false,
+								},
+							},
+						},
+					},
+				},
+			}
+		end,
 		lazy = false, -- This plugin is already lazy
 	},
 	{
@@ -1475,5 +1475,41 @@ require("lazy").setup({
 				noremap = true,
 			},
 		},
+	},
+	{
+		"MysticalDevil/inlay-hints.nvim",
+		event = "LspAttach",
+		dependencies = { "neovim/nvim-lspconfig" },
+		config = function()
+			require("inlay-hints").setup()
+		end,
+	},
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {
+			settings = {
+				tsserver_file_preferences = {
+					includeInlayParameterNameHints = "all",
+					includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+					includeInlayFunctionParameterTypeHints = true,
+					includeInlayVariableTypeHints = true,
+					includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+					includeInlayPropertyDeclarationTypeHints = true,
+					includeInlayFunctionLikeReturnTypeHints = true,
+					includeInlayEnumMemberValueHints = true,
+				},
+			},
+		},
+	},
+	{
+		"chrisgrieser/nvim-lsp-endhints",
+		event = "LspAttach",
+		opts = {}, -- required, even if empty
+	},
+	{
+		"m4xshen/hardtime.nvim",
+		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+		opts = {},
 	},
 })

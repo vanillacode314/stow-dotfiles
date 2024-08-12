@@ -4,11 +4,12 @@ require("mason-lspconfig").setup({
 		"lua_ls",
 		"rust_analyzer",
 		"wgsl_analyzer",
-		"tsserver",
 		"svelte",
 		"astro",
-		"pyright",
+		"pylyzer",
 		"volar",
+		"tsserver",
+		"gopls",
 		-- "tailwindcss",
 	},
 })
@@ -35,53 +36,34 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 
-	["rust_analyzer"] = function()
-		require("rust-tools").setup({
-			tools = {
-				inlay_hints = {
-					auto = false,
-				},
-			},
-			server = {
-				on_attach = on_attach(false),
-				capabilities = require("config.lsp").capabilities,
-				handlers = require("config.lsp").handlers,
-			},
-		})
-	end,
+	["rust_analyzer"] = function() end,
 	["tsserver"] = function()
-		require("typescript").setup({
-			server = {
-				filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-				on_attach = on_attach(true),
-				capabilities = require("config.lsp").capabilities,
-				handlers = require("config.lsp").handlers,
-				settings = {
-					typescript = {
-						inlayHints = {
-							includeInlayParameterNameHints = "all",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-							includeInlayFunctionParameterTypeHints = true,
-							includeInlayVariableTypeHints = true,
-							includeInlayPropertyDeclarationTypeHints = true,
-							includeInlayFunctionLikeReturnTypeHints = true,
-							includeInlayEnumMemberValueHints = true,
-						},
-					},
-					javascript = {
-						inlayHints = {
-							includeInlayParameterNameHints = "all",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-							includeInlayFunctionParameterTypeHints = true,
-							includeInlayVariableTypeHints = true,
-							includeInlayPropertyDeclarationTypeHints = true,
-							includeInlayFunctionLikeReturnTypeHints = true,
-							includeInlayEnumMemberValueHints = true,
-						},
-					},
-				},
-			},
-		})
+		-- local inlayHints = {
+		-- 	includeInlayParameterNameHints = "all",
+		-- 	includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+		-- 	includeInlayFunctionParameterTypeHints = true,
+		-- 	includeInlayVariableTypeHints = true,
+		-- 	includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+		-- 	includeInlayPropertyDeclarationTypeHints = true,
+		-- 	includeInlayFunctionLikeReturnTypeHints = true,
+		-- 	includeInlayEnumMemberValueHints = true,
+		-- }
+		-- require("typescript").setup({
+		-- 	server = {
+		-- 		filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+		-- 		on_attach = on_attach(true),
+		-- 		capabilities = require("config.lsp").capabilities,
+		-- 		handlers = require("config.lsp").handlers,
+		-- 		settings = {
+		-- 			typescript = {
+		-- 				inlayHints = inlayHints,
+		-- 			},
+		-- 			javascript = {
+		-- 				inlayHints = inlayHints,
+		-- 			},
+		-- 		},
+		-- 	},
+		-- })
 	end,
 
 	["svelte"] = function()
@@ -89,6 +71,18 @@ require("mason-lspconfig").setup_handlers({
 			on_attach = on_attach(false),
 			capabilities = require("config.lsp").capabilities,
 			handlers = require("config.lsp").handlers,
+			settings = {
+				typescript = {
+					inlayHints = {
+						parameterNames = { enabled = "all" },
+						parameterTypes = { enabled = true },
+						variableTypes = { enabled = true },
+						propertyDeclarationTypes = { enabled = true },
+						functionLikeReturnTypes = { enabled = true },
+						enumMemberValues = { enabled = true },
+					},
+				},
+			},
 		})
 	end,
 
@@ -107,9 +101,26 @@ require("mason-lspconfig").setup_handlers({
 			handlers = require("config.lsp").handlers,
 			settings = {
 				Lua = {
+					hint = { enable = true },
 					diagnostics = {
 						globals = { "vim" },
 					},
+				},
+			},
+		})
+	end,
+
+	["gopls"] = function()
+		require("lspconfig").gopls.setup({
+			settings = {
+				hints = {
+					rangeVariableTypes = true,
+					parameterNames = true,
+					constantValues = true,
+					assignVariableTypes = true,
+					compositeLiteralFields = true,
+					compositeLiteralTypes = true,
+					functionTypeParameters = true,
 				},
 			},
 		})
@@ -120,7 +131,20 @@ require("mason-lspconfig").setup_handlers({
 			on_attach = on_attach(true),
 			capabilities = require("config.lsp").capabilities,
 			handlers = require("config.lsp").handlers,
-			filetypes = { "typescriptreact", "astro" },
+			filetypes = { "typescriptreact", "astro", "svelte" },
+		})
+	end,
+	["basedpyright"] = function()
+		require("lspconfig").basedpyright.setup({
+			settings = {
+				basedpyright = {
+					analysis = {
+						autoSearchPaths = true,
+						diagnosticMode = "openFilesOnly",
+						useLibraryCodeForTypes = true,
+					},
+				},
+			},
 		})
 	end,
 })

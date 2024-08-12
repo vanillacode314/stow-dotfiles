@@ -6,13 +6,12 @@ M.handlers = {
 }
 M.capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 M.on_attach = function(client, bufnr)
 	local client_opts = { remap = false, silent = true, buffer = bufnr }
 	if not bufnr then
 		bufnr = 0
 	end
-	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
 	vim.keymap.set("n", "<space>e", "<cmd>Lspsaga show_line_diagnostics<cr>", client_opts)
 	vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", client_opts)
 	vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", client_opts)
@@ -21,10 +20,7 @@ M.on_attach = function(client, bufnr)
 	vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<CR>", client_opts)
 	vim.keymap.set("n", "gD", "<cmd>Lspsaga goto_definition<CR>", client_opts)
 	vim.keymap.set("n", "K", function()
-		-- local winid = require("ufo").peekFoldedLinesUnderCursor()
-		-- if not winid then
 		vim.cmd("Lspsaga hover_doc")
-		-- end
 	end, client_opts)
 	vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", client_opts)
 	--[[ vim.keymap.set("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", client_opts) ]]
@@ -44,7 +40,7 @@ M.on_attach = function(client, bufnr)
 		vim.lsp.buf.format({ async = true })
 		vim.cmd("w")
 	end, client_opts)
-	require("lsp-inlayhints").on_attach(client, bufnr)
+	-- require("lsp-inlayhints").on_attach(client, bufnr)
 	-- print("LSP attached:", client.name)
 end
 
