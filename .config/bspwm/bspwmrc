@@ -24,7 +24,7 @@ run_once batterylow
 run_once playerctld daemon
 # run_once kdeconnect-indicator
 run_once autoadb ~/scripts/android-webcam.sh
-run_once easyeffects --gapplication-service
+# run_once easyeffects --gapplication-service
 # run_once xss-lock -- betterlockscreen --lock --quiet
 # run_once sunshine
 run_once jellyfin-mpv-shim

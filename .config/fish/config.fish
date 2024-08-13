@@ -5,7 +5,8 @@ set plugins \
     https://github.com/patrickf1/fzf.fish \
     https://github.com/kidonng/zoxide.fish \
     https://github.com/fabioantunes/base16-fish-shell \
-    https://github.com/lilyball/nix-env.fish
+    https://github.com/lilyball/nix-env.fish \
+    https://github.com/laughedelic/pisces
 source $__fish_user_data_dir/plugins/plug.fish/conf.d/plugin_load.fish
 direnv hook fish | source
 # bass source ~/.nix-profile/etc/profile.d/hm-session-vars.sh

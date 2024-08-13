@@ -38,32 +38,32 @@ require("mason-lspconfig").setup_handlers({
 
 	["rust_analyzer"] = function() end,
 	["tsserver"] = function()
-		-- local inlayHints = {
-		-- 	includeInlayParameterNameHints = "all",
-		-- 	includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-		-- 	includeInlayFunctionParameterTypeHints = true,
-		-- 	includeInlayVariableTypeHints = true,
-		-- 	includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-		-- 	includeInlayPropertyDeclarationTypeHints = true,
-		-- 	includeInlayFunctionLikeReturnTypeHints = true,
-		-- 	includeInlayEnumMemberValueHints = true,
-		-- }
-		-- require("typescript").setup({
-		-- 	server = {
-		-- 		filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-		-- 		on_attach = on_attach(true),
-		-- 		capabilities = require("config.lsp").capabilities,
-		-- 		handlers = require("config.lsp").handlers,
-		-- 		settings = {
-		-- 			typescript = {
-		-- 				inlayHints = inlayHints,
-		-- 			},
-		-- 			javascript = {
-		-- 				inlayHints = inlayHints,
-		-- 			},
-		-- 		},
-		-- 	},
-		-- })
+		local inlayHints = {
+			includeInlayParameterNameHints = "all",
+			includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+			includeInlayFunctionParameterTypeHints = true,
+			includeInlayVariableTypeHints = true,
+			includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+			includeInlayPropertyDeclarationTypeHints = true,
+			includeInlayFunctionLikeReturnTypeHints = true,
+			includeInlayEnumMemberValueHints = true,
+		}
+		require("typescript").setup({
+			server = {
+				filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+				on_attach = on_attach(true),
+				capabilities = require("config.lsp").capabilities,
+				handlers = require("config.lsp").handlers,
+				settings = {
+					typescript = {
+						inlayHints = inlayHints,
+					},
+					javascript = {
+						inlayHints = inlayHints,
+					},
+				},
+			},
+		})
 	end,
 
 	["svelte"] = function()
