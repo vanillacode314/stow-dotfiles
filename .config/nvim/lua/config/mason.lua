@@ -6,7 +6,7 @@ require("mason-lspconfig").setup({
 		"wgsl_analyzer",
 		"svelte",
 		"astro",
-		"pylyzer",
+		"basedpyright",
 		"volar",
 		"tsserver",
 		"gopls",

@@ -883,8 +883,8 @@ require("lazy").setup({
 
 	{
 		"ray-x/lsp_signature.nvim",
-		enabled = not vim.g.__streaming,
-		opts = { floating_window = true },
+		enabled = false,
+		opts = { floating_window = false },
 	},
 	{
 		"folke/noice.nvim",
@@ -1509,7 +1509,7 @@ require("lazy").setup({
 	},
 	{
 		"m4xshen/hardtime.nvim",
-		enabled = false,
+		enabled = true,
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
 		opts = {},
 	},

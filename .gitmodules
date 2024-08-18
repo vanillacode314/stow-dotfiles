@@ -43,3 +43,6 @@
 [submodule ".local/share/fish/plugins/nvm.fish"]
 	path = .local/share/fish/plugins/nvm.fish
 	url = https://github.com/jorgebucaran/nvm.fish
+[submodule ".local/share/fish/plugins/pisces"]
+	path = .local/share/fish/plugins/pisces
+	url = https://github.com/laughedelic/pisces
