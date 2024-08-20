@@ -1,4 +1,5 @@
 Makefile
 .git
+.gitignore
 update_gitmodules.py
 .mypy_cache
