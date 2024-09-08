@@ -5,7 +5,6 @@ local has_words_before = function()
 end
 
 local cmp = require("cmp")
-local ls = require("luasnip")
 local lspkind = require("lspkind")
 
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
@@ -34,6 +33,8 @@ cmp.setup({
 		end
 	end,
 	formatting = {
+		expandable_indicator = true,
+		fields = { "abbr", "kind", "menu" },
 		format = lspkind.cmp_format({
 			before = require("tailwindcss-colorizer-cmp").formatter,
 			mode = "symbol_text",
@@ -41,40 +42,42 @@ cmp.setup({
 				buffer = "[buf]",
 				nvim_lsp = "[lsp]",
 				nvim_lua = "[lua]",
-				luasnip = "[snip]",
+				snippets = "[snip]",
 				cmp_tabnine = "[tn]",
 				path = "[path]",
 				rg = "[rg]",
 			},
 		}),
 	},
-	sorting = {
-		-- priority_weight = 2,
-		comparators = {
-			-- require("cmp_tabnine.compare"),
-			cmp.config.compare.offset,
-			cmp.config.compare.exact,
-			cmp.config.compare.score,
-			require("cmp-under-comparator").under,
-			cmp.config.compare.kind,
-			cmp.config.compare.sort_text,
-			cmp.config.compare.length,
-			cmp.config.compare.order,
-		},
-	},
-	snippet = {
-		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
-		end,
-	},
+	-- sorting = {
+	-- 	priority_weight = 2,
+	-- 	comparators = {
+	-- 		-- require("cmp_tabnine.compare"),
+	-- 		cmp.config.compare.offset,
+	-- 		cmp.config.compare.exact,
+	-- 		cmp.config.compare.score,
+	-- 		require("cmp-under-comparator").under,
+	-- 		cmp.config.compare.kind,
+	-- 		cmp.config.compare.sort_text,
+	-- 		cmp.config.compare.length,
+	-- 		cmp.config.compare.order,
+	-- 	},
+	-- },
+	-- snippet = {
+	-- 	expand = function(args)
+	-- 		require("luasnip").lsp_expand(args.body)
+	-- 	end,
+	-- },
 	window = {
 		-- completion = { border = require("utils").border_chars_outer_thin },
 		documentation = { border = require("utils").border_chars_outer_thin },
 	},
 	mapping = cmp.mapping.preset.insert({
 		["<Tab>"] = cmp.mapping(function(fallback)
-			if ls.jumpable(1) then
-				ls.jump(1)
+			if vim.snippet.active({ direction = 1 }) then
+				vim.schedule(function()
+					vim.snippet.jump(1)
+				end)
 			elseif cmp.visible() then
 				cmp.select_next_item()
 			elseif has_words_before() then
@@ -83,10 +86,11 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
-
 		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if ls.jumpable(-1) then
-				ls.jump(-1)
+			if vim.snippet.active({ direction = -1 }) then
+				vim.schedule(function()
+					vim.snippet.jump(-1)
+				end)
 			elseif cmp.visible() then
 				cmp.select_prev_item()
 			else
@@ -97,22 +101,20 @@ cmp.setup({
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.abort(),
-		["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 	}),
 	view = {
 		entries = { name = "custom", selection_order = "near_cursor" },
 	},
 	sources = cmp.config.sources({
+		{ name = "snippets" },
 		{ name = "nvim_lsp", trigger_characters = { "-" } },
-		{ name = "nvim_lua" },
-		{ name = "luasnip" },
 		{ name = "fish" },
-		{ name = "cmp-tw2css" },
 		{ name = "crates" },
 	}, {
 		-- { name = "nvim_lsp_signature_help" },
 		{ name = "path" },
-		{ name = "buffer", keyword_length = 3 },
+		-- { name = "buffer", keyword_length = 3 },
 		{ name = "rg", keyword_length = 3 },
 	}),
 })

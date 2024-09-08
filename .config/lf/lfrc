@@ -14,6 +14,44 @@ set cleaner ~/.config/lf/lf_kitty_clean
 map <enter> shell
 map x $$f
 map X !$f
+cmd archivemount %{{
+    if [ ! -e "$f" ] || [ -d "$f" ]; then
+        lf -remote "send $id echoerr 'ERROR: not a valid archive'"
+        exit 1
+    fi
+    base=$(basename "$f")
+    mntdir="$(mktemp -d --tmpdir "lf-am-$base.XXXX")"
+    if type ratarmount >/dev/null 2>&1; then
+        ratarmount --index-file=":memory:" "$f" "$mntdir"
+    else
+        archivemount -o readonly "$f" "$mntdir"
+    fi
+    echo "$f" > "$mntdir.source"
+    lf -remote "send $id :cd '$mntdir'; echomsg Mounted $f"
+}}
+map am archivemount
+
+cmd fuseumount %{{
+    [ -e "$f" ] || f=.
+    mntdir=$(stat -c %m "$f")
+    if [ "$mntdir" = "/" ]; then
+        lf -remote "send $id echomsg 'mountpoint is /, cowardly doing nothing'"
+        exit 1
+    fi
+    if ! findmnt -no FSTYPE "$mntdir" | grep -q '^fuse'; then
+        lf -remote "send $id echoerr 'ERROR: not a fuse mountpoint $mntdir'"
+        exit 1
+    fi
+    cmd="send $id :select '$mntdir'; _do_fuseumount; _rmdir"
+    if [ -e "$mntdir.source" ]; then
+        cmd="$cmd; select '$(cat "$mntdir.source")'"
+        rm "$mntdir.source"
+    fi
+    lf -remote "$cmd"
+}}
+cmd _do_fuseumount $fusermount -u "$f"
+cmd _rmdir $rmdir "$f"
+map au fuseumount
 cmd link %{{
     set -- $(cat ~/.local/share/lf/files)
     mode="$1"
@@ -26,7 +64,7 @@ cmd link %{{
         # symbolically copy mode is indicating a soft link
         copy) ln -sr -t . -- "$@";;
         # while a move mode is indicating a hard link
-        move) ln -t . -- "$@";;
+        move) cp -lR -t . -- "$@";;
     esac
     rm ~/.local/share/lf/files
     lf -remote "send clear"

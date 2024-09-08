@@ -6,10 +6,11 @@ require("mason-lspconfig").setup({
 		"wgsl_analyzer",
 		"svelte",
 		"astro",
-		"basedpyright",
+		"pyright",
 		"volar",
 		"tsserver",
 		"gopls",
+		"emmet_language_server",
 		-- "tailwindcss",
 	},
 })
@@ -144,6 +145,77 @@ require("mason-lspconfig").setup_handlers({
 						useLibraryCodeForTypes = true,
 					},
 				},
+			},
+		})
+	end,
+	["volar"] = function()
+		local util = require("lspconfig.util")
+		local function get_typescript_server_path(root_dir)
+			local global_ts = "/home/[yourusernamehere]/.npm/lib/node_modules/typescript/lib"
+			-- Alternative location if installed as root:
+			-- local global_ts = '/usr/local/lib/node_modules/typescript/lib'
+			local found_ts = ""
+			local function check_dir(path)
+				found_ts = util.path.join(path, "node_modules", "typescript", "lib")
+				if util.path.exists(found_ts) then
+					return path
+				end
+			end
+			if util.search_ancestors(root_dir, check_dir) then
+				return found_ts
+			else
+				return global_ts
+			end
+		end
+
+		require("lspconfig").volar.setup({
+			on_new_config = function(new_config, new_root_dir)
+				new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+			end,
+			-- filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+			init_options = {
+				vue = {
+					hybridMode = false,
+				},
+			},
+		})
+	end,
+
+	["emmet_language_server"] = function()
+		require("lspconfig").emmet_language_server.setup({
+			filetypes = {
+				"css",
+				"eruby",
+				"html",
+				"javascript",
+				"javascriptreact",
+				"less",
+				"sass",
+				"scss",
+				"pug",
+				"typescriptreact",
+			},
+			-- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
+			-- **Note:** only the options listed in the table are supported.
+			init_options = {
+				---@type table<string, string>
+				includeLanguages = { typescriptreact = "html" },
+				--- @type string[]
+				excludeLanguages = {},
+				--- @type string[]
+				extensionsPath = {},
+				--- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+				preferences = {},
+				--- @type boolean Defaults to `true`
+				showAbbreviationSuggestions = true,
+				--- @type "always" | "never" Defaults to `"always"`
+				showExpandedAbbreviation = "always",
+				--- @type boolean Defaults to `false`
+				showSuggestionsAsSnippets = false,
+				--- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+				syntaxProfiles = {},
+				--- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+				variables = {},
 			},
 		})
 	end,

@@ -15,7 +15,12 @@ import:
   incremental: yes
   duplicate_action: remove
 
-plugins: fromfilename fetchart lyrics lastgenre fish embedart replaygain chroma ftintitle info mbsync
+plugins: fromfilename fetchart lyrics lastgenre fish embedart replaygain chroma ftintitle info mbsync badfiles
+
+badfiles:
+  check_on_import: no
+  commands:
+    flac: flac --test --warnings-as-errors --silent
 
 ftintitle:
   auto: yes

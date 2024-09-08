@@ -71,6 +71,7 @@ require("lazy").setup({
 				exclude_groups = {}, -- table: groups you don't want to clear
 			})
 			require("transparent").clear_prefix("BufferLine")
+			require("transparent").clear_prefix("DiagnosticSign")
 			require("transparent").clear_prefix("DapUI")
 			require("transparent").clear_prefix("lualine_y_filetype")
 		end,
@@ -203,19 +204,37 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"L3MON4D3/LuaSnip",
+		"garymjr/nvim-snippets",
 		config = function()
-			require("config.snippets")
-			require("luasnip.loaders.from_snipmate").lazy_load()
-			require("luasnip.loaders.from_vscode").lazy_load()
+			require("snippets").setup({
+				extended_filetypes = {
+					typescript = { "javascript" },
+					typescriptreact = {
+						"javascript",
+						"javascriptreact",
+					},
+					javascriptreact = { "javascript" },
+				},
+				create_cmp_source = true,
+				friendly_snippets = true,
+				search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+			})
 		end,
 		dependencies = {
-			"fivethree-team/vscode-svelte-snippets",
+			{ "fivethree-team/vscode-svelte-snippets", ft = { "svelte" } },
 			{ "solidjs-community/solid-snippets", ft = { "html", "typescriptreact" } },
 			"rafamadriz/friendly-snippets",
 			{ "sdras/vue-vscode-snippets", ft = { "vue" } },
 		},
 	},
+	-- {
+	-- 	"L3MON4D3/LuaSnip",
+	-- 	config = function()
+	-- 		require("config.snippets")
+	-- 		require("luasnip.loaders.from_snipmate").lazy_load()
+	-- 		require("luasnip.loaders.from_vscode").lazy_load()
+	-- 	end,
+	-- },
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -312,7 +331,13 @@ require("lazy").setup({
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		---@type Flash.Config
-		opts = {},
+		opts = {
+			modes = {
+				chars = {
+					enabled = false,
+				},
+			},
+		},
   -- stylua: ignore
   keys = {
     { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
@@ -1256,7 +1281,7 @@ require("lazy").setup({
 			{ "<leader>]", ":Gen<CR>", mode = { "n", "v" }, desc = "Gen AI" },
 		},
 	},
-	{ "dmmulroy/ts-error-translator.nvim", config = true },
+	-- { "dmmulroy/ts-error-translator.nvim", config = true },
 	{
 		"roobert/tailwindcss-colorizer-cmp.nvim",
 		config = function()
@@ -1280,6 +1305,7 @@ require("lazy").setup({
 			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
+					yaml = { "yamlfmt" },
 					-- Conform will run multiple formatters sequentially
 					python = { "isort", "black" },
 					-- Use a sub-list to run only the first available formatter
@@ -1509,8 +1535,14 @@ require("lazy").setup({
 	},
 	{
 		"m4xshen/hardtime.nvim",
-		enabled = true,
+		-- enabled = false,
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
 		opts = {},
+	},
+	{
+		"olrtg/nvim-emmet",
+		config = function()
+			vim.keymap.set({ "n", "v" }, "<leader>xe", require("nvim-emmet").wrap_with_abbreviation)
+		end,
 	},
 })
