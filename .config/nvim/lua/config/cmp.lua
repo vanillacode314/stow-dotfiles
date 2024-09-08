@@ -1,14 +1,24 @@
+local cmp = require("cmp")
+local lspkind = require("lspkind")
+local types = require("cmp.types")
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 local has_words_before = function()
 	---@diagnostic disable-next-line: deprecated
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local cmp = require("cmp")
-local lspkind = require("lspkind")
+local modified_priority = {
+	[types.lsp.CompletionItemKind.Variable] = types.lsp.CompletionItemKind.Method,
+	[types.lsp.CompletionItemKind.Snippet] = 0, -- top
+	[types.lsp.CompletionItemKind.Keyword] = 0, -- top
+	[types.lsp.CompletionItemKind.Text] = 100, -- bottom
+}
+---@param kind integer: kind of completion entry
+local function modified_kind(kind)
+	return modified_priority[kind] or kind
+end
 
-local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 cmp.setup({
 	completion = {
 		winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
@@ -49,25 +59,36 @@ cmp.setup({
 			},
 		}),
 	},
-	-- sorting = {
-	-- 	priority_weight = 2,
-	-- 	comparators = {
-	-- 		-- require("cmp_tabnine.compare"),
-	-- 		cmp.config.compare.offset,
-	-- 		cmp.config.compare.exact,
-	-- 		cmp.config.compare.score,
-	-- 		require("cmp-under-comparator").under,
-	-- 		cmp.config.compare.kind,
-	-- 		cmp.config.compare.sort_text,
-	-- 		cmp.config.compare.length,
-	-- 		cmp.config.compare.order,
-	-- 	},
-	-- },
-	-- snippet = {
-	-- 	expand = function(args)
-	-- 		require("luasnip").lsp_expand(args.body)
-	-- 	end,
-	-- },
+	sorting = {
+		priority_weight = 1,
+		comparators = {
+			cmp.config.compare.offset,
+			cmp.config.compare.exact,
+			cmp.config.compare.score,
+			cmp.config.compare.recently_used,
+			function(entry1, entry2)
+				local _, entry1_under = entry1.completion_item.label:find("^_+")
+				local _, entry2_under = entry2.completion_item.label:find("^_+")
+				entry1_under = entry1_under or 0
+				entry2_under = entry2_under or 0
+				if entry1_under > entry2_under then
+					return false
+				elseif entry1_under < entry2_under then
+					return true
+				end
+			end,
+			function(entry1, entry2) -- sort by compare kind (Variable, Function etc)
+				local kind1 = modified_kind(entry1:get_kind())
+				local kind2 = modified_kind(entry2:get_kind())
+				if kind1 ~= kind2 then
+					return kind1 - kind2 < 0
+				end
+			end,
+			cmp.config.compare.sort_text,
+			cmp.config.compare.length,
+			cmp.config.compare.order,
+		},
+	},
 	window = {
 		-- completion = { border = require("utils").border_chars_outer_thin },
 		documentation = { border = require("utils").border_chars_outer_thin },
@@ -107,14 +128,26 @@ cmp.setup({
 		entries = { name = "custom", selection_order = "near_cursor" },
 	},
 	sources = cmp.config.sources({
-		{ name = "snippets" },
-		{ name = "nvim_lsp", trigger_characters = { "-" } },
+		{ name = "snippets", keyword_length = 2 },
+		{ name = "nvim_lsp", trigger_characters = { "-", ">", "{" }, keyword_length = 2 },
 		{ name = "fish" },
 		{ name = "crates" },
 	}, {
 		-- { name = "nvim_lsp_signature_help" },
 		{ name = "path" },
-		-- { name = "buffer", keyword_length = 3 },
+		-- {
+		-- 			name = "buffer",
+		-- 			keyword_length = 5,
+		-- 			option = {
+		-- 				get_bufnrs = function()
+		-- 					local bufs = {}
+		-- 					for _, win in ipairs(vim.api.nvim_list_wins()) do
+		-- 						bufs[vim.api.nvim_win_get_buf(win)] = true
+		-- 					end
+		-- 					return vim.tbl_keys(bufs)
+		-- 				end,
+		-- 			},
+		-- 		},
 		{ name = "rg", keyword_length = 3 },
 	}),
 })
@@ -129,11 +162,13 @@ cmp.setup.filetype("gitcommit", {
 })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline("/", {
+cmp.setup.cmdline({ "/", "?" }, {
 	mapping = cmp.mapping.preset.cmdline(),
-	view = {
-		entries = { name = "wildmenu", separator = " | " },
-	},
+	---@diagnostic disable-next-line: missing-fields
+	formatting = { fields = { "abbr" } },
+	-- view = {
+	-- 	entries = { name = "wildmenu", separator = " | " },
+	-- },
 	sources = {
 		{ name = "buffer" },
 	},
@@ -142,9 +177,13 @@ cmp.setup.cmdline("/", {
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline(),
+	---@diagnostic disable-next-line: missing-fields
+	formatting = { fields = { "abbr" } },
 	sources = cmp.config.sources({
 		{ name = "path" },
 	}, {
 		{ name = "cmdline" },
 	}),
 })
+
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())

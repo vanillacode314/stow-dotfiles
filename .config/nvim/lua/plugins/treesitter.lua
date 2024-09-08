@@ -7,14 +7,18 @@ return {
 	},
 	{ "nvim-treesitter/playground", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{ "nvim-treesitter/nvim-treesitter-textobjects", dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "windwp/nvim-autopairs", config = true },
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = {},
+	},
 	{
 		"windwp/nvim-ts-autotag",
 		dependencies = { "nvim-treesitter" },
 		opts = {
 			opts = {
 				enable = true,
-				enable_rename = true,
+				enable_rename = false,
 				enable_close = true,
 				enable_close_on_slash = true,
 				filetypes = {
@@ -56,6 +60,8 @@ return {
 					"css",
 					"html",
 				},
+				ignore_install = {},
+				modules = {},
 				sync_install = false,
 				auto_install = true,
 				highlight = {

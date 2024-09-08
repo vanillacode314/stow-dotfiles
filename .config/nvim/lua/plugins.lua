@@ -254,8 +254,6 @@ require("lazy").setup({
 	},
 
 	{ "tzachar/cmp-tabnine", enabled = false, build = "./install.sh", dependencies = "hrsh7th/nvim-cmp" },
-	"lukas-reineke/cmp-under-comparator",
-
 	{
 		"numToStr/Comment.nvim",
 		config = function()
@@ -420,7 +418,7 @@ require("lazy").setup({
 		config = true,
 		dependencies = "vim-scripts/loremipsum",
 	},
-	"jose-elias-alvarez/typescript.nvim",
+	-- "jose-elias-alvarez/typescript.nvim",
 	{
 		"Abstract-IDE/penvim",
 		config = function()

@@ -49,19 +49,17 @@ require("mason-lspconfig").setup_handlers({
 			includeInlayFunctionLikeReturnTypeHints = true,
 			includeInlayEnumMemberValueHints = true,
 		}
-		require("typescript").setup({
-			server = {
-				filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-				on_attach = on_attach(true),
-				capabilities = require("config.lsp").capabilities,
-				handlers = require("config.lsp").handlers,
-				settings = {
-					typescript = {
-						inlayHints = inlayHints,
-					},
-					javascript = {
-						inlayHints = inlayHints,
-					},
+		require("lspconfig").ts_ls.setup({
+			filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+			on_attach = on_attach(true),
+			capabilities = require("config.lsp").capabilities,
+			handlers = require("config.lsp").handlers,
+			settings = {
+				typescript = {
+					inlayHints = inlayHints,
+				},
+				javascript = {
+					inlayHints = inlayHints,
 				},
 			},
 		})
