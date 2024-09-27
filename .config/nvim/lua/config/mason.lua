@@ -6,11 +6,13 @@ require("mason-lspconfig").setup({
 		"wgsl_analyzer",
 		"svelte",
 		"astro",
-		"pyright",
 		"volar",
-		"tsserver",
+		"ts_ls",
 		"gopls",
 		"emmet_language_server",
+		"jsonls",
+		"basedpyright",
+		"ruff",
 		-- "tailwindcss",
 	},
 })
@@ -38,7 +40,7 @@ require("mason-lspconfig").setup_handlers({
 	end,
 
 	["rust_analyzer"] = function() end,
-	["tsserver"] = function()
+	["ts_ls"] = function()
 		local inlayHints = {
 			includeInlayParameterNameHints = "all",
 			includeInlayParameterNameHintsWhenArgumentMatchesName = false,
@@ -135,13 +137,18 @@ require("mason-lspconfig").setup_handlers({
 	end,
 	["basedpyright"] = function()
 		require("lspconfig").basedpyright.setup({
+			on_attach = on_attach(true),
+			capabilities = require("config.lsp").capabilities,
+			handlers = require("config.lsp").handlers,
 			settings = {
 				basedpyright = {
 					analysis = {
 						autoSearchPaths = true,
 						diagnosticMode = "openFilesOnly",
 						useLibraryCodeForTypes = true,
+						-- ignore = { "*" },
 					},
+					disableOrganizeImports = true,
 				},
 			},
 		})
@@ -149,9 +156,9 @@ require("mason-lspconfig").setup_handlers({
 	["volar"] = function()
 		local util = require("lspconfig.util")
 		local function get_typescript_server_path(root_dir)
-			local global_ts = "/home/[yourusernamehere]/.npm/lib/node_modules/typescript/lib"
+			-- local global_ts = "/home/vc/.npm/lib/node_modules/typescript/lib"
 			-- Alternative location if installed as root:
-			-- local global_ts = '/usr/local/lib/node_modules/typescript/lib'
+			local global_ts = "/usr/lib/node_modules/typescript/lib"
 			local found_ts = ""
 			local function check_dir(path)
 				found_ts = util.path.join(path, "node_modules", "typescript", "lib")
@@ -171,6 +178,7 @@ require("mason-lspconfig").setup_handlers({
 				new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
 			end,
 			-- filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+			filetypes = { "vue" },
 			init_options = {
 				vue = {
 					hybridMode = false,
@@ -215,6 +223,43 @@ require("mason-lspconfig").setup_handlers({
 				--- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
 				variables = {},
 			},
+		})
+	end,
+	["jsonls"] = function()
+		require("lspconfig").jsonls.setup({
+			on_attach = on_attach(true),
+			capabilities = require("config.lsp").capabilities,
+			handlers = require("config.lsp").handlers,
+			settings = {
+				json = {
+					schemas = require("schemastore").json.schemas(),
+					validate = { enable = true },
+				},
+			},
+		})
+	end,
+	["yamlls"] = function()
+		require("lspconfig").yamlls.setup({
+			settings = {
+				yaml = {
+					schemaStore = {
+						-- You must disable built-in schemaStore support if you want to use
+						-- this plugin and its advanced options like `ignore`.
+						enable = false,
+						-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+						url = "",
+					},
+					schemas = require("schemastore").yaml.schemas(),
+				},
+			},
+		})
+	end,
+	["ruff"] = function()
+		require("lspconfig").ruff.setup({
+			on_attach = function(client, bufnr)
+				on_attach(true)(client, bufnr)
+				client.server_capabilities.hoverProvider = false
+			end,
 		})
 	end,
 })

@@ -1,9 +1,5 @@
 [pyprland]
-plugins = [
-  "scratchpads",
-  "shift_monitors",
-  "workspaces_follow_focus"
-]
+plugins = ["scratchpads", "monitors"]
 
 [scratchpads.term]
 animation = "fromTop"
@@ -41,4 +37,4 @@ size = "40% 90%"
 unfocus = "hide"
 
 [monitors.placement]
-"AOC".topOf = "BOE"
+"AOC".topCenterOf = "BOE"

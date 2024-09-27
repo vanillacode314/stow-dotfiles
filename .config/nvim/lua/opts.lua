@@ -1,5 +1,4 @@
-vim.cmd([[colorscheme gruvbox]])
--- vim.cmd([[colorscheme vscode]])
+vim.cmd([[colorscheme base16-tokyo-night-terminal-dark]])
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
@@ -38,7 +37,7 @@ vim.opt.signcolumn = "yes"
 
 -- Folding
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevelstart = 99
 
 -- Editing
@@ -49,3 +48,6 @@ vim.opt.updatetime = 500
 vim.g.python_host_skip_check = 1
 vim.g.python3_host_prog = "python3"
 vim.g.python_host_prog = "python2"
+
+-- Session
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"

@@ -1,20 +1,28 @@
 return {
-	{ "RRethy/nvim-treesitter-textsubjects" },
 	{
 		"nvim-treesitter/nvim-treesitter-context",
+		event = "VeryLazy",
 		enabled = false,
 		opts = {},
 	},
-	{ "nvim-treesitter/playground", dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "nvim-treesitter/nvim-treesitter-textobjects", dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{
+		"nvim-treesitter/playground",
+		cmd = "TSPlaygroundToggle",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		event = "VeryLazy",
+	},
 	{
 		"windwp/nvim-autopairs",
-		event = "InsertEnter",
 		opts = {},
 	},
 	{
 		"windwp/nvim-ts-autotag",
-		dependencies = { "nvim-treesitter" },
+		dependencies = {
+			"nvim-treesitter",
+		},
 		opts = {
 			opts = {
 				enable = true,
@@ -46,6 +54,10 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
+			"RRethy/nvim-treesitter-textsubjects",
+		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {

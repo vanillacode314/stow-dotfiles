@@ -39,7 +39,7 @@ require("lualine").setup({
 	},
 	sections = {
 		lualine_a = { { "mode", separator = { left = "", right = "" } } },
-		lualine_b = { "filename", "branch" },
+		lualine_b = { "filename", { "branch", separator = { right = "" } } },
 		lualine_c = {
 			{
 				"diagnostics",
@@ -77,7 +77,7 @@ require("lualine").setup({
 			{
 				function()
 					local retval = ""
-					for index, value in ipairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+					for index, value in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
 						if index > 1 then
 							retval = retval .. " "
 						end
@@ -85,6 +85,7 @@ require("lualine").setup({
 					end
 					return retval
 				end,
+				separator = { left = "" },
 			},
 			"filetype",
 			"progress",

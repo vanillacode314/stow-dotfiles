@@ -2,7 +2,7 @@ local null_ls = require("null-ls")
 
 require("null-ls").setup({
 	sources = {
-		null_ls.builtins.diagnostics.mypy,
+		-- null_ls.builtins.diagnostics.mypy,
 		null_ls.builtins.code_actions.gitsigns.with({
 			-- config = {
 			-- 	filter_actions = function(title)
@@ -19,6 +19,8 @@ require("null-ls").setup({
 		-- null_ls.builtins.diagnostics.pycodestyle,
 		-- null_ls.builtins.code_actions.refactoring,
 		-- null_ls.builtins.diagnostics.ruff,
+		-- null_ls.builtins.formatting.ruff,
+		-- null_ls.builtins.code_actions.ruff,
 		-- null_ls.builtins.completion.spell,
 		-- require("typescript.extensions.null-ls.code-actions"),
 	},

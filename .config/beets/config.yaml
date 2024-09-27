@@ -1,6 +1,5 @@
 directory: /home/media/Music
 library: /home/media/Music/beets.db
-
 import:
   move: no
   copy: no
@@ -14,36 +13,27 @@ import:
   quiet_fallback: skip
   incremental: yes
   duplicate_action: remove
-
 plugins: fromfilename fetchart lyrics lastgenre fish embedart replaygain chroma ftintitle info mbsync badfiles
-
 badfiles:
   check_on_import: no
   commands:
-    flac: flac --test --warnings-as-errors --silent
-
+    flac: flac --test --silent
 ftintitle:
   auto: yes
-
 chroma:
   auto: no
-
 lyrics:
   auto: yes
   sources: lrclib genius
   synced: yes
-
 fetchart:
   auto: yes
-
 lastgenre:
   auto: yes
   source: 'track'
-
 embedart:
   auto: yes
   remove_art_file: yes
-
 replaygain:
   auto: no
   backend: ffmpeg

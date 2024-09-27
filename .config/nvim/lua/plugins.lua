@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 -- convert config to use lazy.nvim instead of packer.nvim
 require("lazy").setup({
 	require("plugins.treesitter"),
+	require("plugins.ai"),
 	"folke/which-key.nvim",
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 	{
@@ -15,18 +16,20 @@ require("lazy").setup({
 			},
 		},
 	},
+	{ "b0o/schemastore.nvim", event = "VeryLazy" },
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-	"lervag/vimtex",
+	{ "lervag/vimtex", ft = { "latex", "tex" } },
 	{
 		"lewis6991/gitsigns.nvim",
+		event = "VeryLazy",
 		-- version = 'release' -- To use the latest release
 		config = function()
 			require("gitsigns").setup()
 		end,
 	},
-
 	{
 		"xiyaowong/nvim-transparent",
+		enabled = false,
 		config = function()
 			require("transparent").setup({ -- Optional, you don't have to run setup.
 				groups = { -- table: default groups
@@ -76,30 +79,14 @@ require("lazy").setup({
 			require("transparent").clear_prefix("lualine_y_filetype")
 		end,
 	},
-	"RRethy/nvim-base16",
+	{ "RRethy/nvim-base16", event = "VeryLazy" },
 	{
 		"Mofiqul/vscode.nvim",
+		priority = 1000,
+		on_autoload_no_session = function() end,
+		event = "VeryLazy",
 		config = function()
 			require("vscode").setup({})
-		end,
-	},
-	{
-		"Exafunction/codeium.vim",
-		enabled = not vim.g.__streaming,
-		config = function()
-			-- require("codeium").setup({})
-			vim.keymap.set("i", "<C-j>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-;>", function()
-				return vim.fn["codeium#CycleCompletions"](1)
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-,>", function()
-				return vim.fn["codeium#CycleCompletions"](-1)
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<c-x>", function()
-				return vim.fn["codeium#Clear"]()
-			end, { expr = true, silent = true })
 		end,
 	},
 	{
@@ -108,8 +95,6 @@ require("lazy").setup({
 			require("config.lsp")
 		end,
 	},
-
-	"folke/lsp-colors.nvim",
 	{
 		"folke/zen-mode.nvim",
 		cmd = { "ZenMode" },
@@ -172,10 +157,10 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ "booperlv/nvim-gomove", config = true },
+	{ "booperlv/nvim-gomove", config = true, event = "VeryLazy" },
 	{ "https://git.sr.ht/~whynothugo/lsp_lines.nvim", enabled = false, config = true },
-	{ "onsails/lspkind-nvim" },
-	{ "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "onsails/lspkind-nvim", event = "VeryLazy" },
+	{ "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }, event = "VeryLazy" },
 	{
 		"nvim-lualine/lualine.nvim",
 		enabled = true,
@@ -205,6 +190,8 @@ require("lazy").setup({
 	},
 	{
 		"garymjr/nvim-snippets",
+		enabled = false,
+		event = { "InsertEnter" },
 		config = function()
 			require("snippets").setup({
 				extended_filetypes = {
@@ -221,7 +208,7 @@ require("lazy").setup({
 			})
 		end,
 		dependencies = {
-			{ "fivethree-team/vscode-svelte-snippets", ft = { "svelte" } },
+			-- { "fivethree-team/vscode-svelte-snippets", ft = { "svelte" } },
 			{ "solidjs-community/solid-snippets", ft = { "html", "typescriptreact" } },
 			"rafamadriz/friendly-snippets",
 			{ "sdras/vue-vscode-snippets", ft = { "vue" } },
@@ -237,6 +224,7 @@ require("lazy").setup({
 	-- },
 	{
 		"hrsh7th/nvim-cmp",
+		event = { "InsertEnter", "CmdlineEnter" },
 		dependencies = {
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-nvim-lsp",
@@ -245,8 +233,17 @@ require("lazy").setup({
 			"hrsh7th/cmp-cmdline",
 			"saadparwaiz1/cmp_luasnip",
 			"lukas-reineke/cmp-rg",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
+			-- "hrsh7th/cmp-nvim-lsp-signature-help",
 			"jcha0713/cmp-tw2css",
+			{
+				"roobert/tailwindcss-colorizer-cmp.nvim",
+				-- optionally, override the default options:
+				config = function()
+					require("tailwindcss-colorizer-cmp").setup({
+						color_square_width = 2,
+					})
+				end,
+			},
 		},
 		config = function()
 			require("config.cmp")
@@ -256,6 +253,7 @@ require("lazy").setup({
 	{ "tzachar/cmp-tabnine", enabled = false, build = "./install.sh", dependencies = "hrsh7th/nvim-cmp" },
 	{
 		"numToStr/Comment.nvim",
+		event = "InsertEnter",
 		config = function()
 			require("Comment").setup({
 				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
@@ -271,20 +269,18 @@ require("lazy").setup({
 				end,
 			},
 		},
-		lazy = false,
 	},
-
-	"wellle/targets.vim",
-
+	{ "wellle/targets.vim", event = "VeryLazy" },
 	{
 		"nvimdev/lspsaga.nvim",
-		dependencies = "nvim-tree/nvim-web-devicons",
+		event = { "VeryLazy" },
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		branch = "main",
 		config = function()
 			local lspsaga = require("lspsaga")
 			lspsaga.setup({
 				ui = {
-					border = require("utils").border_chars_outer_thin,
+					-- border = false,
 				},
 				outline = {
 					win_position = "right",
@@ -353,7 +349,6 @@ require("lazy").setup({
 	},
 	{
 		"kevinhwang91/nvim-ufo",
-		enabled = false,
 		dependencies = "kevinhwang91/promise-async",
 		init = function()
 			vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
@@ -396,7 +391,7 @@ require("lazy").setup({
 			end
 			require("ufo").setup({
 				provider_selector = function()
-					return { "treesitten", "indent" }
+					return { "lsp", "indent" }
 				end,
 				fold_virt_text_handler = handler,
 			})
@@ -419,35 +414,35 @@ require("lazy").setup({
 		dependencies = "vim-scripts/loremipsum",
 	},
 	-- "jose-elias-alvarez/typescript.nvim",
-	{
-		"Abstract-IDE/penvim",
-		config = function()
-			require("penvim").setup({
-				rooter = {
-					enable = true, -- enable/disable rooter
-					--[[ patterns = { "pnpm-workspace.yaml", ".__nvim__.lua", ".git", "node_modules" }, ]]
-				},
-				indentor = {
-					enable = true, -- enable/disable indentor
-					indent_length = 2, -- tab indent width
-					accuracy = 5, -- positive integer. higher the number, the more accurate result (but affects the startup time)
-					disable_types = {
-						"help",
-						"dashboard",
-						"dashpreview",
-						"NvimTree",
-						"vista",
-						"sagahover",
-						"terminal",
-					},
-				},
-				project_env = {
-					enable = true, -- enable/disable project_env
-					--[[ config_name = ".__nvim__.lua", -- config file name ]]
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"Abstract-IDE/penvim",
+	-- 	config = function()
+	-- 		require("penvim").setup({
+	-- 			rooter = {
+	-- 				enable = true, -- enable/disable rooter
+	-- 				--[[ patterns = { "pnpm-workspace.yaml", ".__nvim__.lua", ".git", "node_modules" }, ]]
+	-- 			},
+	-- 			indentor = {
+	-- 				enable = true, -- enable/disable indentor
+	-- 				indent_length = 2, -- tab indent width
+	-- 				accuracy = 5, -- positive integer. higher the number, the more accurate result (but affects the startup time)
+	-- 				disable_types = {
+	-- 					"help",
+	-- 					"dashboard",
+	-- 					"dashpreview",
+	-- 					"NvimTree",
+	-- 					"vista",
+	-- 					"sagahover",
+	-- 					"terminal",
+	-- 				},
+	-- 			},
+	-- 			project_env = {
+	-- 				enable = true, -- enable/disable project_env
+	-- 				--[[ config_name = ".__nvim__.lua", -- config file name ]]
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"folke/trouble.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -559,7 +554,7 @@ require("lazy").setup({
 						entry_format = "state #$ID, $STAT, $TIME",
 						mappings = {
 							i = {
-								-- IMPORTANT: Note that telescope-undo must be available when telescope is configured if
+								-- IMPORTANT Note that telescope-undo must be available when telescope is configured if
 								-- you want to replicate these defaults and use the following actions. This means
 								-- installing as a dependency of telescope in it's `requirements` and loading this
 								-- extension from there instead of having the separate plugin definition as outlined
@@ -577,21 +572,46 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"Shatur/neovim-session-manager",
+		"olimorris/persisted.nvim",
+		lazy = false, -- make sure the plugin is always loaded at startup
 		config = function()
-			local Path = require("plenary.path")
-			require("session_manager").setup({
-				sessions_dir = Path:new(vim.fn.stdpath("data"), "sessions"), -- The directory where the session files will be saved.
-				path_replacer = "__", -- The character to which the path separator will be replaced for session files.
-				colon_replacer = "++", -- The character to which the colon symbol will be replaced for session files.
-				autoload_mode = require("session_manager.config").AutoloadMode.CurrentDir, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
-				autosave_last_session = true, -- Automatically save last session on exit and on session switch.
-				autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
-				autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
-					"gitcommit",
+			local persisted = require("persisted")
+			persisted.setup({
+				autostart = true, -- Automatically start the plugin on load?
+
+				-- Function to determine if a session should be saved
+				---@type fun() boolean
+				should_save = function()
+					return true
+				end,
+
+				save_dir = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"), -- Directory where session files are saved
+
+				follow_cwd = true, -- Change the session file to match any change in the cwd?
+				use_git_branch = true, -- Include the git branch in the session file name?
+				autoload = true, -- Automatically load the session for the cwd on Neovim startup?
+
+				-- Function to run when `autoload = true` but there is no session to load
+				---@type fun(): any
+				on_autoload_no_session = function()
+					vim.notify("No existing session to load.")
+				end,
+
+				allowed_dirs = {}, -- Table of dirs that the plugin will start and autoload from
+				ignored_dirs = {}, -- Table of dirs that are ignored for starting and autoloading
+
+				telescope = {
+					mappings = { -- Mappings for managing sessions in Telescope
+						copy_session = "<C-c>",
+						change_branch = "<C-b>",
+						delete_session = "<C-d>",
+					},
+					icons = { -- icons displayed in the Telescope picker
+						selected = " ",
+						dir = "  ",
+						branch = " ",
+					},
 				},
-				autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
-				max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
 			})
 		end,
 	},
@@ -627,6 +647,7 @@ require("lazy").setup({
 	},
 	{
 		"rktjmp/highlight-current-n.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("highlight_current_n").setup({
 				highlight_group = "IncSearch", -- highlight group name to use for highlight
@@ -679,33 +700,61 @@ require("lazy").setup({
 			}
 		end,
 	},
-	{
-		"MunifTanjim/exrc.nvim",
-		config = function()
-			-- disable built-in local config file support
-			vim.o.exrc = false
-
-			require("exrc").setup({
-				files = {
-					".nvimrc.lua",
-					".nvimrc",
-					".exrc.lua",
-					".exrc",
-				},
-			})
-		end,
-	},
 	-- DAP
 	{
 		"mfussenegger/nvim-dap",
+		keys = {
+			{
+				"<leader>qc",
+				function()
+					require("dap").continue()
+				end,
+				mode = { "n" },
+				desc = "Continue",
+			},
+			{
+				"<leader>qs",
+				function()
+					require("dap").step_over()
+				end,
+				mode = { "n" },
+				desc = "Step Over",
+			},
+			{
+				"<leader>qi",
+				function()
+					require("dap").step_into()
+				end,
+				mode = { "n" },
+				desc = "Step Into",
+			},
+			{
+				"<leader>qo",
+				function()
+					require("dap").step_out()
+				end,
+				mode = { "n" },
+				desc = "Step Out",
+			},
+			{
+				"<leader>qb",
+				function()
+					require("dap").toggle_breakpoint()
+				end,
+				mode = { "n" },
+				desc = "Toggle Breakpoint",
+			},
+			{
+				"<leader>qr",
+				function()
+					require("dap").restart()
+				end,
+				mode = { "n" },
+				desc = "Restart",
+			},
+		},
 		config = function()
 			local dap = require("dap")
-			vim.keymap.set("n", "<leader>qc", dap.continue)
-			vim.keymap.set("n", "<leader>qs", dap.step_over)
-			vim.keymap.set("n", "<leader>qi", dap.step_into)
-			vim.keymap.set("n", "<leader>qo", dap.step_out)
-			vim.keymap.set("n", "<leader>qb", dap.toggle_breakpoint)
-			vim.keymap.set("n", "<leader>qr", dap.restart)
 
 			dap.adapters.lldb = {
 				type = "executable",
@@ -744,10 +793,11 @@ require("lazy").setup({
 			dap.configurations.rust = dap.configurations.cpp
 		end,
 	},
-	{ "LiadOz/nvim-dap-repl-highlights", config = true },
+	-- { "LiadOz/nvim-dap-repl-highlights", config = true },
 	-- { "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },
 	{
 		"jay-babu/mason-nvim-dap.nvim",
+		cmd = { "DapInstall", "DapUninstall" },
 		config = function()
 			require("mason-nvim-dap").setup({
 				automatic_installation = false,
@@ -780,10 +830,11 @@ require("lazy").setup({
 			"mfussenegger/nvim-dap",
 		},
 	},
-	{ "theHamsta/nvim-dap-virtual-text", config = true },
-	{ "sigmasd/deno-nvim" },
+	{ "theHamsta/nvim-dap-virtual-text", config = true, event = "VeryLazy" },
+	-- { "sigmasd/deno-nvim", ft = { "typescript", "javascript" }, event = "VeryLazy" },
 	{
 		"rcarriga/nvim-dap-ui",
+		event = { "VeryLazy" },
 		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 		config = function()
 			require("dapui").setup()
@@ -804,11 +855,16 @@ require("lazy").setup({
 	},
 	{
 		"williamboman/mason.nvim",
+		cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog", "MasonUpdate" },
 		config = function()
 			require("config.mason")
 		end,
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
+			"williamboman/mason.nvim",
 		},
 	},
 	{
@@ -816,15 +872,16 @@ require("lazy").setup({
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"williamboman/mason.nvim",
-			"jose-elias-alvarez/null-ls.nvim",
+			"nvimtools/none-ls.nvim",
 		},
 		config = function()
 			require("config.nullls")
-			require("mason-null-ls").setup()
+			-- require("mason-null-ls").setup()
 		end,
 	},
 	{
 		"aserowy/tmux.nvim",
+		event = "VeryLazy",
 		config = function()
 			return require("tmux").setup({
 				copy_sync = {
@@ -833,9 +890,10 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ "nvim-focus/focus.nvim", version = "*", opts = {} },
+	{ "nvim-focus/focus.nvim", version = "*", opts = {}, event = "VeryLazy" },
 	{
 		"sindrets/winshift.nvim",
+		event = "VeryLazy",
 		config = function()
 			-- Lua
 			require("winshift").setup({
@@ -937,25 +995,31 @@ require("lazy").setup({
 		dependencies = {
 			"nvim-tree/nvim-web-devicons", -- optional, for file icons
 		},
-		-- cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeClose", "NvimTreeRefresh", "NvimTreeOpen" },
+		cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeClose", "NvimTreeRefresh", "NvimTreeOpen" },
+		keys = {
+			{
+				"<leader>ft",
+				function()
+					require("nvim-tree.api").tree.toggle({ focus = true, find_file = true })
+				end,
+				desc = "Toggle NvimTree",
+				mode = { "n" },
+				noremap = true,
+				silent = true,
+			},
+		},
 		version = "*", -- optional, updated every week. (see issue #1193)
-		init = function()
-			vim.keymap.set("n", "<leader>ft", function()
-				require("nvim-tree.api").tree.toggle({ focus = true, find_file = true })
-			end, { noremap = true, silent = true })
-		end,
-		config = function()
-			require("nvim-tree").setup({
-				-- tab = {
-				-- 	sync = {
-				-- 		close = true,
-				-- 	},
-				-- },
-			})
-		end,
+		opts = {
+			-- tab = {
+			-- 	sync = {
+			-- 		close = true,
+			-- 	},
+			-- },
+		},
 	},
 	{
 		"is0n/fm-nvim",
+		event = "VeryLazy",
 		config = function()
 			vim.keymap.set("n", "<leader>fm", "<cmd>Lf<CR>", { noremap = true, silent = true })
 			require("fm-nvim").setup({
@@ -1026,10 +1090,12 @@ require("lazy").setup({
 	-- Lua
 	{
 		"folke/todo-comments.nvim",
+		event = "VeryLazy",
 		dependencies = "nvim-lua/plenary.nvim",
 		config = true,
 	},
 	{
+		enabled = false,
 		"ThePrimeagen/refactoring.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -1065,7 +1131,7 @@ require("lazy").setup({
 			},
 		},
 		opts = {
-			snippet_engine = "luasnip",
+			snippet_engine = "nvim",
 		},
 		-- Uncomment next line if you want to follow only stable versions
 		-- version = "*"
@@ -1081,8 +1147,15 @@ require("lazy").setup({
 			vim.fn["firenvim#install"](0)
 		end,
 	},
-	{ "LudoPinelli/comment-box.nvim" },
-	{ "mbbill/undotree" },
+	{ "LudoPinelli/comment-box.nvim", event = "VeryLazy" },
+	{
+		"jiaoshijie/undotree",
+		dependencies = "nvim-lua/plenary.nvim",
+		config = true,
+		keys = { -- load the plugin only when using it's keybinding:
+			{ "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" },
+		},
+	},
 	{
 		"chrisgrieser/nvim-spider",
 		lazy = true,
@@ -1101,8 +1174,8 @@ require("lazy").setup({
 			)
 		end,
 	},
-	{ "axieax/typo.nvim", config = true },
-	{ "stevearc/dressing.nvim", config = true },
+	-- { "axieax/typo.nvim", config = true },
+	{ "stevearc/dressing.nvim", config = true, event = "VeryLazy" },
 	{
 		"saecki/crates.nvim",
 		-- branch = "v0.3.0",
@@ -1213,27 +1286,12 @@ require("lazy").setup({
 		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
 	{
-		"ms-jpq/coq_nvim",
-		branch = "coq",
-		enabled = false,
-		config = function()
-			vim.cmd([[COQnow --shut-up]])
-		end,
-	},
-	{
-		"ms-jpq/coq.artifacts",
-		branch = "artifacts",
-	},
-	{
-		"ms-jpq/coq.thirdparty",
-		enabled = false,
-		branch = "3p",
-	},
-	{
-		"aperezdc/vim-template",
-	},
-	{
 		"tpope/vim-abolish",
+		event = "CmdlineEnter",
+	},
+	{
+		"tpope/vim-eunuch",
+		event = "CmdlineEnter",
 	},
 	{
 		"rest-nvim/rest.nvim",
@@ -1249,65 +1307,31 @@ require("lazy").setup({
 			require("rest-nvim").setup()
 		end,
 	},
-	{
-		"David-Kunz/gen.nvim",
-		opts = {
-			model = "llama3", -- The default model to use.
-			host = "localhost", -- The host running the Ollama service.
-			port = "11434", -- The port on which the Ollama service is listening.
-			display_mode = "float", -- The display mode. Can be "float" or "split".
-			show_prompt = true, -- Shows the Prompt submitted to Ollama.
-			show_model = true, -- Displays which model you are using at the beginning of your chat session.
-			no_auto_close = false, -- Never closes the window automatically.
-			init = function() end,
-			-- Function to initialize Ollama
-			command = function(options)
-				return "curl --silent --no-buffer -X POST http://"
-					.. options.host
-					.. ":"
-					.. options.port
-					.. "/api/chat -d $body"
-			end,
-			-- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
-			-- This can also be a command string.
-			-- The executed command must return a JSON object with { response, context }
-			-- (context property is optional).
-			-- list_models = '<omitted lua function>', -- Retrieves a list of model names
-			debug = false, -- Prints errors and the command which is run.
-		},
-		keys = {
-			{ "<leader>]", ":Gen<CR>", mode = { "n", "v" }, desc = "Gen AI" },
-		},
-	},
 	-- { "dmmulroy/ts-error-translator.nvim", config = true },
-	{
-		"roobert/tailwindcss-colorizer-cmp.nvim",
-		config = function()
-			require("tailwindcss-colorizer-cmp").setup({
-				color_square_width = 2,
-			})
-		end,
-	},
 	{ "laytan/cloak.nvim", config = true },
-	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = {} },
-	{ "sainnhe/gruvbox-material" },
+	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = {}, event = "ColorScheme" },
+	{ "sainnhe/gruvbox-material", event = "ColorScheme" },
 	{
 		"HiPhish/rainbow-delimiters.nvim",
+		-- event = "VeryLazy",
 		config = function()
 			require("rainbow-delimiters.setup").setup({})
 		end,
 	},
 	{
 		"stevearc/conform.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
 					yaml = { "yamlfmt" },
 					-- Conform will run multiple formatters sequentially
-					python = { "isort", "black" },
+					python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 					-- Use a sub-list to run only the first available formatter
 					javascript = { "prettierd", "prettier", stop_after_first = true },
+					svelte = { "prettierd", "prettier", stop_after_first = true },
+					vue = { "prettierd", "prettier", stop_after_first = true },
 					typescript = { "prettierd", "prettier", stop_after_first = true },
 					typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 					proto = { "buf" },
@@ -1323,7 +1347,7 @@ require("lazy").setup({
 				format_on_save = {
 					-- These options will be passed to conform.format()
 					timeout_ms = 500,
-					lsp_fallback = true,
+					lsp_format = "fallback",
 				},
 			})
 			require("conform").formatters.sql_formatter = {
@@ -1353,6 +1377,7 @@ require("lazy").setup({
 	-- },
 	{
 		"yamatsum/nvim-cursorline",
+		event = "BufEnter",
 		opts = {
 			cursorline = {
 				enable = false,
@@ -1508,24 +1533,25 @@ require("lazy").setup({
 			require("inlay-hints").setup()
 		end,
 	},
-	-- {
-	-- 	"pmizio/typescript-tools.nvim",
-	-- 	dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-	-- 	opts = {
-	-- 		settings = {
-	-- 			tsserver_file_preferences = {
-	-- 				includeInlayParameterNameHints = "all",
-	-- 				includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-	-- 				includeInlayFunctionParameterTypeHints = true,
-	-- 				includeInlayVariableTypeHints = true,
-	-- 				includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-	-- 				includeInlayPropertyDeclarationTypeHints = true,
-	-- 				includeInlayFunctionLikeReturnTypeHints = true,
-	-- 				includeInlayEnumMemberValueHints = true,
-	-- 			},
-	-- 		},
-	-- 	},
-	-- },
+	{
+		"pmizio/typescript-tools.nvim",
+		enabled = false,
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {
+			settings = {
+				tsserver_file_preferences = {
+					includeInlayParameterNameHints = "all",
+					includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+					includeInlayFunctionParameterTypeHints = true,
+					includeInlayVariableTypeHints = true,
+					includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+					includeInlayPropertyDeclarationTypeHints = true,
+					includeInlayFunctionLikeReturnTypeHints = true,
+					includeInlayEnumMemberValueHints = true,
+				},
+			},
+		},
+	},
 	{
 		"chrisgrieser/nvim-lsp-endhints",
 		event = "LspAttach",
@@ -1533,14 +1559,104 @@ require("lazy").setup({
 	},
 	{
 		"m4xshen/hardtime.nvim",
+		-- event = "VeryLazy",
 		-- enabled = false,
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
 		opts = {},
 	},
 	{
 		"olrtg/nvim-emmet",
+		keys = {
+			{
+				"<leader>xe",
+				function()
+					require("nvim-emmet").expand_abbreviation()
+				end,
+				mode = { "n", "v" },
+				desc = "Emmet Expand Abbreviation",
+			},
+		},
+	},
+	{
+		"ahmedkhalf/project.nvim",
+		lazy = false,
+		priority = 100,
 		config = function()
-			vim.keymap.set({ "n", "v" }, "<leader>xe", require("nvim-emmet").wrap_with_abbreviation)
+			require("project_nvim").setup({})
+			-- vim.api.nvim_create_autocmd("DirChanged", {
+			-- 	group = vim.api.nvim_create_augroup("Project", { clear = true }),
+			-- 	callback = function()
+			-- 		vim.cmd([[SessionRestore]])
+			-- 	end,
+			-- })
+		end,
+	},
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		opts = {},
+		-- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+	},
+	{
+		"miroshQa/rittli.nvim",
+		lazy = true,
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+		},
+		-- keys = {
+		-- 	{
+		-- 		"<C-t>",
+		-- 		function()
+		-- 			require("rittli.terminal_tweaks").toggle_last_openned_terminal()
+		-- 		end,
+		-- 		mode = { "n", "t" },
+		-- 	},
+		-- 	{ "<Esc><Esc>", "<C-\\><C-n>", mode = "t" },
+		-- 	{
+		-- 		"<leader>r",
+		-- 		function()
+		-- 			require("rittli.tasks.telescope").run_last_runned_task()
+		-- 		end,
+		-- 		desc = "Rerun the last task or pick a new one",
+		-- 	},
+		-- 	{
+		-- 		"<leader>R",
+		-- 		function()
+		-- 			require("rittli.tasks.telescope").tasks_picker()
+		-- 		end,
+		-- 		desc = "Pick the task",
+		-- 	},
+		-- 	{
+		-- 		"<leader><leader>",
+		-- 		function()
+		-- 			require("telescope.builtin").buffers({
+		-- 				path_display = { "tail" },
+		-- 				sort_mru = true,
+		-- 				ignore_current_buffer = true,
+		-- 			})
+		-- 		end,
+		-- 	},
+		-- },
+		---@type Rittli.Config
+		opts = {},
+	},
+	-- {
+	-- 	"EtiamNullam/fold-ribbon.nvim",
+	-- 	config = function()
+	-- 		require("fold-ribbon").setup({
+	-- 			highlight_steps = {
+	-- 				{ bg = "#ff8888" },
+	-- 				{ bg = "#88ff88" },
+	-- 				{ bg = "#8888ff" },
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
+	{
+		"ptdewey/pendulum-nvim",
+		config = function()
+			require("pendulum").setup()
 		end,
 	},
 })

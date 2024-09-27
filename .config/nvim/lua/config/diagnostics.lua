@@ -8,13 +8,19 @@ vim.diagnostic.config({
 	--[[ 	prefix = "", ]]
 	--[[ }, ]]
 	virtual_text = {
-		enabled = true,
+		enabled = false,
 		severity = vim.diagnostic.severity.ERROR,
 	},
 	signs = true,
 	underline = true,
 	update_in_insert = false,
 	severity_sort = false,
+	float = {
+		format = function(diagnostic)
+			print(diagnostic.message)
+			return diagnostic.message
+		end,
+	},
 })
 
 -- local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }

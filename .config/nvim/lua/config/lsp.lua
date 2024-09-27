@@ -5,11 +5,21 @@ M.handlers = {
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help),
 }
 M.capabilities = require("cmp_nvim_lsp").default_capabilities()
+M.capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
 
 M.on_attach = function(client, bufnr)
 	local client_opts = { remap = false, silent = true, buffer = bufnr }
 	if not bufnr then
 		bufnr = 0
+	end
+	if client.name == "eslint" then
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			command = "EslintFixAll",
+		})
 	end
 	vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
 	vim.keymap.set("n", "<space>e", "<cmd>Lspsaga show_line_diagnostics<cr>", client_opts)
