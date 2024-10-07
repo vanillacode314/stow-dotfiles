@@ -9,7 +9,6 @@ require("mason-lspconfig").setup({
 		"volar",
 		"ts_ls",
 		"gopls",
-		"emmet_language_server",
 		"jsonls",
 		"basedpyright",
 		"ruff",
@@ -53,7 +52,10 @@ require("mason-lspconfig").setup_handlers({
 		}
 		require("lspconfig").ts_ls.setup({
 			filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-			on_attach = on_attach(true),
+			on_attach = function(client, bufnr)
+				require("twoslash-queries").attach(client, bufnr)
+				on_attach(true)(client, bufnr)
+			end,
 			capabilities = require("config.lsp").capabilities,
 			handlers = require("config.lsp").handlers,
 			settings = {

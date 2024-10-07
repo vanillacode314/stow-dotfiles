@@ -16,6 +16,7 @@ vim.diagnostic.config({
 	update_in_insert = false,
 	severity_sort = false,
 	float = {
+		border = "single",
 		format = function(diagnostic)
 			print(diagnostic.message)
 			return diagnostic.message

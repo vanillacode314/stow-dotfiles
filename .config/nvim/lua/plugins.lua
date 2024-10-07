@@ -177,7 +177,38 @@ require("lazy").setup({
 	-- 		require("config.feline")
 	-- 	end,
 	-- },
-	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		config = function()
+			local highlight = {
+				"RainbowRed",
+				"RainbowYellow",
+				"RainbowBlue",
+				"RainbowOrange",
+				"RainbowGreen",
+				"RainbowViolet",
+				"RainbowCyan",
+			}
+			local hooks = require("ibl.hooks")
+			-- create the highlight groups in the highlight setup hook, so they are reset
+			-- every time the colorscheme changes
+			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+				vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+			end)
+
+			vim.g.rainbow_delimiters = { highlight = highlight }
+			require("ibl").setup({ scope = { highlight = highlight } })
+
+			hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+		end,
+	},
 	{
 		"kylechui/nvim-surround",
 		-- version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -273,6 +304,7 @@ require("lazy").setup({
 	{ "wellle/targets.vim", event = "VeryLazy" },
 	{
 		"nvimdev/lspsaga.nvim",
+		enabled = false,
 		event = { "VeryLazy" },
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		branch = "main",
@@ -313,6 +345,16 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{
+		"smjonas/inc-rename.nvim",
+		config = function()
+			require("inc_rename").setup({
+				input_buffer_type = "dressing",
+			})
+			vim.keymap.set("n", "<leader>rn", ":IncRename ")
+		end,
+	},
+
 	-- {
 	-- 	"akinsho/bufferline.nvim",
 	-- 	version = "v3.*",
@@ -327,8 +369,11 @@ require("lazy").setup({
 		---@type Flash.Config
 		opts = {
 			modes = {
-				chars = {
+				char = {
 					enabled = false,
+					highlight = {
+						backdrop = false,
+					},
 				},
 			},
 		},
@@ -443,54 +488,7 @@ require("lazy").setup({
 	-- 		})
 	-- 	end,
 	-- },
-	{
-		"folke/trouble.nvim",
-		dependencies = "nvim-tree/nvim-web-devicons",
-		opts = {},
-		keys = {
-			{
-				"<leader>xx",
-				"<cmd>Trouble diagnostics toggle<cr>",
-				desc = "Diagnostics (Trouble)",
-			},
-			{
-				"<leader>xX",
-				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-				desc = "Buffer Diagnostics (Trouble)",
-			},
-			{
-				"<leader>cs",
-				"<cmd>Trouble symbols toggle focus=false<cr>",
-				desc = "Symbols (Trouble)",
-			},
-			{
-				"<leader>cl",
-				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-				desc = "LSP Definitions / references / ... (Trouble)",
-			},
-			{
-				"<leader>xL",
-				"<cmd>Trouble loclist toggle<cr>",
-				desc = "Location List (Trouble)",
-			},
-			{
-				"<leader>xQ",
-				"<cmd>Trouble qflist toggle<cr>",
-				desc = "Quickfix List (Trouble)",
-			},
-		},
-		-- config = function()
-		-- 	require("trouble").setup({})
-		-- 	local opts = { silent = true, noremap = true }
-		-- 	vim.keymap.set("n", "<leader>xx", "<cmd>Trouble<cr>", opts)
-		-- 	vim.keymap.set("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", opts)
-		-- 	vim.keymap.set("n", "<leader>xt", "<cmd>Trouble todo<cr>", opts)
-		-- 	vim.keymap.set("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>", opts)
-		-- 	vim.keymap.set("n", "<leader>xl", "<cmd>Trouble loclist<cr>", opts)
-		-- 	vim.keymap.set("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", opts)
-		-- 	vim.keymap.set("n", "gR", "<cmd>Trouble lsp_references<cr>", opts)
-		-- end,
-	},
+	require("plugins.trouble"),
 	{
 		"vimpostor/vim-tpipeline",
 		enabled = false,
@@ -498,82 +496,11 @@ require("lazy").setup({
 			vim.g.tpipeline_cursormoved = 1
 		end,
 	},
-	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = {
-			"nvim-telescope/telescope-ui-select.nvim",
-			"nvim-lua/plenary.nvim",
-			"debugloop/telescope-undo.nvim",
-		},
-		cmd = { "Telescope" },
-		init = function()
-			local opts = { noremap = true }
-			vim.keymap.set("n", "<leader>ff", function()
-				require("telescope.builtin").find_files()
-			end, opts)
-			vim.keymap.set("n", "<leader>fg", function()
-				require("telescope.builtin").live_grep()
-			end, opts)
-			vim.keymap.set("n", "<leader>fb", function()
-				require("telescope.builtin").buffers()
-			end, opts)
-			vim.keymap.set("n", "<leader>fh", function()
-				require("telescope.builtin").help_tags()
-			end, opts)
-		end,
-		config = function()
-			require("telescope").setup({
-				defaults = {
-					borderchars = {
-						prompt = require("utils").border_chars_outer_thin_telescope,
-						results = require("utils").border_chars_outer_thin_telescope,
-						preview = require("utils").border_chars_outer_thin_telescope,
-					},
-					border = true,
-					sort_mru = true,
-					multi_icon = "",
-					hl_result_eol = true,
-					results_title = "",
-					winblend = 0,
-					wrap_results = true,
-					entry_prefix = "   ",
-					prompt_prefix = "   ",
-					selection_caret = "  ",
-				},
-				extensions = {
-					["ui-select"] = {
-						require("telescope.themes").get_dropdown(),
-						-- the following line works
-						-- require("telescope.themes").get_dropdown({ initial_mode = "normal" }),
-					},
-					undo = {
-						use_delta = true,
-						use_custom_command = nil, -- setting this implies `use_delta = false`. Accepted format is: { "bash", "-c", "echo '$DIFF' | delta" }
-						side_by_side = false,
-						vim_diff_opts = { ctxlen = 999 },
-						entry_format = "state #$ID, $STAT, $TIME",
-						mappings = {
-							i = {
-								-- IMPORTANT Note that telescope-undo must be available when telescope is configured if
-								-- you want to replicate these defaults and use the following actions. This means
-								-- installing as a dependency of telescope in it's `requirements` and loading this
-								-- extension from there instead of having the separate plugin definition as outlined
-								-- above.
-								["<cr>"] = require("telescope-undo.actions").yank_additions,
-								["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
-								["<C-cr>"] = require("telescope-undo.actions").restore,
-							},
-						},
-					},
-				},
-			})
-			require("telescope").load_extension("undo")
-			require("telescope").load_extension("ui-select")
-		end,
-	},
+	require("plugins.telescope"),
 	{
 		"olimorris/persisted.nvim",
 		lazy = false, -- make sure the plugin is always loaded at startup
+		enabled = false,
 		config = function()
 			local persisted = require("persisted")
 			persisted.setup({
@@ -890,7 +817,7 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ "nvim-focus/focus.nvim", version = "*", opts = {}, event = "VeryLazy" },
+	{ "nvim-focus/focus.nvim", version = "*", opts = {}, enabled = false },
 	{
 		"sindrets/winshift.nvim",
 		event = "VeryLazy",
@@ -1338,9 +1265,11 @@ require("lazy").setup({
 					javacsriptreact = { "prettierd", "prettier", stop_after_first = true },
 					sql = { "sql_formatter" },
 					json = { "jq" },
+					jsonc = { "prettierd", "prettier", stop_after_first = true },
 					bash = { "shfmt" },
 					sh = { "shfmt" },
 					fish = { "fish_indent" },
+					rust = { "rustfmt" },
 					nix = { "nixfmt" },
 					["*"] = { "injected" },
 				},
@@ -1406,7 +1335,12 @@ require("lazy").setup({
 			end
 			vim.g.rustaceanvim = {
 				server = {
-					on_attach = on_attach(true),
+					on_attach = function(client, bufnr)
+						client.server_capabilities.documentFormattingProvider = false
+						client.server_capabilities.documentRangeFormattingProvider = false
+						require("config.lsp").on_attach(client, bufnr)
+					end,
+					handlers = require("config.lsp").handlers,
 					default_settings = {
 						["rust-analyzer"] = {
 							inlayHints = {
@@ -1562,7 +1496,19 @@ require("lazy").setup({
 		-- event = "VeryLazy",
 		-- enabled = false,
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-		opts = {},
+		opts = {
+			disabled_filetypes = {
+				"trouble",
+				"qf",
+				"netrw",
+				"NvimTree",
+				"lazy",
+				"mason",
+				"oil",
+				"tsplayground",
+				"TelescopePrompt",
+			},
+		},
 	},
 	{
 		"olrtg/nvim-emmet",
@@ -1659,4 +1605,8 @@ require("lazy").setup({
 			require("pendulum").setup()
 		end,
 	},
+	{ "tpope/vim-fugitive" },
+	require("plugins.diffview"),
+	{ "isobit/vim-caddyfile", ft = "caddyflie" },
+	{ "marilari88/twoslash-queries.nvim" },
 })

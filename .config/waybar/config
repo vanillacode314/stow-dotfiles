@@ -9,7 +9,7 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "hyprland/submap", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "battery", "clock", "tray"],
+    "modules-right": ["mpris", "idle_inhibitor", "network", "pulseaudio", "battery", "clock", "tray"],
     // Modules configuration
     // "hyprland/workspaces": {
     //     "disable-scroll": true,
@@ -45,6 +45,18 @@
         "format-icons": ["", ""],
         "tooltip": true,
         "tooltip-format": "{app}: {title}"
+    },
+    "mpris": {
+      "interval": 2,
+      "format": "{player_icon} {title} - {artist} ",
+      "format-paused": "{status_icon} <i>{title} - {artist}</i> ",
+      "player-icons": {
+        "default": "▶",
+        "mpv": "🎵"
+      },
+      "status-icons": {
+        "paused": "⏸"
+      }
     },
     "mpd": {
         "format": "{stateIcon} {artist}/{title}",
@@ -131,8 +143,9 @@
         "bat": "BAT2"
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%)  ",
+        "interval": 5,
+        // "interface": "wlan0", // (Optional) To force the use of this interface
+        "format-wifi": "{essid}  {bandwidthUpBytes}  {bandwidthDownBytes}  ",
         "format-ethernet": "{ipaddr}/{cidr}  ",
         "tooltip-format": "{ifname} via {gwaddr}  ",
         "format-linked": "{ifname} (No IP)  ",
@@ -181,7 +194,7 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "hyprland/mode", "hyprland/scratchpad", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray"],
+    "modules-right": ["mpris", "idle_inhibitor", "pulseaudio", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray"],
     // Modules configuration
     // "hyprland/workspaces": {
     //     "disable-scroll": true,
@@ -217,6 +230,18 @@
         "format-icons": ["", ""],
         "tooltip": true,
         "tooltip-format": "{app}: {title}"
+    },
+    "mpris": {
+      "interval": 2,
+      "format": "{player_icon} {title} - {artist} ",
+      "format-paused": "{status_icon} <i>{title} - {artist}</i> ",
+      "player-icons": {
+        "default": "▶",
+        "mpv": "🎵"
+      },
+      "status-icons": {
+        "paused": "⏸"
+      }
     },
     "mpd": {
         "format": "{stateIcon} {artist}/{title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",

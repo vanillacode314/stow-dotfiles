@@ -2,8 +2,11 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		event = "VeryLazy",
-		enabled = false,
+		enabled = true,
 		opts = {},
+		keys = {
+			{ "<leader>tc", "<cmd>TSContextToggle<cr>", desc = "Toggle Context" },
+		},
 	},
 	{
 		"nvim-treesitter/playground",
@@ -161,7 +164,7 @@ return {
 					},
 				},
 				textsubjects = {
-					enable = false,
+					enable = true,
 					prev_selection = ",", -- (Optional) keymap to select the previous selection
 					keymaps = {
 						["."] = "textsubjects-smart",

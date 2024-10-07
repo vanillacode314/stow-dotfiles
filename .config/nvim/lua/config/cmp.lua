@@ -20,6 +20,7 @@ local function modified_kind(kind)
 end
 
 cmp.setup({
+	preselect = cmp.PreselectMode.None,
 	completion = {
 		winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
 		autocomplete = {

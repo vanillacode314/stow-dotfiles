@@ -39,7 +39,10 @@ require("lualine").setup({
 	},
 	sections = {
 		lualine_a = { { "mode", separator = { left = "", right = "" } } },
-		lualine_b = { "filename", { "branch", separator = { right = "" } } },
+		lualine_b = {
+			{ "filename", separator = { left = "", right = "" } },
+			{ "branch", separator = { left = "", right = "" } },
+		},
 		lualine_c = {
 			{
 				"diagnostics",
@@ -64,6 +67,7 @@ require("lualine").setup({
 				colored = true, -- Displays diagnostics status in color if set to true.
 				update_in_insert = false, -- Update diagnostics in insert mode.
 				always_visible = false, -- Show diagnostics even if there are none.
+				separator = { right = "" },
 			},
 			{
 				function()
@@ -85,9 +89,12 @@ require("lualine").setup({
 					end
 					return retval
 				end,
-				separator = { left = "" },
+				separator = { left = "", right = "" },
 			},
-			"filetype",
+			{
+				"filetype",
+				separator = { left = "", right = "" },
+			},
 			"progress",
 		},
 		lualine_z = {
@@ -95,13 +102,36 @@ require("lualine").setup({
 		},
 	},
 	inactive_sections = {
-		lualine_a = { "filename" },
+		lualine_a = {
+			{ "filename", separator = { left = "", right = "" } },
+			{ "branch", separator = { left = "", right = "" } },
+		},
 		lualine_b = {},
 		lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
-		lualine_z = { "location" },
+		lualine_z = {
+			{ "location", separator = { left = "", right = "" } },
+		},
 	},
-	tabline = {},
-	extensions = { "nvim-tree", "trouble", "mason", "lazy", "symbols-outline", "nvim-dap-ui" },
+	-- tabline = {
+	-- 	lualine_a = { { "buffers", separator = { left = "", right = "" } } },
+	-- 	lualine_b = {},
+	-- 	lualine_c = {},
+	-- 	lualine_x = {},
+	-- 	lualine_y = {},
+	-- 	lualine_z = { { "tabs", separator = { left = "", right = "" } } },
+	-- },
+	winbar = {},
+	extensions = {
+		"nvim-tree",
+		"trouble",
+		"mason",
+		"lazy",
+		"symbols-outline",
+		"nvim-dap-ui",
+		"fugitive",
+		"fzf",
+		"quickfix",
+	},
 })
