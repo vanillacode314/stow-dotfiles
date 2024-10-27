@@ -1257,6 +1257,8 @@ require("lazy").setup({
 					python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 					-- Use a sub-list to run only the first available formatter
 					javascript = { "prettierd", "prettier", stop_after_first = true },
+					css = { "prettierd", "prettier", stop_after_first = true },
+					scss = { "prettierd", "prettier", stop_after_first = true },
 					svelte = { "prettierd", "prettier", stop_after_first = true },
 					vue = { "prettierd", "prettier", stop_after_first = true },
 					typescript = { "prettierd", "prettier", stop_after_first = true },
