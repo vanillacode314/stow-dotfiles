@@ -13,6 +13,7 @@ command = "kitty --class kitty-dropmusic -- ncmpcpp"
 lazy = true
 class = "kitty-dropmusic"
 size = "75% 60%"
+unfocus = "hide"
 
 [scratchpads.top]
 animation = "fromTop"
