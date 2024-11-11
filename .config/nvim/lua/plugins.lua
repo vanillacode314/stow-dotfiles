@@ -782,7 +782,29 @@ require("lazy").setup({
 	},
 	{
 		"williamboman/mason.nvim",
-		cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog", "MasonUpdate" },
+		cmd = {
+			"Mason",
+			"MasonInstall",
+			"MasonUninstall",
+			"MasonUninstallAll",
+			"MasonLog",
+			"MasonUpdate",
+			"MasonUpdateAll",
+		},
+		dependencies = {
+			{
+				"Zeioth/mason-extra-cmds",
+				opts = {},
+				init = function()
+					vim.api.nvim_create_autocmd("User", {
+						pattern = "LazyInstall",
+						callback = function()
+							vim.cmd(":MasonUpdateAll")
+						end,
+					})
+				end,
+			},
+		},
 		config = function()
 			require("config.mason")
 		end,
@@ -1496,7 +1518,7 @@ require("lazy").setup({
 	{
 		"m4xshen/hardtime.nvim",
 		-- event = "VeryLazy",
-		-- enabled = false,
+		enabled = false,
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
 		opts = {
 			disabled_filetypes = {

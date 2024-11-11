@@ -61,6 +61,14 @@ return {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"RRethy/nvim-treesitter-textsubjects",
 		},
+		init = function()
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "LazyInstall",
+				callback = function()
+					vim.cmd(":TSUpdate")
+				end,
+			})
+		end,
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
