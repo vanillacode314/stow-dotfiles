@@ -421,19 +421,19 @@
     background = "#000000"
     foreground = "#ffffff"
     frame_color = "#000000"
-    timeout = 3
+    timeout = 5
 
 [base16_normal]
     msg_urgency = normal
     background = "#000000"
     foreground = "#ffffff"
     frame_color = "#a3a3a3"
-    timeout = 5
+    timeout = 10
 
 [base16_critical]
     msg_urgency = critical
     background = "#991b1b"
     foreground = "#ffffff"
     frame_color = "#991b1b"
-    timeout = 10
+    timeout = 20
 # vim: ft=cfg
