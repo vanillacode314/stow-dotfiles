@@ -1,4 +1,4 @@
-#!/bin/fish
+#!/usr/bin/env fish
 set items "https://raqueeb.com" "My Portfolio: https://raqueeb.com" "raqueebuddin.aziz.314@gmail.com" "https://github.com/vanillacode314" "Since I have not heard from you on this, I have to assume your priorities have changed." "Feel free to ask me any questions you might have :)"
 set choice (printf "%s\n" $items | tofi --prompt-text "Select an item: ")
 if test -n $choice
