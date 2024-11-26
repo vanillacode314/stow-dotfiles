@@ -1,7 +1,7 @@
-[[shades]]
-name = "vibrance"
-default = true  # shader to use during times when there is no other shader scheduled
-
+# [[shades]]
+# name = "vibrance"
+# default = false # shader to use during times when there is no other shader scheduled
+#
 [[shades]]
 name = "blue-light-filter"
 start_time = 19:00:00
