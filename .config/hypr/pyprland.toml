@@ -1,5 +1,5 @@
 [pyprland]
-plugins = ["scratchpads", "monitors"]
+plugins = ["scratchpads"]
 
 [scratchpads.term]
 animation = "fromTop"
@@ -37,5 +37,5 @@ lazy = true
 size = "40% 90%"
 unfocus = "hide"
 
-[monitors.placement]
-"AOC".topCenterOf = "BOE"
+# [monitors.placement]
+# "AOC".topCenterOf = "BOE"
