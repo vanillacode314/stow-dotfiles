@@ -1271,6 +1271,7 @@ require("lazy").setup({
 		"stevearc/conform.nvim",
 		event = "VeryLazy",
 		config = function()
+			local js_formatters = { "prettierd", "prettier", stop_after_first = true }
 			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
@@ -1278,15 +1279,15 @@ require("lazy").setup({
 					-- Conform will run multiple formatters sequentially
 					python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 					-- Use a sub-list to run only the first available formatter
-					javascript = { "prettierd", "prettier", stop_after_first = true },
+					javascript = js_formatters,
+					typescript = js_formatters,
+					typescriptreact = js_formatters,
+					javascriptreact = js_formatters,
 					css = { "prettierd", "prettier", stop_after_first = true },
 					scss = { "prettierd", "prettier", stop_after_first = true },
 					svelte = { "prettierd", "prettier", stop_after_first = true },
 					vue = { "prettierd", "prettier", stop_after_first = true },
-					typescript = { "prettierd", "prettier", stop_after_first = true },
-					typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 					proto = { "buf" },
-					javacsriptreact = { "prettierd", "prettier", stop_after_first = true },
 					sql = { "sql_formatter" },
 					json = { "jq" },
 					jsonc = { "prettierd", "prettier", stop_after_first = true },

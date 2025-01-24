@@ -75,6 +75,7 @@ if status is-interactive
     alias p="prevd"
     alias n="nextd"
     alias ac="aria2c -s16 -x16"
+    alias tu="tmux-up tmux.conf"
 
     ## git
     alias gcl="git clone"
