@@ -1,8 +1,4 @@
-vim.g.mapleader = " "
--- convert config to use lazy.nvim instead of packer.nvim
-require("lazy").setup({
-	require("plugins.treesitter"),
-	require("plugins.ai"),
+return {
 	"folke/which-key.nvim",
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 	{
@@ -254,35 +250,6 @@ require("lazy").setup({
 	-- 	end,
 	-- },
 	{
-		"hrsh7th/nvim-cmp",
-		event = { "InsertEnter", "CmdlineEnter" },
-		dependencies = {
-			"hrsh7th/cmp-nvim-lua",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-			"saadparwaiz1/cmp_luasnip",
-			"lukas-reineke/cmp-rg",
-			-- "hrsh7th/cmp-nvim-lsp-signature-help",
-			"jcha0713/cmp-tw2css",
-			{
-				"roobert/tailwindcss-colorizer-cmp.nvim",
-				-- optionally, override the default options:
-				config = function()
-					require("tailwindcss-colorizer-cmp").setup({
-						color_square_width = 2,
-					})
-				end,
-			},
-		},
-		config = function()
-			require("config.cmp")
-		end,
-	},
-
-	{ "tzachar/cmp-tabnine", enabled = false, build = "./install.sh", dependencies = "hrsh7th/nvim-cmp" },
-	{
 		"numToStr/Comment.nvim",
 		event = "InsertEnter",
 		config = function()
@@ -488,7 +455,6 @@ require("lazy").setup({
 	-- 		})
 	-- 	end,
 	-- },
-	require("plugins.trouble"),
 	{
 		"vimpostor/vim-tpipeline",
 		enabled = false,
@@ -496,7 +462,6 @@ require("lazy").setup({
 			vim.g.tpipeline_cursormoved = 1
 		end,
 	},
-	require("plugins.telescope"),
 	{
 		"olimorris/persisted.nvim",
 		lazy = false, -- make sure the plugin is always loaded at startup
@@ -1565,6 +1530,7 @@ require("lazy").setup({
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		opts = {},
+		ft = { "markdown", "codecompanion", "Avante" },
 		-- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
 		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
@@ -1631,7 +1597,6 @@ require("lazy").setup({
 		end,
 	},
 	{ "tpope/vim-fugitive" },
-	require("plugins.diffview"),
 	{ "isobit/vim-caddyfile", ft = "caddyflie" },
 	{ "marilari88/twoslash-queries.nvim" },
-})
+}

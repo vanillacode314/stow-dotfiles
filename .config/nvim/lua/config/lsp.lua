@@ -6,6 +6,7 @@ M.handlers = {
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 }
 M.capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- M.capabilities = require("blink.cmp").get_lsp_capabilities()
 M.capabilities.textDocument.foldingRange = {
 	dynamicRegistration = false,
 	lineFoldingOnly = true,

@@ -1,7 +1,6 @@
-vim.cmd([[colorscheme base16-tokyo-night-terminal-dark]])
+vim.cmd([[colorscheme base16-gruvbox-dark-hard]])
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.g.mapleader = " "
 vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
 vim.opt.autoread = true
 vim.opt.expandtab = true

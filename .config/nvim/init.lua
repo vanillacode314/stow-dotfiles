@@ -1,5 +1,6 @@
 vim.loader.enable()
 vim.opt.termguicolors = true
+vim.g.mapleader = " "
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -14,7 +15,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("_filetypes")
-require("plugins")
+require("lazy").setup("plugins")
 require("autogroups")
 require("opts")
 require("keymaps")
