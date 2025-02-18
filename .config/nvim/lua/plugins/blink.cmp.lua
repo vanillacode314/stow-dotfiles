@@ -55,6 +55,9 @@ return {
 			},
 		},
 		completion = {
+			trigger = {
+				show_on_trigger_character = true,
+			},
 			menu = {
 				draw = {
 					columns = {

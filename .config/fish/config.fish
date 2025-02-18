@@ -1,7 +1,7 @@
 set plugins \
     https://github.com/kidonng/plug.fish \
     https://github.com/edc/bass \
-    https://github.com/jorgebucaran/nvm.fish \
+    #https://github.com/jorgebucaran/nvm.fish \
     https://github.com/patrickf1/fzf.fish \
     https://github.com/kidonng/zoxide.fish \
     https://github.com/fabioantunes/base16-fish-shell \

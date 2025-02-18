@@ -20,7 +20,7 @@ return {
 		{
 			"<leader>xt",
 			"<cmd>Trouble todo toggle<cr>",
-			desc = "Diagnostics (Trouble)",
+			desc = "Todo (Trouble)",
 		},
 		{
 			"<leader>xX",

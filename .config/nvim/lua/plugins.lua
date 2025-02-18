@@ -17,6 +17,7 @@ return {
 	{ "lervag/vimtex", ft = { "latex", "tex" } },
 	{
 		"lewis6991/gitsigns.nvim",
+		enabled = false,
 		event = "VeryLazy",
 		-- version = 'release' -- To use the latest release
 		config = function()
@@ -93,7 +94,11 @@ return {
 	},
 	{
 		"folke/zen-mode.nvim",
+		enabled = true,
 		cmd = { "ZenMode" },
+		keys = {
+			{ "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" },
+		},
 		config = function()
 			local quitting = false
 			vim.api.nvim_create_autocmd("QuitPre", {
@@ -175,6 +180,7 @@ return {
 	-- },
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		enabled = false,
 		main = "ibl",
 		config = function()
 			local highlight = {
@@ -390,7 +396,7 @@ return {
 						local hlGroup = chunk[2]
 						table.insert(newVirtText, { chunkText, hlGroup })
 						chunkWidth = vim.fn.strdisplaywidth(chunkText)
-						-- str width returned from truncate() may less than 2rd argument, need padding
+						-- str width returned from truncate() may less than 2nd argument, need padding
 						if curWidth + chunkWidth < targetWidth then
 							suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
 						end
@@ -1233,48 +1239,7 @@ return {
 		end,
 	},
 	{
-		"stevearc/conform.nvim",
-		event = "VeryLazy",
-		config = function()
-			local js_formatters = { "prettierd", "prettier", stop_after_first = true }
-			require("conform").setup({
-				formatters_by_ft = {
-					lua = { "stylua" },
-					yaml = { "yamlfmt" },
-					-- Conform will run multiple formatters sequentially
-					python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
-					-- Use a sub-list to run only the first available formatter
-					javascript = js_formatters,
-					typescript = js_formatters,
-					typescriptreact = js_formatters,
-					javascriptreact = js_formatters,
-					css = { "prettierd", "prettier", stop_after_first = true },
-					scss = { "prettierd", "prettier", stop_after_first = true },
-					svelte = { "prettierd", "prettier", stop_after_first = true },
-					vue = { "prettierd", "prettier", stop_after_first = true },
-					proto = { "buf" },
-					sql = { "sql_formatter" },
-					json = { "jq" },
-					jsonc = { "prettierd", "prettier", stop_after_first = true },
-					bash = { "shfmt" },
-					sh = { "shfmt" },
-					fish = { "fish_indent" },
-					rust = { "rustfmt" },
-					nix = { "nixfmt" },
-					["*"] = { "injected" },
-				},
-				format_on_save = {
-					-- These options will be passed to conform.format()
-					timeout_ms = 500,
-					lsp_format = "fallback",
-				},
-			})
-			require("conform").formatters.sql_formatter = {
-				prepend_args = { "-c", vim.fn.expand("~/.config/sql-formatter.json") },
-			}
-		end,
-	},
-	{
+		enabled = false,
 		"Dronakurl/injectme.nvim",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
@@ -1538,6 +1503,7 @@ return {
 	{
 		"miroshQa/rittli.nvim",
 		lazy = true,
+		enabled = false,
 		dependencies = {
 			"nvim-telescope/telescope.nvim",
 		},
@@ -1599,4 +1565,5 @@ return {
 	{ "tpope/vim-fugitive" },
 	{ "isobit/vim-caddyfile", ft = "caddyflie" },
 	{ "marilari88/twoslash-queries.nvim" },
+	{ "sitiom/nvim-numbertoggle" },
 }

@@ -3,7 +3,7 @@ return {
 	event = "VeryLazy",
 	lazy = false,
 	version = false, -- set this if you want to always pull the latest change
-	enabled = false,
+	enabled = true,
 	opts = {
 		---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
 		provider = "groq",
@@ -19,6 +19,7 @@ return {
 				api_key_name = "GROQ_API_KEY",
 				endpoint = "https://api.groq.com/openai/v1/",
 				model = "llama-3.3-70b-versatile",
+				-- model = "deepseek-r1-distill-llama-70b",
 			},
 		},
 		behaviour = {
