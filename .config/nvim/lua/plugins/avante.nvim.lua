@@ -5,30 +5,48 @@ return {
 	version = false, -- set this if you want to always pull the latest change
 	enabled = true,
 	opts = {
-		---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-		provider = "groq",
 		vendors = {
 			ollama = {
 				__inherited_from = "openai",
 				api_key_name = "",
 				endpoint = "localhost:11434/v1",
-				model = "llama3.1",
+				model = "phi4-mini",
 			},
-			groq = {
+			qwq = {
+				__inherited_from = "openai",
+				api_key_name = "GROQ_API_KEY",
+				endpoint = "https://api.groq.com/openai/v1/",
+				model = "qwen-qwq-32b",
+				max_tokens = 32768,
+			},
+			deepseek = {
+				__inherited_from = "openai",
+				api_key_name = "GROQ_API_KEY",
+				endpoint = "https://api.groq.com/openai/v1/",
+				model = "deepseek-r1-distill-llama-70b",
+				max_tokens = 32768,
+			},
+			["llama3.3"] = {
 				__inherited_from = "openai",
 				api_key_name = "GROQ_API_KEY",
 				endpoint = "https://api.groq.com/openai/v1/",
 				model = "llama-3.3-70b-versatile",
-				-- model = "deepseek-r1-distill-llama-70b",
+				max_tokens = 32768,
 			},
 		},
+		---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
+		provider = "qwq",
+		auto_suggestions_provider = "ollama",
+		cursor_applying_provider = "llama3.3",
 		behaviour = {
-			auto_suggestions = false, -- Experimental stage
+			auto_suggestions = false,
 			auto_set_highlight_group = true,
 			auto_set_keymaps = true,
 			auto_apply_diff_after_generation = false,
 			support_paste_from_clipboard = false,
 			minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
+			enable_token_counting = true,
+			enable_cursor_planning_mode = true,
 		},
 		mappings = {
 			--- @class AvanteConflictMappings

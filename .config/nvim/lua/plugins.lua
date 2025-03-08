@@ -16,15 +16,6 @@ return {
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 	{ "lervag/vimtex", ft = { "latex", "tex" } },
 	{
-		"lewis6991/gitsigns.nvim",
-		enabled = false,
-		event = "VeryLazy",
-		-- version = 'release' -- To use the latest release
-		config = function()
-			require("gitsigns").setup()
-		end,
-	},
-	{
 		"xiyaowong/nvim-transparent",
 		enabled = false,
 		config = function()

@@ -2,7 +2,8 @@ return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
-	init = function()
+	config = function(ctx)
+		require("snacks").setup(ctx.opts)
 		vim.g.snacks_animate = false
 	end,
 	---@type snacks.Config
