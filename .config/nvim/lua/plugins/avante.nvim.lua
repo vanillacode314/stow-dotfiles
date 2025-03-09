@@ -4,14 +4,12 @@ return {
 	lazy = false,
 	version = false, -- set this if you want to always pull the latest change
 	enabled = true,
+	ollama = {
+		endpoint = "localhost:11434",
+		model = "phi4-mini",
+	},
 	opts = {
 		vendors = {
-			ollama = {
-				__inherited_from = "openai",
-				api_key_name = "",
-				endpoint = "localhost:11434/v1",
-				model = "phi4-mini",
-			},
 			qwq = {
 				__inherited_from = "openai",
 				api_key_name = "GROQ_API_KEY",

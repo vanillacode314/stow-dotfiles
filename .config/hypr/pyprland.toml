@@ -3,39 +3,36 @@ plugins = ["scratchpads"]
 
 [scratchpads.term]
 animation = "fromTop"
-command = "kitty --class kitty-dropterm -- tmux new-session -A -s dropterm"
-class = "kitty-dropterm"
+command = "ghostty --class=term.ghostty.scratchpad -e tmux new-session -A -s dropterm"
+class = "term.ghostty.scratchpad"
 size = "75% 60%"
 
 [scratchpads.music]
 animation = "fromTop"
-command = "kitty --class kitty-dropmusic -- ncmpcpp"
+command = "ghostty --class=music.ghostty.scratchpad -e ncmpcpp"
 lazy = true
-class = "kitty-dropmusic"
+class = "music.ghostty.scratchpad"
 size = "75% 60%"
 unfocus = "hide"
 
 [scratchpads.top]
 animation = "fromTop"
-command = "kitty --class kitty-droptop -- btm"
+command = "ghostty --class=top.ghostty.scratchpad -e btm"
 lazy = true
-class = "kitty-droptop"
+class = "top.ghostty.scratchpad"
 size = "75% 60%"
 
 [scratchpads.fm]
 animation = "fromTop"
-command = "kitty --class kitty-dropfm -- lf"
-class = "kitty-dropfm"
+command = "ghostty --class=fm.ghostty.scratchpad -e lf"
+class = "fm.ghostty.scratchpad"
 lazy = true
 size = "75% 60%"
 
 [scratchpads.volume]
 animation = "fromRight"
-command = "kitty --class kitty-dropvolume -- pulsemixer"
-class = "kitty-dropvolume"
+command = "ghostty --class=volume.ghostty.scratchpad -e pulsemixer"
+class = "volume.ghostty.scratchpad"
 lazy = true
 size = "40% 90%"
 unfocus = "hide"
-
-# [monitors.placement]
-# "AOC".topCenterOf = "BOE"

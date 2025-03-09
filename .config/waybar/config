@@ -9,11 +9,13 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "hyprland/submap", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["mpris", "idle_inhibitor", "network", "battery", "clock", "tray"],
+    "modules-right": ["mpris", "idle_inhibitor", "pulseaudio", "network", "battery", "clock", "tray"],
     "hyprland/window": {
         "format": "{}",
         "rewrite": {
-            "(.*) — Zen Browser": "🌎 $1"
+            // "(.*) — Zen Browser": "🌎 $1",
+             "(.*) — .* — Zen Browser": "🌎 $1",
+            "(.*) - Youtube — .* — Zen Browser": "Youtube"
         },
         "separate-outputs": true
     },
