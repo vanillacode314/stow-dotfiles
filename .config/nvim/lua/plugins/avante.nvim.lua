@@ -31,10 +31,24 @@ return {
 				model = "llama-3.3-70b-versatile",
 				max_tokens = 32768,
 			},
+			["gemma3"] = {
+				__inherited_from = "openai",
+				api_key_name = "OPENROUTER_API_KEY",
+				endpoint = "https://openrouter.ai/api/v1",
+				model = "google/gemma-3-4b-it:free",
+				max_tokens = 32768,
+			},
+			["gemma2"] = {
+				__inherited_from = "openai",
+				api_key_name = "GROQ_API_KEY",
+				endpoint = "https://api.groq.com/openai/v1/",
+				model = "gemma-2-9b-it",
+				max_tokens = 8192,
+			},
 		},
 		---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-		provider = "qwq",
-		auto_suggestions_provider = "ollama",
+		provider = "deepseek",
+		auto_suggestions_provider = "llama3.3",
 		cursor_applying_provider = "llama3.3",
 		behaviour = {
 			auto_suggestions = false,

@@ -1557,4 +1557,5 @@ return {
 	{ "isobit/vim-caddyfile", ft = "caddyflie" },
 	{ "marilari88/twoslash-queries.nvim" },
 	{ "sitiom/nvim-numbertoggle" },
+	{ "andis-sprinkis/lf-vim", event = { "BufReadPre lfrc" } },
 }

@@ -42,7 +42,7 @@ return {
 				fish = { "fish_indent" },
 				rust = { "rustfmt" },
 				nix = { "nixfmt" },
-				["*"] = { "codespell" },
+				-- ["*"] = { "codespell" },
 				["_"] = { "trim_whitespace" },
 				-- ["*"] = { "injected" },
 			},
