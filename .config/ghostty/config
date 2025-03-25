@@ -43,7 +43,9 @@
 # resize-overlay-duration = 4s 200ms
 #
 #
-font-family = Ubuntu Mono Nerd Font
+font-family = CaskaydiaCove Nerd Font
+font-size = 10.5
+
 window-padding-x = 15
 window-padding-y = 15
 

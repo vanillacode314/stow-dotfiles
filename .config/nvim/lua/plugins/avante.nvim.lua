@@ -7,38 +7,50 @@ return {
 	ollama = {
 		endpoint = "localhost:11434",
 		model = "phi4-mini",
+		options = {
+			temperature = 0,
+			num_ctx = 32768,
+		},
+	},
+	gemini = {
+		model = "gemini-2.0-flash",
 	},
 	opts = {
 		vendors = {
-			qwq = {
+			["gemini-lite"] = {
+				__inherited_from = "gemini",
+				model = "gemini-2.0-flash-lite",
+			},
+			["gemini-thinking"] = {
+				__inherited_from = "gemini",
+				model = "gemini-2.0-flash-thinking-exp",
+			},
+			["grow/qwq"] = {
 				__inherited_from = "openai",
 				api_key_name = "GROQ_API_KEY",
 				endpoint = "https://api.groq.com/openai/v1/",
 				model = "qwen-qwq-32b",
 				max_tokens = 32768,
 			},
-			deepseek = {
+			["groq/deepseek"] = {
 				__inherited_from = "openai",
 				api_key_name = "GROQ_API_KEY",
 				endpoint = "https://api.groq.com/openai/v1/",
 				model = "deepseek-r1-distill-llama-70b",
 				max_tokens = 32768,
 			},
-			["llama3.3"] = {
+			["groq/llama3.3"] = {
 				__inherited_from = "openai",
 				api_key_name = "GROQ_API_KEY",
 				endpoint = "https://api.groq.com/openai/v1/",
 				model = "llama-3.3-70b-versatile",
 				max_tokens = 32768,
 			},
-			["gemma3"] = {
-				__inherited_from = "openai",
-				api_key_name = "OPENROUTER_API_KEY",
-				endpoint = "https://openrouter.ai/api/v1",
-				model = "google/gemma-3-4b-it:free",
-				max_tokens = 32768,
+			["ollama/gemma3"] = {
+				__inherited_from = "ollama",
+				model = "gemma3:4b",
 			},
-			["gemma2"] = {
+			["groq/gemma2"] = {
 				__inherited_from = "openai",
 				api_key_name = "GROQ_API_KEY",
 				endpoint = "https://api.groq.com/openai/v1/",
@@ -47,9 +59,10 @@ return {
 			},
 		},
 		---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-		provider = "deepseek",
-		auto_suggestions_provider = "llama3.3",
-		cursor_applying_provider = "llama3.3",
+		provider = "gemini-thinking",
+		auto_suggestions_provider = "gemini-lite",
+		cursor_applying_provider = "groq/llama3.3",
+		memory_summary_provider = "gemini-lite",
 		behaviour = {
 			auto_suggestions = false,
 			auto_set_highlight_group = true,

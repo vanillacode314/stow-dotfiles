@@ -1,4 +1,4 @@
-vim.cmd([[colorscheme base16-gruvbox-dark-hard]])
+vim.cmd([[colorscheme vscode]])
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }

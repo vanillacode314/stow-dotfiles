@@ -7,10 +7,11 @@ vim.diagnostic.config({
 	--[[ virtual_text = { ]]
 	--[[ 	prefix = "", ]]
 	--[[ }, ]]
-	virtual_text = {
-		enabled = false,
-		severity = vim.diagnostic.severity.ERROR,
-	},
+	-- virtual_text = {
+	-- 	enabled = false,
+	-- 	severity = vim.diagnostic.severity.ERROR,
+	-- },
+	virtual_text = false,
 	signs = true,
 	underline = true,
 	update_in_insert = false,
@@ -18,7 +19,6 @@ vim.diagnostic.config({
 	float = {
 		border = "single",
 		format = function(diagnostic)
-			print(diagnostic.message)
 			return diagnostic.message
 		end,
 	},

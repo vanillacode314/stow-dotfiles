@@ -1440,7 +1440,7 @@ return {
 	{
 		"m4xshen/hardtime.nvim",
 		-- event = "VeryLazy",
-		enabled = false,
+		enabled = true,
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
 		opts = {
 			disabled_filetypes = {
@@ -1558,4 +1558,5 @@ return {
 	{ "marilari88/twoslash-queries.nvim" },
 	{ "sitiom/nvim-numbertoggle" },
 	{ "andis-sprinkis/lf-vim", event = { "BufReadPre lfrc" } },
+	{ "sontungexpt/better-diagnostic-virtual-text", lazy = true },
 }

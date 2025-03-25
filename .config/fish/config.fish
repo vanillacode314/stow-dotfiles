@@ -16,6 +16,7 @@ test -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh && bass source ~/.nix-pr
 # end
 
 if status is-interactive
+    #fastfetch
     set fish_greeting
     # Emulates vim's cursor shape behavior
     # Set the normal and visual mode cursors to a block
@@ -56,7 +57,6 @@ if status is-interactive
             tmux-up "$layout"
         end
     end
-
 
     # Aliases
 

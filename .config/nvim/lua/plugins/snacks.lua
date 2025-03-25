@@ -1,5 +1,6 @@
 return {
 	"folke/snacks.nvim",
+	enabled = true,
 	priority = 1000,
 	lazy = false,
 	config = function(ctx)
@@ -25,7 +26,7 @@ return {
 		words = { enabled = true },
 		styles = {
 			notification = {
-				-- wo = { wrap = true } -- Wrap notifications
+				wo = { wrap = true }, -- Wrap notifications
 			},
 		},
 	},
@@ -545,6 +546,15 @@ return {
 				Snacks.toggle.inlay_hints():map("<leader>uh")
 				Snacks.toggle.indent():map("<leader>ug")
 				Snacks.toggle.dim():map("<leader>uD")
+				Snacks.toggle({
+					name = "Diffview",
+					get = function()
+						return require("diffview.lib").get_current_view() ~= nil
+					end,
+					set = function(state)
+						vim.cmd("Diffview" .. (state and "Open" or "Close"))
+					end,
+				}):map("<leader>gdd")
 			end,
 		})
 	end,

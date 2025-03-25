@@ -5,14 +5,15 @@ M.handlers = {
 	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 }
-M.capabilities = require("cmp_nvim_lsp").default_capabilities()
--- M.capabilities = require("blink.cmp").get_lsp_capabilities()
+-- M.capabilities = require("cmp_nvim_lsp").default_capabilities()
+M.capabilities = require("blink.cmp").get_lsp_capabilities()
 M.capabilities.textDocument.foldingRange = {
 	dynamicRegistration = false,
 	lineFoldingOnly = true,
 }
 
 M.on_attach = function(client, bufnr)
+	require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {})
 	local client_opts = { remap = false, silent = true, buffer = bufnr }
 	if not bufnr then
 		bufnr = 0
