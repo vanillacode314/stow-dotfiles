@@ -1,7 +1,8 @@
 return {
+	enabled = false,
 	"nvim-telescope/telescope.nvim",
 	dependencies = {
-		"nvim-telescope/telescope-ui-select.nvim",
+		-- "nvim-telescope/telescope-ui-select.nvim",
 		"nvim-lua/plenary.nvim",
 		"debugloop/telescope-undo.nvim",
 		"nvim-telescope/telescope-symbols.nvim",
@@ -85,6 +86,6 @@ return {
 			},
 		})
 		require("telescope").load_extension("undo")
-		require("telescope").load_extension("ui-select")
+		-- require("telescope").load_extension("ui-select")
 	end,
 }

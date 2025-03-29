@@ -1,5 +1,8 @@
 require("config.diagnostics")
+local conform = require("conform")
+
 local M = {}
+
 local border = "single"
 M.handlers = {
 	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
@@ -13,11 +16,10 @@ M.capabilities.textDocument.foldingRange = {
 }
 
 M.on_attach = function(client, bufnr)
-	require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {})
-	local client_opts = { remap = false, silent = true, buffer = bufnr }
 	if not bufnr then
 		bufnr = 0
 	end
+
 	if client.name == "eslint" then
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			buffer = bufnr,
@@ -25,40 +27,73 @@ M.on_attach = function(client, bufnr)
 		})
 	end
 	vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
-	-- vim.keymap.set("n", "<space>e", function()
-	-- 	vim.diagnostic.open_float({ border = border })
-	-- end, client_opts)
-	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, client_opts)
-	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, client_opts)
-	vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, client_opts)
-	vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", client_opts)
-	-- vim.keymap.set("n", "gd", function()
-	-- 	local params = vim.lsp.util.make_position_params()
-	-- 	return vim.lsp.buf_request(0, "textDocument/definition", params, function(_, result)
-	-- 		if result == nil or vim.tbl_isempty(result) then
-	-- 			return
-	-- 		end
-	-- 		vim.lsp.util.preview_location(result[1], { border = border })
-	-- 	end)
-	-- end, client_opts)
-	-- vim.keymap.set("n", "gD", vim.lsp.buf.definition, client_opts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, client_opts)
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, client_opts)
-	vim.keymap.set("n", "<C-K>", vim.lsp.buf.signature_help, client_opts)
-	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, client_opts)
-	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, client_opts)
+	if client.server_capabilities.inlayHintProvider then
+		vim.lsp.inlay_hint.enable(true, {
+			bufnr = bufnr,
+		})
+	end
+
+	-- Keymaps
+	local client_opts = { remap = false, silent = true, buffer = bufnr }
+	-- vim.keymap.set(
+	-- 	"n",
+	-- 	"<space>q",
+	-- 	vim.diagnostic.setloclist,
+	-- 	vim.tbl_extend("force", client_opts, { desc = "Add Diagnostic to loclist" })
+	-- )
+	vim.keymap.set(
+		"n",
+		"gi",
+		vim.lsp.buf.implementation,
+		vim.tbl_extend("force", client_opts, { desc = "List Implementations" })
+	)
+	vim.keymap.set(
+		"n",
+		"<C-K>",
+		vim.lsp.buf.signature_help,
+		vim.tbl_extend("force", client_opts, { desc = "Signature Help" })
+	)
+	vim.keymap.set(
+		"n",
+		"<leader>wa",
+		vim.lsp.buf.add_workspace_folder,
+		vim.tbl_extend("force", client_opts, { desc = "Add Workspace Folder" })
+	)
+	vim.keymap.set(
+		"n",
+		"<leader>wr",
+		vim.lsp.buf.remove_workspace_folder,
+		vim.tbl_extend("force", client_opts, { desc = "Remove Workspace Folder" })
+	)
 	vim.keymap.set("n", "<leader>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-	end, client_opts)
-	vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, client_opts)
-	-- vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", client_opts)
-	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, client_opts)
-	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, client_opts)
+	end, vim.tbl_extend("force", client_opts, { desc = "Print Workspace Folders" }))
+	vim.keymap.set(
+		"n",
+		"<leader>D",
+		vim.lsp.buf.type_definition,
+		vim.tbl_extend("force", client_opts, { desc = "Jump To Type Definition" })
+	)
+	vim.keymap.set(
+		"n",
+		"<leader>ca",
+		vim.lsp.buf.code_action,
+		vim.tbl_extend("force", client_opts, { desc = "Code Actions" })
+	)
+	vim.keymap.set(
+		"n",
+		"<leader>rn",
+		vim.lsp.buf.rename,
+		vim.tbl_extend("force", client_opts, { desc = "Rename Symbol" })
+	)
 	vim.keymap.set("n", "<leader>fj", function()
-		vim.lsp.buf.format({ async = true })
+		-- vim.lsp.buf.format({ async = true })
+		conform.format({ async = true })
 		vim.cmd("w")
-	end, client_opts)
-	-- require("lsp-inlayhints").on_attach(client, bufnr)
+	end, vim.tbl_extend("force", client_opts, { desc = "Format Buffer" }))
+
+	-- Setup plugins
+	require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {})
 end
 
 return M

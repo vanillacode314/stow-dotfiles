@@ -19,26 +19,40 @@ require("mason-null-ls").setup({
 	ensure_installed = { "stylua", "jq", "black", "prettierd", "prettier" },
 })
 
-local function on_attach(noformat)
-	return function(client, bufnr)
-		if noformat then
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
-		end
-		require("config.lsp").on_attach(client, bufnr)
+local lsp_config = require("lspconfig")
+local capabilities = require("config.lsp").capabilities
+local handlers = require("config.lsp").handlers
+
+local function on_attach(client, bufnr, noformat)
+	if noformat then
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
 	end
+	require("config.lsp").on_attach(client, bufnr)
+end
+
+local function setup_server(server_name, config)
+	config = config or {}
+	config.capabilities = config.capabilities or capabilities
+	config.handlers = config.handlers or handlers
+	config.on_attach = function(client, bufnr)
+		on_attach(client, bufnr, config.noformat)
+		if config.custom_attach then
+			config.custom_attach(client, bufnr)
+		end
+	end
+	lsp_config[server_name].setup(config)
 end
 
 require("mason-lspconfig").setup_handlers({
 	function(server_name)
-		require("lspconfig")[server_name].setup({
-			on_attach = on_attach(true),
-			capabilities = require("config.lsp").capabilities,
-			handlers = require("config.lsp").handlers,
-		})
+		if server_name == "rust_analyzer" then
+			return
+		end
+
+		setup_server(server_name, { noformat = true })
 	end,
 
-	["rust_analyzer"] = function() end,
 	["ts_ls"] = function()
 		local inlayHints = {
 			includeInlayParameterNameHints = "all",
@@ -50,30 +64,22 @@ require("mason-lspconfig").setup_handlers({
 			includeInlayFunctionLikeReturnTypeHints = true,
 			includeInlayEnumMemberValueHints = true,
 		}
-		require("lspconfig").ts_ls.setup({
+
+		setup_server("ts_ls", {
 			filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-			on_attach = function(client, bufnr)
+			custom_attach = function(client, bufnr)
 				require("twoslash-queries").attach(client, bufnr)
-				on_attach(true)(client, bufnr)
 			end,
-			capabilities = require("config.lsp").capabilities,
-			handlers = require("config.lsp").handlers,
 			settings = {
-				typescript = {
-					inlayHints = inlayHints,
-				},
-				javascript = {
-					inlayHints = inlayHints,
-				},
+				typescript = { inlayHints = inlayHints },
+				javascript = { inlayHints = inlayHints },
 			},
+			noformat = true,
 		})
 	end,
 
 	["svelte"] = function()
-		require("lspconfig").svelte.setup({
-			on_attach = on_attach(false),
-			capabilities = require("config.lsp").capabilities,
-			handlers = require("config.lsp").handlers,
+		setup_server("svelte", {
 			settings = {
 				typescript = {
 					inlayHints = {
@@ -90,18 +96,12 @@ require("mason-lspconfig").setup_handlers({
 	end,
 
 	["astro"] = function()
-		require("lspconfig").astro.setup({
-			on_attach = on_attach(false),
-			capabilities = require("config.lsp").capabilities,
-			handlers = require("config.lsp").handlers,
-		})
+		setup_server("astro")
 	end,
 
 	["lua_ls"] = function()
-		require("lspconfig").lua_ls.setup({
-			on_attach = on_attach(true),
-			capabilities = require("config.lsp").capabilities,
-			handlers = require("config.lsp").handlers,
+		setup_server("lua_ls", {
+			noformat = true,
 			settings = {
 				Lua = {
 					hint = { enable = true },
@@ -114,7 +114,7 @@ require("mason-lspconfig").setup_handlers({
 	end,
 
 	["gopls"] = function()
-		require("lspconfig").gopls.setup({
+		setup_server("gopls", {
 			settings = {
 				hints = {
 					rangeVariableTypes = true,
@@ -130,18 +130,14 @@ require("mason-lspconfig").setup_handlers({
 	end,
 
 	["unocss"] = function()
-		require("lspconfig").unocss.setup({
-			on_attach = on_attach(true),
-			capabilities = require("config.lsp").capabilities,
-			handlers = require("config.lsp").handlers,
+		setup_server("unocss", {
+			noformat = true,
 			filetypes = { "typescriptreact", "astro", "svelte" },
 		})
 	end,
 	["basedpyright"] = function()
-		require("lspconfig").basedpyright.setup({
-			on_attach = on_attach(true),
-			capabilities = require("config.lsp").capabilities,
-			handlers = require("config.lsp").handlers,
+		setup_server("basedpyright", {
+			noformat = true,
 			settings = {
 				basedpyright = {
 					analysis = {
@@ -156,30 +152,7 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 	["volar"] = function()
-		local util = require("lspconfig.util")
-		local function get_typescript_server_path(root_dir)
-			-- local global_ts = "/home/vc/.npm/lib/node_modules/typescript/lib"
-			-- Alternative location if installed as root:
-			local global_ts = "/usr/lib/node_modules/typescript/lib"
-			local found_ts = ""
-			local function check_dir(path)
-				found_ts = util.path.join(path, "node_modules", "typescript", "lib")
-				if util.path.exists(found_ts) then
-					return path
-				end
-			end
-			if util.search_ancestors(root_dir, check_dir) then
-				return found_ts
-			else
-				return global_ts
-			end
-		end
-
-		require("lspconfig").volar.setup({
-			on_new_config = function(new_config, new_root_dir)
-				new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
-			end,
-			-- filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+		setup_server("volar", {
 			filetypes = { "vue" },
 			init_options = {
 				vue = {
@@ -190,7 +163,7 @@ require("mason-lspconfig").setup_handlers({
 	end,
 
 	["emmet_language_server"] = function()
-		require("lspconfig").emmet_language_server.setup({
+		setup_server("emmet_language_server", {
 			filetypes = {
 				"css",
 				"eruby",
@@ -203,8 +176,6 @@ require("mason-lspconfig").setup_handlers({
 				"pug",
 				"typescriptreact",
 			},
-			-- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
-			-- **Note:** only the options listed in the table are supported.
 			init_options = {
 				---@type table<string, string>
 				includeLanguages = { typescriptreact = "html" },
@@ -212,7 +183,7 @@ require("mason-lspconfig").setup_handlers({
 				excludeLanguages = {},
 				--- @type string[]
 				extensionsPath = {},
-				--- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+				---@type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
 				preferences = {},
 				--- @type boolean Defaults to `true`
 				showAbbreviationSuggestions = true,
@@ -228,10 +199,8 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 	["jsonls"] = function()
-		require("lspconfig").jsonls.setup({
-			on_attach = on_attach(true),
-			capabilities = require("config.lsp").capabilities,
-			handlers = require("config.lsp").handlers,
+		setup_server("jsonls", {
+			noformat = true,
 			settings = {
 				json = {
 					schemas = require("schemastore").json.schemas(),
@@ -241,7 +210,7 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 	["yamlls"] = function()
-		require("lspconfig").yamlls.setup({
+		setup_server("yamlls", {
 			settings = {
 				yaml = {
 					schemaStore = {
@@ -257,9 +226,9 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 	["ruff"] = function()
-		require("lspconfig").ruff.setup({
-			on_attach = function(client, bufnr)
-				on_attach(true)(client, bufnr)
+		setup_server("ruff", {
+			noformat = true,
+			custom_attach = function(client)
 				client.server_capabilities.hoverProvider = false
 			end,
 		})

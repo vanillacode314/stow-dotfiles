@@ -33,6 +33,7 @@ vim.opt.softtabstop = 2
 vim.opt.showmode = false
 vim.opt.laststatus = 3
 vim.opt.signcolumn = "yes"
+vim.opt.winborder = "rounded"
 
 -- Folding
 vim.opt.foldmethod = "expr"

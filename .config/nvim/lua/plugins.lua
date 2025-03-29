@@ -1,5 +1,4 @@
 return {
-	"folke/which-key.nvim",
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 	{
 		"folke/lazydev.nvim",
@@ -150,56 +149,13 @@ return {
 		end,
 	},
 	{ "booperlv/nvim-gomove", config = true, event = "VeryLazy" },
-	{ "https://git.sr.ht/~whynothugo/lsp_lines.nvim", enabled = false, config = true },
 	{ "onsails/lspkind-nvim", event = "VeryLazy" },
 	{ "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }, event = "VeryLazy" },
 	{
 		"nvim-lualine/lualine.nvim",
 		enabled = true,
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("config.lualine")
-		end,
-	},
-
-	-- {
-	-- 	"freddiehaddad/feline.nvim",
-	-- 	lazy = false,
-	-- 	config = function()
-	-- 		require("config.feline")
-	-- 	end,
-	-- },
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		enabled = false,
-		main = "ibl",
-		config = function()
-			local highlight = {
-				"RainbowRed",
-				"RainbowYellow",
-				"RainbowBlue",
-				"RainbowOrange",
-				"RainbowGreen",
-				"RainbowViolet",
-				"RainbowCyan",
-			}
-			local hooks = require("ibl.hooks")
-			-- create the highlight groups in the highlight setup hook, so they are reset
-			-- every time the colorscheme changes
-			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-				vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
-			end)
-
-			vim.g.rainbow_delimiters = { highlight = highlight }
-			require("ibl").setup({ scope = { highlight = highlight } })
-
-			hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 		end,
 	},
 	{
@@ -238,79 +194,10 @@ return {
 			{ "sdras/vue-vscode-snippets", ft = { "vue" } },
 		},
 	},
-	-- {
-	-- 	"L3MON4D3/LuaSnip",
-	-- 	config = function()
-	-- 		require("config.snippets")
-	-- 		require("luasnip.loaders.from_snipmate").lazy_load()
-	-- 		require("luasnip.loaders.from_vscode").lazy_load()
-	-- 	end,
-	-- },
-	{
-		"numToStr/Comment.nvim",
-		event = "InsertEnter",
-		config = function()
-			require("Comment").setup({
-				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-			})
-		end,
-		dependencies = {
-			{
-				"JoosepAlviste/nvim-ts-context-commentstring",
-				config = function()
-					require("ts_context_commentstring").setup({
-						enable_autocmd = false,
-					})
-				end,
-			},
-		},
-	},
 	{ "wellle/targets.vim", event = "VeryLazy" },
 	{
-		"nvimdev/lspsaga.nvim",
-		enabled = false,
-		event = { "VeryLazy" },
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		branch = "main",
-		config = function()
-			local lspsaga = require("lspsaga")
-			lspsaga.setup({
-				ui = {
-					-- border = false,
-				},
-				outline = {
-					win_position = "right",
-					win_with = "",
-					win_width = 30,
-					preview_width = 0.4,
-					show_detail = true,
-					auto_preview = true,
-					auto_refresh = true,
-					auto_close = true,
-					custom_sort = nil,
-					keys = {
-						expand_or_collapse = "o",
-						quit = "q",
-					},
-				},
-				lightbulb = {
-					enable = false,
-					enable_in_insert = true,
-					sign = false,
-					sign_priority = 40,
-					virtual_text = false,
-				},
-			})
-			vim.keymap.set({ "n", "t" }, "<A-i>", "<cmd>Lspsaga term_toggle<cr>", { silent = true, noremap = true })
-			vim.api.nvim_create_autocmd("FileType", {
-				group = vim.api.nvim_create_augroup("lspsaga_filetypes", { clear = true }),
-				pattern = "LspsagaHover",
-				command = "nnoremap <buffer><nowait><silent> <Esc> <cmd>close!<cr>",
-			})
-		end,
-	},
-	{
 		"smjonas/inc-rename.nvim",
+		enabled = false,
 		config = function()
 			require("inc_rename").setup({
 				input_buffer_type = "dressing",
@@ -319,14 +206,6 @@ return {
 		end,
 	},
 
-	-- {
-	-- 	"akinsho/bufferline.nvim",
-	-- 	version = "v3.*",
-	-- 	dependencies = "nvim-tree/nvim-web-devicons",
-	-- 	opts = {
-	-- 		options = {},
-	-- 	},
-	-- },
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
@@ -406,22 +285,6 @@ return {
 			})
 		end,
 	},
-	{
-		"ellisonleao/carbon-now.nvim",
-		enabled = false,
-		config = function()
-			require("carbon-now").setup()
-			vim.keymap.set("v", "<leader>cn", function()
-				require("carbon-now").create_snippet()
-			end, { noremap = true, silent = true })
-		end,
-	},
-	{
-		"derektata/lorem.nvim",
-		enabled = false,
-		config = true,
-		dependencies = "vim-scripts/loremipsum",
-	},
 	-- "jose-elias-alvarez/typescript.nvim",
 	-- {
 	-- 	"Abstract-IDE/penvim",
@@ -453,86 +316,11 @@ return {
 	-- 	end,
 	-- },
 	{
-		"vimpostor/vim-tpipeline",
-		enabled = false,
-		config = function()
-			vim.g.tpipeline_cursormoved = 1
-		end,
-	},
-	{
-		"olimorris/persisted.nvim",
-		lazy = false, -- make sure the plugin is always loaded at startup
-		enabled = false,
-		config = function()
-			local persisted = require("persisted")
-			persisted.setup({
-				autostart = true, -- Automatically start the plugin on load?
-
-				-- Function to determine if a session should be saved
-				---@type fun() boolean
-				should_save = function()
-					return true
-				end,
-
-				save_dir = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"), -- Directory where session files are saved
-
-				follow_cwd = true, -- Change the session file to match any change in the cwd?
-				use_git_branch = true, -- Include the git branch in the session file name?
-				autoload = true, -- Automatically load the session for the cwd on Neovim startup?
-
-				-- Function to run when `autoload = true` but there is no session to load
-				---@type fun(): any
-				on_autoload_no_session = function()
-					vim.notify("No existing session to load.")
-				end,
-
-				allowed_dirs = {}, -- Table of dirs that the plugin will start and autoload from
-				ignored_dirs = {}, -- Table of dirs that are ignored for starting and autoloading
-
-				telescope = {
-					mappings = { -- Mappings for managing sessions in Telescope
-						copy_session = "<C-c>",
-						change_branch = "<C-b>",
-						delete_session = "<C-d>",
-					},
-					icons = { -- icons displayed in the Telescope picker
-						selected = " ",
-						dir = "  ",
-						branch = " ",
-					},
-				},
-			})
-		end,
-	},
-	{
-		"numToStr/FTerm.nvim",
-		enabled = false,
-		config = function()
-			vim.keymap.set("n", "<A-i>", '<CMD>lua require("FTerm").toggle()<CR>')
-			vim.keymap.set("t", "<A-i>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
-		end,
-	},
-	{
 		"folke/which-key.nvim",
-		enabled = false,
-		config = function()
-			require("which-key").setup({
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-				triggers = { "<Space>" },
-			})
-		end,
-	},
-	{
-		"SmiteshP/nvim-navic",
-		enabled = false,
-		config = function()
-			require("nvim-navic").setup({
-				highlight = true,
-			})
-		end,
-		dependencies = "neovim/nvim-lspconfig",
+		enabled = true,
+		opts = {
+			triggers = { "<Space>" },
+		},
 	},
 	{
 		"rktjmp/highlight-current-n.nvim",
@@ -568,14 +356,14 @@ return {
 	-- 		require("scrollbar.handlers.gitsigns").setup()
 	-- 	end,
 	-- },
-	-- {
-	-- 	"gorbit99/codewindow.nvim",
-	-- 	config = function()
-	-- 		local codewindow = require("codewindow")
-	-- 		codewindow.setup()
-	-- 		codewindow.apply_default_keybinds()
-	-- 	end,
-	-- },
+	{
+		"gorbit99/codewindow.nvim",
+		config = function()
+			local codewindow = require("codewindow")
+			codewindow.setup()
+			codewindow.apply_default_keybinds()
+		end,
+	},
 	{
 		"kkoomen/vim-doge",
 		build = ":call doge#install()",
@@ -878,141 +666,12 @@ return {
 		enabled = false,
 		opts = { floating_window = false },
 	},
-	{
-		"folke/noice.nvim",
-		enabled = false,
-		config = function()
-			require("noice").setup({
-				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
-				lsp = {
-					signature = {
-						enabled = false,
-					},
-				},
-			})
-		end,
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
-		},
-	},
-	{
-		"nvim-tree/nvim-tree.lua",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons", -- optional, for file icons
-		},
-		cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeClose", "NvimTreeRefresh", "NvimTreeOpen" },
-		keys = {
-			{
-				"<leader>ft",
-				function()
-					require("nvim-tree.api").tree.toggle({ focus = true, find_file = true })
-				end,
-				desc = "Toggle NvimTree",
-				mode = { "n" },
-				noremap = true,
-				silent = true,
-			},
-		},
-		version = "*", -- optional, updated every week. (see issue #1193)
-		opts = {
-			-- tab = {
-			-- 	sync = {
-			-- 		close = true,
-			-- 	},
-			-- },
-		},
-	},
-	{
-		"is0n/fm-nvim",
-		event = "VeryLazy",
-		config = function()
-			vim.keymap.set("n", "<leader>fm", "<cmd>Lf<CR>", { noremap = true, silent = true })
-			require("fm-nvim").setup({
-				-- (Vim) Command used to open files
-				edit_cmd = "edit",
-				-- See `Q&A` for more info
-				on_close = {},
-				on_open = {},
-				-- UI Options
-				ui = {
-					-- Default UI (can be "split" or "float")
-					default = "float",
-					float = {
-						-- Floating window border (see ':h nvim_open_win')
-						border = "rounded",
-						-- Highlight group for floating window/border (see ':h winhl')
-						float_hl = "Normal",
-						border_hl = "FloatBorder",
-						-- Floating Window Transparency (see ':h winblend')
-						blend = 0,
-						-- Num from 0 - 1 for measurements
-						height = 0.8,
-						width = 0.8,
-						-- X and Y Axis of Window
-						x = 0.5,
-						y = 0.5,
-					},
-					split = {
-						-- Direction of split
-						direction = "topleft",
-						-- Size of split
-						size = 24,
-					},
-				},
-				-- Terminal commands used w/ file manager (have to be in your $PATH)
-				cmds = {
-					lf_cmd = "lf", -- eg: lf_cmd = "lf -command 'set hidden'"
-					fm_cmd = "fm",
-					nnn_cmd = "nnn",
-					fff_cmd = "fff",
-					twf_cmd = "twf",
-					fzf_cmd = "fzf", -- eg: fzf_cmd = "fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
-					fzy_cmd = "find . | fzy",
-					xplr_cmd = "xplr",
-					vifm_cmd = "vifm",
-					skim_cmd = "sk",
-					broot_cmd = "broot",
-					gitui_cmd = "gitui",
-					ranger_cmd = "ranger",
-					joshuto_cmd = "joshuto",
-					lazygit_cmd = "lazygit",
-					neomutt_cmd = "neomutt",
-					taskwarrior_cmd = "taskwarrior-tui",
-				},
-				-- Mappings used with the plugin
-				mappings = {
-					vert_split = "<C-v>",
-					horz_split = "<C-h>",
-					tabedit = "<C-t>",
-					edit = "<C-e>",
-					ESC = "<ESC>",
-				},
-				-- Path to broot config
-				broot_conf = vim.fn.stdpath("data") .. "/site/pack/packer/start/fm-nvim/assets/broot_conf.hjson",
-			})
-		end,
-	},
 	-- Lua
 	{
 		"folke/todo-comments.nvim",
 		event = "VeryLazy",
 		dependencies = "nvim-lua/plenary.nvim",
 		config = true,
-	},
-	{
-		enabled = false,
-		"ThePrimeagen/refactoring.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-		},
-		opts = {},
 	},
 	{
 		"danymat/neogen",
@@ -1047,17 +706,6 @@ return {
 		-- Uncomment next line if you want to follow only stable versions
 		-- version = "*"
 	},
-	{
-		"glacambre/firenvim",
-		enabled = false,
-		-- Lazy load firenvim
-		-- Explanation: https://github.com/folke/lazy.nvim/discussions/463#discussioncomment-4819297
-		cond = not not vim.g.started_by_firenvim,
-		build = function()
-			require("lazy").load({ plugins = "firenvim", wait = true })
-			vim.fn["firenvim#install"](0)
-		end,
-	},
 	{ "LudoPinelli/comment-box.nvim", event = "VeryLazy" },
 	{
 		"jiaoshijie/undotree",
@@ -1086,7 +734,6 @@ return {
 		end,
 	},
 	-- { "axieax/typo.nvim", config = true },
-	{ "stevearc/dressing.nvim", config = true, event = "VeryLazy" },
 	{
 		"saecki/crates.nvim",
 		-- branch = "v0.3.0",
@@ -1178,45 +825,12 @@ return {
 		},
 	},
 	{
-		"echasnovski/mini.cursorword",
-		enabled = false,
-		version = false,
-		config = function()
-			require("mini.cursorword").setup()
-		end,
-	},
-	{
-		"glepnir/dashboard-nvim",
-		enabled = false,
-		event = "VimEnter",
-		config = function()
-			require("dashboard").setup({
-				-- config
-			})
-		end,
-		dependencies = { { "nvim-tree/nvim-web-devicons" } },
-	},
-	{
 		"tpope/vim-abolish",
 		event = "CmdlineEnter",
 	},
 	{
 		"tpope/vim-eunuch",
 		event = "CmdlineEnter",
-	},
-	{
-		"rest-nvim/rest.nvim",
-		enabled = false,
-		ft = { "http", "rest" },
-		keys = {
-			{ "<leader>rr", "<Plug>RestNvim", mode = { "n" }, desc = "Run HTTP Request" },
-			{ "<leader>rl", "<Plug>RestNvimLast", mode = { "n" }, desc = "Run Last HTTP Request" },
-			{ "<leader>rp", "<Plug>RestNvimPreview", mode = { "n" }, desc = "Preview HTTP Request" },
-		},
-		dependencies = { { "nvim-lua/plenary.nvim" } },
-		config = function()
-			require("rest-nvim").setup()
-		end,
 	},
 	-- { "dmmulroy/ts-error-translator.nvim", config = true },
 	{ "laytan/cloak.nvim", config = true },
@@ -1331,9 +945,6 @@ return {
 	{
 		"andrewferrier/debugprint.nvim",
 		opts = {},
-		dependencies = {
-			"echasnovski/mini.nvim", -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
-		},
 		-- The 'keys' and 'cmds' sections of this configuration are optional and only needed if
 		-- you want to take advantage of `lazy.nvim` lazy-loading. If you decide to
 		-- customize the keys/commands (see below), you'll need to change these too.
@@ -1406,14 +1017,6 @@ return {
 		},
 	},
 	{
-		"MysticalDevil/inlay-hints.nvim",
-		event = "LspAttach",
-		dependencies = { "neovim/nvim-lspconfig" },
-		config = function()
-			require("inlay-hints").setup()
-		end,
-	},
-	{
 		"pmizio/typescript-tools.nvim",
 		enabled = false,
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -1469,94 +1072,20 @@ return {
 			},
 		},
 	},
-	{
-		"ahmedkhalf/project.nvim",
-		lazy = false,
-		priority = 100,
-		config = function()
-			require("project_nvim").setup({})
-			-- vim.api.nvim_create_autocmd("DirChanged", {
-			-- 	group = vim.api.nvim_create_augroup("Project", { clear = true }),
-			-- 	callback = function()
-			-- 		vim.cmd([[SessionRestore]])
-			-- 	end,
-			-- })
-		end,
-	},
+	{ "notjedi/nvim-rooter.lua", config = true },
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		opts = {},
 		ft = { "markdown", "codecompanion", "Avante" },
-		-- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
 	},
-	{
-		"miroshQa/rittli.nvim",
-		lazy = true,
-		enabled = false,
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-		},
-		-- keys = {
-		-- 	{
-		-- 		"<C-t>",
-		-- 		function()
-		-- 			require("rittli.terminal_tweaks").toggle_last_openned_terminal()
-		-- 		end,
-		-- 		mode = { "n", "t" },
-		-- 	},
-		-- 	{ "<Esc><Esc>", "<C-\\><C-n>", mode = "t" },
-		-- 	{
-		-- 		"<leader>r",
-		-- 		function()
-		-- 			require("rittli.tasks.telescope").run_last_runned_task()
-		-- 		end,
-		-- 		desc = "Rerun the last task or pick a new one",
-		-- 	},
-		-- 	{
-		-- 		"<leader>R",
-		-- 		function()
-		-- 			require("rittli.tasks.telescope").tasks_picker()
-		-- 		end,
-		-- 		desc = "Pick the task",
-		-- 	},
-		-- 	{
-		-- 		"<leader><leader>",
-		-- 		function()
-		-- 			require("telescope.builtin").buffers({
-		-- 				path_display = { "tail" },
-		-- 				sort_mru = true,
-		-- 				ignore_current_buffer = true,
-		-- 			})
-		-- 		end,
-		-- 	},
-		-- },
-		---@type Rittli.Config
-		opts = {},
-	},
-	-- {
-	-- 	"EtiamNullam/fold-ribbon.nvim",
-	-- 	config = function()
-	-- 		require("fold-ribbon").setup({
-	-- 			highlight_steps = {
-	-- 				{ bg = "#ff8888" },
-	-- 				{ bg = "#88ff88" },
-	-- 				{ bg = "#8888ff" },
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-	{
-		"ptdewey/pendulum-nvim",
-		config = function()
-			require("pendulum").setup()
-		end,
-	},
+	{ "ptdewey/pendulum-nvim", config = true },
 	{ "tpope/vim-fugitive" },
 	{ "isobit/vim-caddyfile", ft = "caddyflie" },
 	{ "marilari88/twoslash-queries.nvim" },
 	{ "sitiom/nvim-numbertoggle" },
 	{ "andis-sprinkis/lf-vim", event = { "BufReadPre lfrc" } },
 	{ "sontungexpt/better-diagnostic-virtual-text", lazy = true },
+	{ "folke/ts-comments.nvim", opts = {}, event = "VeryLazy" },
+	{ "echasnovski/mini.icons", version = false },
 }

@@ -1,0 +1,9 @@
+{
+  "db_settings": {
+    "url": "http://127.0.0.1:8000/api/embeddings",
+    "model_name": ""
+  },
+  "embedding_params": {
+    "backend": "openvino"
+  }
+}

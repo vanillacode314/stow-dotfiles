@@ -1,6 +1,6 @@
-model: groq/deepseek-r1-distill-llama-70b
+# model: groq/deepseek-r1-distill-llama-70b
 # model: groq/qwen-qwq-32b
-# model: gemini/gemini-2.0-flash-exp
+model: gemini/gemini-2.0-flash-exp
 # model: openrouter/deepseek/deepseek-r1:free
 editor-model: gemini/gemini-2.0-flash-exp
 weak-model: openrouter/meta-llama/llama-3-8b-instruct:free

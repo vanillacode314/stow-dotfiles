@@ -29,7 +29,6 @@ return {
 		--
 		-- See :h blink-cmp-config-keymap for defining your own keymap
 		keymap = { preset = "default" },
-
 		appearance = {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
@@ -39,7 +38,11 @@ return {
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
-			default = { "avante", "lsp", "path", "snippets", "buffer" },
+			default = { "lsp", "path", "snippets", "buffer" },
+			per_filetype = {
+				codecompanion = { "codecompanion" },
+				Avante = { "avante" },
+			},
 			providers = {
 				avante = {
 					module = "blink-cmp-avante",
@@ -74,14 +77,14 @@ return {
 		-- See the fuzzy documentation for more information
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 		completion = {
-			menu = {
-				draw = {
-					columns = {
-						{ "label", "label_description", gap = 1 },
-						{ "kind_icon", gap = 1, "kind" },
-					},
-				},
-			},
+			-- menu = {
+			-- 	draw = {
+			-- 		columns = {
+			-- 			{ "label", "label_description", gap = 1 },
+			-- 			{ "kind_icon", gap = 1, "kind" },
+			-- 		},
+			-- 	},
+			-- },
 			documentation = {
 				auto_show = true,
 				auto_show_delay_ms = 0,
@@ -90,6 +93,5 @@ return {
 		snippets = { preset = "default" },
 		signature = { enabled = true },
 	},
-
 	opts_extend = { "sources.default" },
 }

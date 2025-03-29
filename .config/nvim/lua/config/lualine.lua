@@ -81,6 +81,19 @@ require("lualine").setup({
 		lualine_y = {
 			{
 				function()
+					return require("vectorcode.integrations").lualine(opts)[1]()
+				end,
+				separator = { left = "", right = "" },
+				cond = function()
+					if package.loaded["vectorcode"] == nil then
+						return false
+					else
+						return require("vectorcode.integrations").lualine(opts).cond()
+					end
+				end,
+			},
+			{
+				function()
 					local retval = ""
 					for index, value in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
 						if index > 1 then

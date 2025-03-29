@@ -11,19 +11,14 @@ vim.diagnostic.config({
 	-- 	enabled = false,
 	-- 	severity = vim.diagnostic.severity.ERROR,
 	-- },
+	-- virtual_lines = { current_line = true },
 	virtual_text = false,
 	signs = true,
 	underline = true,
-	update_in_insert = false,
 	severity_sort = false,
-	float = {
-		border = "single",
-		format = function(diagnostic)
-			return diagnostic.message
-		end,
-	},
 })
 
+-- local signs = require("utils").diagnostic_signs
 -- local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 -- for type, icon in pairs(signs) do
 -- 	local hl = "DiagnosticSign" .. type
