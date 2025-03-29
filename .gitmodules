@@ -1,48 +1,48 @@
 [submodule ".config/tmux/plugins/tmux-base16-statusline"]
-	path = .config/tmux/plugins/tmux-base16-statusline
+	path = dot-config/tmux/plugins/tmux-base16-statusline
 	url = https://git::@github.com/jatap/tmux-base16-statusline
 [submodule ".config/tmux/plugins/tmux-sensible"]
-	path = .config/tmux/plugins/tmux-sensible
+	path = dot-config/tmux/plugins/tmux-sensible
 	url = https://git::@github.com/tmux-plugins/tmux-sensible
 [submodule ".config/tmux/plugins/tmux-fzf"]
-	path = .config/tmux/plugins/tmux-fzf
+	path = dot-config/tmux/plugins/tmux-fzf
 	url = https://git::@github.com/sainnhe/tmux-fzf
 [submodule ".config/tmux/plugins/vim-tmux-navigator"]
-	path = .config/tmux/plugins/vim-tmux-navigator
+	path = dot-config/tmux/plugins/vim-tmux-navigator
 	url = https://git::@github.com/christoomey/vim-tmux-navigator
 [submodule ".config/tmux/plugins/tpm"]
-	path = .config/tmux/plugins/tpm
+	path = dot-config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
 [submodule ".config/tmux/plugins/tmux-resurrect"]
-	path = .config/tmux/plugins/tmux-resurrect
+	path = dot-config/tmux/plugins/tmux-resurrect
 	url = https://git::@github.com/tmux-plugins/tmux-resurrect
 [submodule ".config/kitty/base16-kitty"]
-	path = .config/kitty/base16-kitty
+	path = dot-config/kitty/base16-kitty
 	url = https://github.com/kdrag0n/base16-kitty
 [submodule ".config/tmux/plugins/minimal-tmux-status"]
-	path = .config/tmux/plugins/minimal-tmux-status
+	path = dot-config/tmux/plugins/minimal-tmux-status
 	url = https://git::@github.com/niksingh710/minimal-tmux-status
 [submodule ".local/share/fish/plugins/base16-fish-shell"]
-	path = .local/share/fish/plugins/base16-fish-shell
+	path = dot-local/share/fish/plugins/base16-fish-shell
 	url = https://github.com/fabioantunes/base16-fish-shell
 [submodule ".local/share/fish/plugins/nix-env.fish"]
-	path = .local/share/fish/plugins/nix-env.fish
+	path = dot-local/share/fish/plugins/nix-env.fish
 	url = https://github.com/lilyball/nix-env.fish
 [submodule ".local/share/fish/plugins/fzf.fish"]
-	path = .local/share/fish/plugins/fzf.fish
+	path = dot-local/share/fish/plugins/fzf.fish
 	url = https://github.com/patrickf1/fzf.fish
 [submodule ".local/share/fish/plugins/zoxide.fish"]
-	path = .local/share/fish/plugins/zoxide.fish
+	path = dot-local/share/fish/plugins/zoxide.fish
 	url = https://github.com/kidonng/zoxide.fish
 [submodule ".local/share/fish/plugins/plug.fish"]
-	path = .local/share/fish/plugins/plug.fish
+	path = dot-local/share/fish/plugins/plug.fish
 	url = https://github.com/kidonng/plug.fish
 [submodule ".local/share/fish/plugins/bass"]
-	path = .local/share/fish/plugins/bass
+	path = dot-local/share/fish/plugins/bass
 	url = https://github.com/edc/bass
 [submodule ".local/share/fish/plugins/nvm.fish"]
-	path = .local/share/fish/plugins/nvm.fish
+	path = dot-local/share/fish/plugins/nvm.fish
 	url = https://github.com/jorgebucaran/nvm.fish
 [submodule ".local/share/fish/plugins/pisces"]
-	path = .local/share/fish/plugins/pisces
+	path = dot-local/share/fish/plugins/pisces
 	url = https://github.com/laughedelic/pisces

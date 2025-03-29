@@ -1,12 +1,16 @@
 .PHONY: install uninstall
 install:
 	git submodule update --init --recursive
-	stow --no-folding --target=${HOME} .
+	stow --dotfiles --no-folding --target=${HOME} .
+
+reinstall:
+	git submodule update --init --recursive
+	stow --restow --dotfiles --no-folding --target=${HOME} .
 
 install-adopt:
 	git submodule update --init --recursive
-	stow --adopt --no-folding --target=${HOME} .
+	stow --dotfiles --adopt --no-folding --target=${HOME} .
 
 uninstall:
 	git submodule update --init --recursive
-	stow --delete --target=${HOME} .
+	stow --dotfiles --delete --target=${HOME} .
