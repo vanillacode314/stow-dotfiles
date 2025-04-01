@@ -7,75 +7,14 @@ return {
 			library = {
 				-- See the configuration section for more details
 				-- Load luvit types when the `vim.uv` word is found
-				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 			},
 		},
 	},
 	{ "b0o/schemastore.nvim", event = "VeryLazy" },
-	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 	{ "lervag/vimtex", ft = { "latex", "tex" } },
-	{
-		"xiyaowong/nvim-transparent",
-		enabled = false,
-		config = function()
-			require("transparent").setup({ -- Optional, you don't have to run setup.
-				groups = { -- table: default groups
-					"Normal",
-					"NormalNC",
-					"Comment",
-					"Constant",
-					"Special",
-					"Identifier",
-					"Statement",
-					"PreProc",
-					"Type",
-					"Underlined",
-					"Todo",
-					"String",
-					"Function",
-					"Conditional",
-					"Repeat",
-					"Operator",
-					"Structure",
-					"LineNr",
-					"NonText",
-					"SignColumn",
-					-- "CursorLine",
-					-- "CursorLineNr",
-					"StatusLine",
-					"StatusLineNC",
-					"EndOfBuffer",
-					"WinBar",
-					"WinBarNC",
-					"WinSeparator",
-					"TroubleNormal",
-					"TroubleNormalNC",
-					"lualine_b_normal",
-					"lualine_b_inactive",
-					"lualine_c_normal",
-					"lualine_c_inactive",
-					"lualine_y_normal",
-					"lualine_y_inactive",
-				},
-				extra_groups = {}, -- table: additional groups that should be cleared
-				exclude_groups = {}, -- table: groups you don't want to clear
-			})
-			require("transparent").clear_prefix("BufferLine")
-			require("transparent").clear_prefix("DiagnosticSign")
-			require("transparent").clear_prefix("DapUI")
-			require("transparent").clear_prefix("lualine_y_filetype")
-		end,
-	},
 	{ "RRethy/nvim-base16", event = "VeryLazy" },
-	{
-		"Mofiqul/vscode.nvim",
-		priority = 1000,
-		on_autoload_no_session = function() end,
-		event = "VeryLazy",
-		config = function()
-			require("vscode").setup({})
-		end,
-	},
+	{ "Mofiqul/vscode.nvim", event = "ColorScheme" },
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
@@ -149,7 +88,6 @@ return {
 		end,
 	},
 	{ "booperlv/nvim-gomove", config = true, event = "VeryLazy" },
-	{ "onsails/lspkind-nvim", event = "VeryLazy" },
 	{ "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }, event = "VeryLazy" },
 	{
 		"nvim-lualine/lualine.nvim",
@@ -230,13 +168,8 @@ return {
   },
 	},
 	{
-		"ethanholz/nvim-lastplace",
-		config = function()
-			require("nvim-lastplace").setup({})
-		end,
-	},
-	{
 		"kevinhwang91/nvim-ufo",
+		event = { "VeryLazy" },
 		dependencies = "kevinhwang91/promise-async",
 		init = function()
 			vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
@@ -285,36 +218,6 @@ return {
 			})
 		end,
 	},
-	-- "jose-elias-alvarez/typescript.nvim",
-	-- {
-	-- 	"Abstract-IDE/penvim",
-	-- 	config = function()
-	-- 		require("penvim").setup({
-	-- 			rooter = {
-	-- 				enable = true, -- enable/disable rooter
-	-- 				--[[ patterns = { "pnpm-workspace.yaml", ".__nvim__.lua", ".git", "node_modules" }, ]]
-	-- 			},
-	-- 			indentor = {
-	-- 				enable = true, -- enable/disable indentor
-	-- 				indent_length = 2, -- tab indent width
-	-- 				accuracy = 5, -- positive integer. higher the number, the more accurate result (but affects the startup time)
-	-- 				disable_types = {
-	-- 					"help",
-	-- 					"dashboard",
-	-- 					"dashpreview",
-	-- 					"NvimTree",
-	-- 					"vista",
-	-- 					"sagahover",
-	-- 					"terminal",
-	-- 				},
-	-- 			},
-	-- 			project_env = {
-	-- 				enable = true, -- enable/disable project_env
-	-- 				--[[ config_name = ".__nvim__.lua", -- config file name ]]
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
 	{
 		"folke/which-key.nvim",
 		enabled = true,
@@ -349,33 +252,43 @@ return {
 						]])
 		end,
 	},
-	-- {
-	-- 	"petertriho/nvim-scrollbar",
-	-- 	config = function()
-	-- 		require("scrollbar").setup()
-	-- 		require("scrollbar.handlers.gitsigns").setup()
-	-- 	end,
-	-- },
 	{
 		"gorbit99/codewindow.nvim",
-		config = function()
-			local codewindow = require("codewindow")
-			codewindow.setup()
-			codewindow.apply_default_keybinds()
-		end,
-	},
-	{
-		"kkoomen/vim-doge",
-		build = ":call doge#install()",
-		enabled = false,
-		init = function()
-			vim.g.doge_filetype_aliases = {
-				javascript = {
-					"vue",
-					"svelte",
-				},
-			}
-		end,
+		config = true,
+		keys = {
+			{
+				"<leader>mo",
+				function()
+					require("codewindow").open_minimap()
+				end,
+				mode = { "n" },
+				desc = "Open minimap",
+			},
+			{
+				"<leader>mf",
+				function()
+					require("codewindow").toggle_focus()
+				end,
+				mode = { "n" },
+				desc = "Toggle minimap focus",
+			},
+			{
+				"<leader>mc",
+				function()
+					require("codewindow").close_minimap()
+				end,
+				mode = { "n" },
+				desc = "Close minimap",
+			},
+			{
+				"<leader>mm",
+				function()
+					require("codewindow").toggle_minimap()
+				end,
+				mode = { "n" },
+				desc = "Toggle minimap",
+			},
+		},
 	},
 	-- DAP
 	{
@@ -660,12 +573,6 @@ return {
 					]])
 		end,
 	},
-
-	{
-		"ray-x/lsp_signature.nvim",
-		enabled = false,
-		opts = { floating_window = false },
-	},
 	-- Lua
 	{
 		"folke/todo-comments.nvim",
@@ -855,15 +762,6 @@ return {
 		cmd = { "InjectmeToggle", "InjectmeSave", "InjectmeInfo", "InjectmeLeave" },
 	},
 	"kovetskiy/sxhkd-vim",
-	-- { "tenxsoydev/karen-yank.nvim", config = true },
-	-- {
-	-- 	"otavioschwanck/arrow.nvim",
-	-- 	opts = {
-	-- 		show_icons = true,
-	-- 		leader_key = ";", -- Recommended to be a single key
-	-- 		buffer_leader_key = "m", -- Per Buffer Mappings
-	-- 	},
-	-- },
 	{
 		"yamatsum/nvim-cursorline",
 		event = "BufEnter",
@@ -940,22 +838,7 @@ return {
 				},
 			}
 		end,
-		lazy = false, -- This plugin is already lazy
-	},
-	{
-		"andrewferrier/debugprint.nvim",
-		opts = {},
-		-- The 'keys' and 'cmds' sections of this configuration are optional and only needed if
-		-- you want to take advantage of `lazy.nvim` lazy-loading. If you decide to
-		-- customize the keys/commands (see below), you'll need to change these too.
-		keys = {
-			{ "g?", mode = "n" },
-			{ "g?", mode = "x" },
-		},
-		cmd = {
-			"ToggleCommentDebugPrints",
-			"DeleteDebugPrints",
-		},
+		lazy = false,
 	},
 	{
 		"mistweaverco/kulala.nvim",
@@ -1047,6 +930,8 @@ return {
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
 		opts = {
 			disabled_filetypes = {
+				"Codewindow",
+				"codecompanion",
 				"trouble",
 				"qf",
 				"netrw",
@@ -1065,10 +950,10 @@ return {
 			{
 				"<leader>xe",
 				function()
-					require("nvim-emmet").expand_abbreviation()
+					require("nvim-emmet").wrap_with_abbreviation()
 				end,
 				mode = { "n", "v" },
-				desc = "Emmet Expand Abbreviation",
+				desc = "Emmet Wrap With Abbreviation",
 			},
 		},
 	},
@@ -1088,4 +973,41 @@ return {
 	{ "sontungexpt/better-diagnostic-virtual-text", lazy = true },
 	{ "folke/ts-comments.nvim", opts = {}, event = "VeryLazy" },
 	{ "echasnovski/mini.icons", version = false },
+	{
+		"Bekaboo/dropbar.nvim",
+		config = function()
+			require("dropbar").setup({
+				bar = {
+					enable = function(buf, win, _)
+						if
+							not vim.api.nvim_buf_is_valid(buf)
+							or not vim.api.nvim_win_is_valid(win)
+							or vim.fn.win_gettype(win) ~= ""
+							or vim.wo[win].winbar ~= ""
+							or vim.bo[buf].ft == "help"
+							or vim.bo[buf].ft == "codecompanion"
+						then
+							return false
+						end
+
+						local stat = vim.uv.fs_stat(vim.api.nvim_buf_get_name(buf))
+						if stat and stat.size > 1024 * 1024 then
+							return false
+						end
+
+						return vim.bo[buf].ft == "markdown"
+							or pcall(vim.treesitter.get_parser, buf)
+							or not vim.tbl_isempty(vim.lsp.get_clients({
+								bufnr = buf,
+								method = "textDocument/documentSymbol",
+							}))
+					end,
+				},
+			})
+			local dropbar_api = require("dropbar.api")
+			vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+			vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
+			vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
+		end,
+	},
 }

@@ -14,8 +14,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("_filetypes")
 require("lazy").setup("plugins")
+require("_filetypes")
 require("autogroups")
 require("opts")
 require("keymaps")

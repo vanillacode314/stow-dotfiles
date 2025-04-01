@@ -93,12 +93,6 @@ vim.api.nvim_create_autocmd("FileType", {
 -- 	end,
 -- })
 
-vim.api.nvim_create_autocmd({ "QuitPre" }, {
-	callback = function()
-		vim.cmd("NvimTreeClose")
-	end,
-})
-
 vim.api.nvim_create_autocmd("BufEnter", {
 	group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),
 	pattern = "NvimTree_*",

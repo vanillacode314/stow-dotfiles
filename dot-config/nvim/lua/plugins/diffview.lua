@@ -1,4 +1,5 @@
 return {
+	event = { "VeryLazy" },
 	"sindrets/diffview.nvim",
 	config = function()
 		-- Lua

@@ -1,3 +1,65 @@
+local kind_icons = {
+	Text = "󰉿",
+	Method = "󰊕",
+	Function = "󰊕",
+	Constructor = "󰒓",
+
+	Field = "󰜢",
+	Variable = "󰆦",
+	Property = "󰖷",
+
+	Class = "󱡠",
+	Interface = "󱡠",
+	Struct = "󱡠",
+	Module = "󰅩",
+
+	Unit = "󰪚",
+	Value = "󰦨",
+	Enum = "󰦨",
+	EnumMember = "󰦨",
+
+	Keyword = "󰻾",
+	Constant = "󰏿",
+
+	Snippet = "󱄽",
+	Color = "󰏘",
+	File = "󰈔",
+	Reference = "󰬲",
+	Folder = "󰉋",
+	Event = "󱐋",
+	Operator = "󰪚",
+	TypeParameter = "󰬛",
+
+	claude = "󰋦",
+	openai = "󱢆",
+	codestral = "󱎥",
+	gemini = "",
+	Groq = "",
+	Openrouter = "󱂇",
+	Ollama = "󰳆",
+	["Llama.cpp"] = "󰳆",
+	Deepseek = "",
+}
+local source_icons = {
+	minuet = "󱗻",
+	orgmode = "",
+	otter = "󰼁",
+	nvim_lsp = "",
+	lsp = "",
+	buffer = "",
+	luasnip = "",
+	snippets = "",
+	path = "",
+	git = "",
+	tags = "",
+	cmdline = "󰘳",
+	latex_symbols = "",
+	cmp_nvim_r = "󰟔",
+	codeium = "󰩂",
+	-- FALLBACK
+	fallback = "󰜚",
+}
+
 return {
 	"saghen/blink.cmp",
 	-- optional: provides snippets for the snippet source
@@ -32,18 +94,25 @@ return {
 		appearance = {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
+			use_nvim_cmp_as_default = true,
 			nerd_font_variant = "mono",
+			kind_icons = kind_icons,
 		},
-
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer" },
+			default = { "lazydev", "lsp", "path", "snippets", "buffer" },
 			per_filetype = {
 				codecompanion = { "codecompanion" },
 				Avante = { "avante" },
 			},
 			providers = {
+				lazydev = {
+					name = "LazyDev",
+					module = "lazydev.integrations.blink",
+					-- make lazydev completions top priority (see `:h blink.cmp`)
+					score_offset = 100,
+				},
 				avante = {
 					module = "blink-cmp-avante",
 					name = "Avante",
@@ -93,5 +162,30 @@ return {
 		snippets = { preset = "default" },
 		signature = { enabled = true },
 	},
+	config = function(ctx)
+		local has_minuet, minuet = pcall(require, "minuet")
+		if has_minuet then
+			ctx.opts = vim.tbl_deep_extend("force", ctx.opts, {
+				keymap = {
+					-- Manually invoke minuet completion.
+					["<A-y>"] = minuet.make_blink_map(),
+				},
+				sources = {
+					-- For manual completion only, remove 'minuet' from default
+					providers = {
+						minuet = {
+							name = "minuet",
+							module = "minuet.blink",
+							score_offset = 8,
+						},
+					},
+				},
+				-- Recommended to avoid unnecessary request
+				completion = { trigger = { prefetch_on_insert = false } },
+			})
+			table.insert(ctx.opts.sources, "minuet")
+		end
+		require("blink.cmp").setup(ctx.opts)
+	end,
 	opts_extend = { "sources.default" },
 }

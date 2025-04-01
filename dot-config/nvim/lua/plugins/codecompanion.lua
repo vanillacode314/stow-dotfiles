@@ -1,6 +1,7 @@
 return {
 	"olimorris/codecompanion.nvim",
 	enabled = true,
+	event = { "VeryLazy" },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-treesitter/nvim-treesitter",
@@ -34,6 +35,15 @@ return {
 					},
 					parameters = {
 						sync = true,
+					},
+				})
+			end,
+			gemini = function()
+				return require("codecompanion.adapters").extend("gemini", {
+					schema = {
+						model = {
+							default = "gemini-2.0-flash-thinking-exp",
+						},
 					},
 				})
 			end,
@@ -79,18 +89,18 @@ return {
 		vim.cmd([[cab cc CodeCompanion]])
 	end,
 	config = function(ctx)
-		local vectorcode_integrations = pcall(require, "vectorcode.integrations")
-		if vectorcode_integrations then
+		local has_vectorcode, vectorcode_integrations = pcall(require, "vectorcode.integrations")
+		if has_vectorcode then
 			ctx.opts = vim.tbl_deep_extend("force", ctx.opts, {
 				strategies = {
 					chat = {
 						slash_commands = {
-							codebase = require("vectorcode.integrations").codecompanion.chat.make_slash_command(),
+							codebase = vectorcode_integrations.codecompanion.chat.make_slash_command(),
 						},
 						tools = {
 							vectorcode = {
 								description = "Run VectorCode to retrieve the project context.",
-								callback = require("vectorcode.integrations").codecompanion.chat.make_tool(),
+								callback = vectorcode_integrations.codecompanion.chat.make_tool(),
 							},
 						},
 					},
