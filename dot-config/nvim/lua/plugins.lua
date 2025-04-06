@@ -745,7 +745,7 @@ return {
 	{ "sainnhe/gruvbox-material", event = "ColorScheme" },
 	{
 		"HiPhish/rainbow-delimiters.nvim",
-		-- event = "VeryLazy",
+		event = "FileType",
 		config = function()
 			require("rainbow-delimiters.setup").setup({})
 		end,
@@ -798,7 +798,6 @@ return {
 						client.server_capabilities.documentRangeFormattingProvider = false
 						require("config.lsp").on_attach(client, bufnr)
 					end,
-					handlers = require("config.lsp").handlers,
 					default_settings = {
 						["rust-analyzer"] = {
 							inlayHints = {
@@ -901,7 +900,8 @@ return {
 	},
 	{
 		"pmizio/typescript-tools.nvim",
-		enabled = false,
+		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+		enabled = true,
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {
 			settings = {
@@ -917,6 +917,23 @@ return {
 				},
 			},
 		},
+		config = function(ctx)
+			ctx.opts = vim.tbl_deep_extend("force", ctx.opts, {
+				on_attach = function(client, bufnr)
+					client.server_capabilities.documentFormattingProvider = false
+					client.server_capabilities.documentRangeFormattingProvider = false
+					require("config.lsp").on_attach(client, bufnr)
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = vim.api.nvim_create_augroup("TypescriptToolsBufWritePre", { clear = true }),
+						callback = function()
+							vim.cmd("TSToolsAddMissingImports")
+						end,
+					})
+				end,
+				capabilities = require("config.lsp").capabilities,
+			})
+			require("typescript-tools").setup(ctx.opts)
+		end,
 	},
 	{
 		"chrisgrieser/nvim-lsp-endhints",
@@ -925,11 +942,12 @@ return {
 	},
 	{
 		"m4xshen/hardtime.nvim",
-		-- event = "VeryLazy",
+		event = "BufReadPost",
 		enabled = true,
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
 		opts = {
 			disabled_filetypes = {
+				"snacks_dashboard",
 				"Codewindow",
 				"codecompanion",
 				"trouble",
@@ -938,6 +956,7 @@ return {
 				"NvimTree",
 				"lazy",
 				"mason",
+				"mcphub",
 				"oil",
 				"tsplayground",
 				"TelescopePrompt",
@@ -965,16 +984,16 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
 	},
 	{ "ptdewey/pendulum-nvim", config = true },
-	{ "tpope/vim-fugitive" },
+	-- { "tpope/vim-fugitive" },
 	{ "isobit/vim-caddyfile", ft = "caddyflie" },
-	{ "marilari88/twoslash-queries.nvim" },
-	{ "sitiom/nvim-numbertoggle" },
+	{ "sitiom/nvim-numbertoggle", event = "InsertEnter" },
 	{ "andis-sprinkis/lf-vim", event = { "BufReadPre lfrc" } },
 	{ "sontungexpt/better-diagnostic-virtual-text", lazy = true },
 	{ "folke/ts-comments.nvim", opts = {}, event = "VeryLazy" },
 	{ "echasnovski/mini.icons", version = false },
 	{
 		"Bekaboo/dropbar.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("dropbar").setup({
 				bar = {

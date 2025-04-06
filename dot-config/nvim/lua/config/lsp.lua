@@ -1,15 +1,10 @@
 require("config.diagnostics")
-local conform = require("conform")
 
 local M = {}
 
-local border = "single"
-M.handlers = {
-	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-}
 -- M.capabilities = require("cmp_nvim_lsp").default_capabilities()
 M.capabilities = require("blink.cmp").get_lsp_capabilities()
+-- M.capabilites = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.foldingRange = {
 	dynamicRegistration = false,
 	lineFoldingOnly = true,
@@ -74,12 +69,9 @@ M.on_attach = function(client, bufnr)
 		vim.lsp.buf.type_definition,
 		vim.tbl_extend("force", client_opts, { desc = "Jump To Type Definition" })
 	)
-	vim.keymap.set(
-		"n",
-		"<leader>ca",
-		vim.lsp.buf.code_action,
-		vim.tbl_extend("force", client_opts, { desc = "Code Actions" })
-	)
+	vim.keymap.set("n", "<leader>ca", function()
+		require("fastaction").code_action()
+	end, vim.tbl_extend("force", client_opts, { desc = "Code Actions" }))
 	vim.keymap.set(
 		"n",
 		"<leader>rn",
@@ -88,7 +80,7 @@ M.on_attach = function(client, bufnr)
 	)
 	vim.keymap.set("n", "<leader>fj", function()
 		-- vim.lsp.buf.format({ async = true })
-		conform.format({ async = true })
+		require("conform").format({ async = true })
 		vim.cmd("w")
 	end, vim.tbl_extend("force", client_opts, { desc = "Format Buffer" }))
 

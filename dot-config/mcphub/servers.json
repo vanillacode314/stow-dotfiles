@@ -1,0 +1,104 @@
+{
+  "nativeMCPServers": {
+    "neovim": {
+      "disabled_tools": [
+        "replace_in_file",
+        "write_file",
+        "move_item",
+        "execute_lua",
+        "execute_command",
+        "delete_item"
+      ]
+    },
+    "mcphub": {
+      "disabled": true
+    }
+  },
+  "mcpServers": {
+    "puppeteer": {
+      "args": [
+        "@modelcontextprotocol/server-puppeteer"
+      ],
+      "command": "bunx",
+      "disabled": true
+    },
+    "reddit": {
+      "args": [
+        "--from",
+        "git+https://github.com/adhikasp/mcp-reddit.git",
+        "mcp-reddit"
+      ],
+      "env": [
+        
+      ],
+      "command": "uvx",
+      "disabled": false
+    },
+    "fetch": {
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "command": "uvx",
+      "disabled": true
+    },
+    "git": {
+      "args": [
+        "mcp-server-git"
+      ],
+      "env": {
+        "MCP_PROJECT_ROOT_PATH": ""
+      },
+      "command": "uvx",
+      "disabled": true
+    },
+    "postgres": {
+      "args": [
+        "postgres-mcp",
+        "--access-mode=restricted"
+      ],
+      "env": {
+        "DATABASE_URI": ""
+      },
+      "command": "uvx",
+      "disabled": true
+    },
+    "vectorcode": {
+      "command": "vectorcode-mcp-server",
+      "disabled": true
+    },
+    "android": {
+      "args": [
+        "--directory",
+        "/home/vc/.sources/android-mcp-server",
+        "run",
+        "server.py"
+      ],
+      "command": "uv",
+      "disabled": true
+    },
+    "github": {
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+      },
+      "command": "docker",
+      "disabled": true
+    },
+    "cloudflare": {
+      "args": [
+        "@cloudflare/mcp-server-cloudflare",
+        "run",
+        "d16a8097e88add0fdf7e786a7b8f7620"
+      ],
+      "command": "bunx",
+      "disabled": true
+    }
+  }
+}

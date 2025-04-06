@@ -61,8 +61,8 @@ if status is-interactive
     # Aliases
 
     ## general
-    alias ls="exa --long --group --icons --group-directories-first"
-    alias la="exa --all --long --group --icons --group-directories-first"
+    alias ls="eza --long --group --icons --group-directories-first"
+    alias la="eza --all --long --group --icons --group-directories-first"
     alias vim=nvim
     alias svim='nvim -u ~/.config/nvim/stream.lua'
     alias sudo=doas
@@ -110,4 +110,5 @@ set -gx PATH "$PNPM_HOME" $PATH
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
-pyenv init - | source
+which pyenv >/dev/null 2>&1 && pyenv init - | source
+which fnm >/dev/null 2>&1 && fnm env | source

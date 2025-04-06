@@ -11,30 +11,32 @@ return {
 		-- 	log_level = "DEBUG", -- or "TRACE"
 		-- },
 		adapters = {
-			llama = function()
-				return require("codecompanion.adapters").extend("ollama", {
-					name = "llama",
+			["llama-swap"] = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "llama-swap",
+					formatted_name = "LlamaSwap",
 					schema = {
 						model = {
-							default = "deepseek-r1",
-						},
-						num_ctx = {
-							default = 16384,
-						},
-						num_predict = {
-							default = -1,
+							default = "qwen2.5.1-coder-1.5b",
 						},
 					},
 					env = {
-						url = "http://localhost:11434",
-						-- api_key = "OLLAMA_API_KEY",
+						url = "http://localhost:9292",
+						api_key = "TERM",
 					},
-					headers = {
-						["Content-Type"] = "application/json",
-						-- ["Authorization"] = "Bearer ${api_key}",
-					},
-					parameters = {
-						sync = true,
+					handlers = {
+						inline_output = function(self, data)
+							local openai = require("codecompanion.adapters.openai")
+							return openai.handlers.inline_output(self, data)
+						end,
+						chat_output = function(self, data)
+							local openai = require("codecompanion.adapters.openai")
+							local result = openai.handlers.chat_output(self, data)
+							if result ~= nil then
+								result.output.role = "assistant"
+							end
+							return result
+						end,
 					},
 				})
 			end,
@@ -42,11 +44,57 @@ return {
 				return require("codecompanion.adapters").extend("gemini", {
 					schema = {
 						model = {
-							default = "gemini-2.0-flash-thinking-exp",
+							default = "gemini-2.5-flash-preview-04-17",
 						},
 					},
 				})
 			end,
+			["groq"] = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "groq",
+					formatted_name = "Groq",
+					env = {
+						url = "https://api.groq.com/openai",
+						api_key = "GROQ_API_KEY",
+					},
+					schema = {
+						model = {
+							default = "qwen-qwq-32b",
+						},
+					},
+				})
+			end,
+			["openrouter"] = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "openrouter",
+					formatted_name = "OpenRouter",
+					env = {
+						url = "https://openrouter.ai/api",
+						api_key = "OPENROUTER_API_KEY",
+					},
+					schema = {
+						model = {
+							default = "deepseek/deepseek-r1:free",
+						},
+					},
+				})
+			end,
+		},
+		prompt_library = {
+			["deepthinking"] = {
+				strategy = "chat",
+				opts = {
+					is_slash_cmd = true,
+					short_name = "deepthink",
+					ignore_system_prompt = true,
+				},
+				prompts = {
+					{
+						role = "system",
+						content = "Enable deepthinking subroutine.",
+					},
+				},
+			},
 		},
 		strategies = {
 			chat = {
@@ -89,25 +137,20 @@ return {
 		vim.cmd([[cab cc CodeCompanion]])
 	end,
 	config = function(ctx)
-		local has_vectorcode, vectorcode_integrations = pcall(require, "vectorcode.integrations")
-		if has_vectorcode then
+		require("plugins.codecompanion.mcphub-nvim"):init(ctx)
+		require("plugins.codecompanion.vectorcode"):init(ctx)
+		local prompts = {
+			"smart-paste",
+			"vibe-code",
+			"fix-diagnostics",
+		}
+		for _, prompt in ipairs(prompts) do
+			local mod = require("plugins.codecompanion.prompts." .. prompt)
 			ctx.opts = vim.tbl_deep_extend("force", ctx.opts, {
-				strategies = {
-					chat = {
-						slash_commands = {
-							codebase = vectorcode_integrations.codecompanion.chat.make_slash_command(),
-						},
-						tools = {
-							vectorcode = {
-								description = "Run VectorCode to retrieve the project context.",
-								callback = vectorcode_integrations.codecompanion.chat.make_tool(),
-							},
-						},
-					},
-				},
+				prompt_library = { [mod.name] = mod.prompt },
 			})
 		end
-		require("codecompanion").setup(ctx.opts)
 		require("plugins.codecompanion.spinner"):init()
+		require("codecompanion").setup(ctx.opts)
 	end,
 }

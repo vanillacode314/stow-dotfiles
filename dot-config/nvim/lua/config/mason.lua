@@ -19,9 +19,9 @@ require("mason-null-ls").setup({
 	ensure_installed = { "stylua", "jq", "black", "prettierd", "prettier" },
 })
 
-local lsp_config = require("lspconfig")
+local lspconfig = require("lspconfig")
 local capabilities = require("config.lsp").capabilities
-local handlers = require("config.lsp").handlers
+local disabled_servers = { rust_analyzer = true, ts_ls = true }
 
 local function on_attach(client, bufnr, noformat)
 	if noformat then
@@ -32,24 +32,22 @@ local function on_attach(client, bufnr, noformat)
 end
 
 local function setup_server(server_name, config)
+	if disabled_servers[server_name] then
+		return
+	end
 	config = config or {}
 	config.capabilities = config.capabilities or capabilities
-	config.handlers = config.handlers or handlers
 	config.on_attach = function(client, bufnr)
 		on_attach(client, bufnr, config.noformat)
 		if config.custom_attach then
 			config.custom_attach(client, bufnr)
 		end
 	end
-	lsp_config[server_name].setup(config)
+	lspconfig[server_name].setup(config)
 end
 
 require("mason-lspconfig").setup_handlers({
 	function(server_name)
-		if server_name == "rust_analyzer" then
-			return
-		end
-
 		setup_server(server_name, { noformat = true })
 	end,
 
@@ -67,9 +65,6 @@ require("mason-lspconfig").setup_handlers({
 
 		setup_server("ts_ls", {
 			filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-			custom_attach = function(client, bufnr)
-				require("twoslash-queries").attach(client, bufnr)
-			end,
 			settings = {
 				typescript = { inlayHints = inlayHints },
 				javascript = { inlayHints = inlayHints },
@@ -96,7 +91,7 @@ require("mason-lspconfig").setup_handlers({
 	end,
 
 	["astro"] = function()
-		setup_server("astro")
+		setup_server("astro", { noformat = true })
 	end,
 
 	["lua_ls"] = function()

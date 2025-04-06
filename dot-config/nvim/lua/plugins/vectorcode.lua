@@ -6,27 +6,30 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim" },
 	config = function()
 		require("vectorcode").setup({
-			async_opts = {
-				run_on_register = false,
-			},
 			async_backend = "lsp",
-			on_setup = {
-				lsp = true,
-				update = true,
-			},
+			n_query = 10,
+			notify = false,
 		})
-		vim.api.nvim_create_autocmd("LspAttach", {
-			callback = function()
-				local cacher = require("vectorcode.config").get_cacher_backend()
-				local bufnr = vim.api.nvim_get_current_buf()
-				cacher.async_check("config", function()
-					cacher.register_buffer(bufnr, {
-						n_query = 10,
-						notify = false,
-					})
-				end, nil)
-			end,
-			desc = "Register buffer for VectorCode",
-		})
+		-- vim.api.nvim_create_autocmd("LspAttach", {
+		-- 	callback = function(ev)
+		-- 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		-- 		if client == nil then
+		-- 			return
+		-- 		end
+		-- 		if client.name == "vectorcode-server" then
+		-- 			return
+		-- 		end
+		-- 		local cacher = require("vectorcode.config").get_cacher_backend()
+		-- 		local utils = require("vectorcode.utils")
+		-- 		cacher.async_check("config", function()
+		-- 			cacher.register_buffer(ev.buf, {
+		-- 				n_query = 10,
+		-- 				notify = false,
+		-- 				query_cb = utils.make_lsp_document_symbol_cb(),
+		-- 			})
+		-- 		end, nil)
+		-- 	end,
+		-- 	desc = "Register buffer for VectorCode",
+		-- })
 	end,
 }

@@ -57,6 +57,13 @@ return {
 				model = "gemma-2-9b-it",
 				max_tokens = 8192,
 			},
+			["llama-swap"] = {
+				__inherited_from = "openai",
+				api_key_name = "TERM",
+				endpoint = "http://localhost:9292/v1",
+				model = "cogito-3b",
+				max_tokens = 8192,
+			},
 		},
 		---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
 		provider = "gemini-thinking",
@@ -183,6 +190,12 @@ return {
 				file_types = { "markdown", "Avante" },
 			},
 			ft = { "markdown", "Avante" },
+		},
+		{
+			"saghen/blink.compat",
+			version = "*",
+			lazy = true,
+			opts = {},
 		},
 	},
 }
