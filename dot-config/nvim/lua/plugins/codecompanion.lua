@@ -42,7 +42,37 @@ return {
 				return require("codecompanion.adapters").extend("gemini", {
 					schema = {
 						model = {
-							default = "gemini-2.0-flash-thinking-exp",
+							default = "gemini-2.5-flash-preview-04-17",
+						},
+					},
+				})
+			end,
+			["groq"] = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "groq",
+					formatted_name = "Groq",
+					env = {
+						url = "https://api.groq.com/openai",
+						api_key = "GROQ_API_KEY",
+					},
+					schema = {
+						model = {
+							default = "qwen-qwq-32b",
+						},
+					},
+				})
+			end,
+			["openrouter"] = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "openrouter",
+					formatted_name = "OpenRouter",
+					env = {
+						url = "https://openrouter.ai/api",
+						api_key = "OPENROUTER_API_KEY",
+					},
+					schema = {
+						model = {
+							default = "deepseek/deepseek-r1:free",
 						},
 					},
 				})
@@ -89,25 +119,17 @@ return {
 		vim.cmd([[cab cc CodeCompanion]])
 	end,
 	config = function(ctx)
-		local has_vectorcode, vectorcode_integrations = pcall(require, "vectorcode.integrations")
-		if has_vectorcode then
-			ctx.opts = vim.tbl_deep_extend("force", ctx.opts, {
-				strategies = {
-					chat = {
-						slash_commands = {
-							codebase = vectorcode_integrations.codecompanion.chat.make_slash_command(),
-						},
-						tools = {
-							vectorcode = {
-								description = "Run VectorCode to retrieve the project context.",
-								callback = vectorcode_integrations.codecompanion.chat.make_tool(),
-							},
-						},
-					},
-				},
-			})
+		require("plugins.codecompanion.mcphub-nvim"):init(ctx)
+		require("plugins.codecompanion.vectorcode"):init(ctx)
+
+		local prompts = {
+			"smart-paste",
+			"vibe-code",
+		}
+		for _, prompt in ipairs(prompts) do
+			require("plugins.codecompanion.prompts." .. prompt):init(ctx)
 		end
-		require("codecompanion").setup(ctx.opts)
 		require("plugins.codecompanion.spinner"):init()
+		require("codecompanion").setup(ctx.opts)
 	end,
 }

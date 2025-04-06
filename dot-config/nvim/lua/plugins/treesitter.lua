@@ -18,11 +18,17 @@ return {
 		event = "VeryLazy",
 	},
 	{
+		"RRethy/nvim-treesitter-textsubjects",
+		event = "VeryLazy",
+	},
+	{
 		"windwp/nvim-autopairs",
+		event = "VeryLazy",
 		opts = {},
 	},
 	{
 		"windwp/nvim-ts-autotag",
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-treesitter",
 		},
@@ -56,6 +62,7 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
+		event = "FileType",
 		build = ":TSUpdate",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",

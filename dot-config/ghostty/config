@@ -43,8 +43,8 @@
 # resize-overlay-duration = 4s 200ms
 #
 #
-font-family = CaskaydiaCove Nerd Font
-font-size = 10.5
+font-family = MapleMono
+font-size = 10
 
 window-padding-x = 15
 window-padding-y = 15

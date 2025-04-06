@@ -62,9 +62,9 @@ local source_icons = {
 
 return {
 	"saghen/blink.cmp",
-	-- optional: provides snippets for the snippet source
+	event = "VeryLazy",
 	dependencies = {
-		"Kaiser-Yang/blink-cmp-avante",
+		-- "Kaiser-Yang/blink-cmp-avante",
 		"rafamadriz/friendly-snippets",
 	},
 
@@ -104,7 +104,7 @@ return {
 			default = { "lazydev", "lsp", "path", "snippets", "buffer" },
 			per_filetype = {
 				codecompanion = { "codecompanion" },
-				Avante = { "avante" },
+				-- Avante = { "avante" },
 			},
 			providers = {
 				lazydev = {
@@ -113,13 +113,13 @@ return {
 					-- make lazydev completions top priority (see `:h blink.cmp`)
 					score_offset = 100,
 				},
-				avante = {
-					module = "blink-cmp-avante",
-					name = "Avante",
-					opts = {
-						-- options for blink-cmp-avante
-					},
-				},
+				-- avante = {
+				-- 	module = "blink-cmp-avante",
+				-- 	name = "Avante",
+				-- 	opts = {
+				-- 		-- options for blink-cmp-avante
+				-- 	},
+				-- },
 				-- lsp = {
 				-- 	min_keyword_length = 0,
 				-- 	score_offset = 4,
@@ -183,8 +183,9 @@ return {
 				-- Recommended to avoid unnecessary request
 				completion = { trigger = { prefetch_on_insert = false } },
 			})
-			table.insert(ctx.opts.sources, "minuet")
+			table.insert(ctx.opts.sources.default, "minuet")
 		end
+
 		require("blink.cmp").setup(ctx.opts)
 	end,
 	opts_extend = { "sources.default" },

@@ -18,6 +18,14 @@ return {
 					{ icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
 					{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
 					{
+						icon = "󰨇 ",
+						key = "h",
+						desc = "MCPHub",
+						action = function()
+							vim.cmd("MCPHub")
+						end,
+					},
+					{
 						icon = "󰭹 ",
 						key = "a",
 						desc = "AI Chat",

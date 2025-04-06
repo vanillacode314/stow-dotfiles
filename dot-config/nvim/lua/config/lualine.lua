@@ -77,7 +77,13 @@ require("lualine").setup({
 				end,
 			},
 		},
-		lualine_x = {},
+		lualine_x = {
+			{
+				function()
+					return require("mcphub.extensions.lualine")
+				end,
+			},
+		},
 		lualine_y = {
 			{
 				function()

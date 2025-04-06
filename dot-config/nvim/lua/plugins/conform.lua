@@ -26,6 +26,7 @@ return {
 				yaml = { "yamlfmt" },
 				python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 				typescript = js_chain,
+				astro = js_chain,
 				javascript = js_chain,
 				javascriptreact = js_chain,
 				typescriptreact = js_chain,
