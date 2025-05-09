@@ -416,7 +416,7 @@ return {
 			})
 		end,
 		dependencies = {
-			"williamboman/mason.nvim",
+			"mason-org/mason.nvim",
 			"mfussenegger/nvim-dap",
 		},
 	},
@@ -441,54 +441,6 @@ return {
 			dap.listeners.before.event_exited.dapui_config = function()
 				dapui.close()
 			end
-		end,
-	},
-	{
-		"williamboman/mason.nvim",
-		cmd = {
-			"Mason",
-			"MasonInstall",
-			"MasonUninstall",
-			"MasonUninstallAll",
-			"MasonLog",
-			"MasonUpdate",
-			"MasonUpdateAll",
-		},
-		dependencies = {
-			{
-				"Zeioth/mason-extra-cmds",
-				opts = {},
-				init = function()
-					vim.api.nvim_create_autocmd("User", {
-						pattern = "LazyInstall",
-						callback = function()
-							vim.cmd(":MasonUpdateAll")
-						end,
-					})
-				end,
-			},
-		},
-		config = function()
-			require("config.mason")
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"williamboman/mason.nvim",
-		},
-	},
-	{
-		"jay-babu/mason-null-ls.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"williamboman/mason.nvim",
-			"nvimtools/none-ls.nvim",
-		},
-		config = function()
-			require("config.nullls")
-			-- require("mason-null-ls").setup()
 		end,
 	},
 	{

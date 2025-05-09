@@ -1,4 +1,4 @@
-default: install
+default: reinstall
 
 submodules:
   git submodule update --init --recursive

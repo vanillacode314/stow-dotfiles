@@ -1,11 +1,12 @@
 # model: groq/deepseek-r1-distill-llama-70b
 # model: groq/qwen-qwq-32b
 # model: gemini/gemini-2.5-pro-exp-03-25
-model: gemini/gemini-2.0-flash-thinking-exp
+model: gemini/gemini-2.5-flash-preview-04-17
 # model: openrouter/deepseek/deepseek-r1:free
-editor-model: gemini/gemini-2.0-flash-exp
+editor-model: gemini/gemini-2.5-flash-preview-04-17
 # editor-model: gemini/gemini-2.5-pro-exp-03-25
-weak-model: openrouter/meta-llama/llama-3-8b-instruct:free
+# weak-model: groq/llama-3.1-8b-instant
+weak-model: gemini/gemini-2.5-flash-preview-04-17
 chat-mode: architect
 dark-mode: true
 code-theme: gruvbox-dark

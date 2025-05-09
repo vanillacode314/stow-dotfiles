@@ -14,18 +14,7 @@ return {
 		if root then
 			vim.fn.setenv("MCP_PROJECT_ROOT_PATH", root)
 		end
-		require("mcphub").setup({
-			extensions = {
-				codecompanion = {
-					-- Show the mcp tool result in the chat buffer
-					show_result_in_chat = true,
-					-- Make chat #variables from MCP server resources
-					make_vars = true,
-					-- Create slash commands for prompts
-					make_slash_commands = true,
-				},
-			},
-		})
+		require("mcphub").setup()
 		require("plugins.mcphub.format")
 	end,
 }

@@ -88,4 +88,178 @@ M.on_attach = function(client, bufnr)
 	require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {})
 end
 
+local disabled_servers = { rust_analyzer = true, ts_ls = true }
+
+local function on_attach(client, bufnr, noformat)
+	if noformat then
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+	end
+	require("config.lsp").on_attach(client, bufnr)
+end
+
+local function setup_server(server_name, config)
+	if disabled_servers[server_name] then
+		return
+	end
+	config = config or {}
+	config.capabilities = config.capabilities or M.capabilities
+	config.on_attach = function(client, bufnr)
+		on_attach(client, bufnr, config.noformat)
+		if config.custom_attach then
+			config.custom_attach(client, bufnr)
+		end
+	end
+	vim.lsp.config(server_name, config)
+end
+
+setup_server("*", { noformat = true })
+
+-- local inlayHints = {
+-- 	includeInlayParameterNameHints = "all",
+-- 	includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+-- 	includeInlayFunctionParameterTypeHints = true,
+-- 	includeInlayVariableTypeHints = true,
+-- 	includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+-- 	includeInlayPropertyDeclarationTypeHints = true,
+-- 	includeInlayFunctionLikeReturnTypeHints = true,
+-- 	includeInlayEnumMemberValueHints = true,
+-- }
+-- setup_server("ts_ls", {
+-- 	filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+-- 	settings = {
+-- 		typescript = { inlayHints = inlayHints },
+-- 		javascript = { inlayHints = inlayHints },
+-- 	},
+-- 	noformat = true,
+-- })
+
+setup_server("svelte", {
+	settings = {
+		typescript = {
+			inlayHints = {
+				parameterNames = { enabled = "all" },
+				parameterTypes = { enabled = true },
+				variableTypes = { enabled = true },
+				propertyDeclarationTypes = { enabled = true },
+				functionLikeReturnTypes = { enabled = true },
+				enumMemberValues = { enabled = true },
+			},
+		},
+	},
+})
+setup_server("lua_ls", {
+	noformat = true,
+	settings = {
+		Lua = {
+			hint = { enable = true },
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
+	},
+})
+setup_server("gopls", {
+	settings = {
+		hints = {
+			rangeVariableTypes = true,
+			parameterNames = true,
+			constantValues = true,
+			assignVariableTypes = true,
+			compositeLiteralFields = true,
+			compositeLiteralTypes = true,
+			functionTypeParameters = true,
+		},
+	},
+})
+setup_server("unocss", {
+	noformat = true,
+	filetypes = { "typescriptreact", "astro", "svelte" },
+})
+setup_server("basedpyright", {
+	noformat = true,
+	settings = {
+		basedpyright = {
+			analysis = {
+				autoSearchPaths = true,
+				diagnosticMode = "openFilesOnly",
+				useLibraryCodeForTypes = true,
+				-- ignore = { "*" },
+			},
+			disableOrganizeImports = true,
+		},
+	},
+})
+setup_server("volar", {
+	filetypes = { "vue" },
+	init_options = {
+		vue = {
+			hybridMode = false,
+		},
+	},
+})
+setup_server("emmet_language_server", {
+	filetypes = {
+		"css",
+		"eruby",
+		"html",
+		"javascript",
+		"javascriptreact",
+		"less",
+		"sass",
+		"scss",
+		"pug",
+		"typescriptreact",
+	},
+	init_options = {
+		---@type table<string, string>
+		includeLanguages = { typescriptreact = "html" },
+		--- @type string[]
+		excludeLanguages = {},
+		--- @type string[]
+		extensionsPath = {},
+		---@type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+		preferences = {},
+		--- @type boolean Defaults to `true`
+		showAbbreviationSuggestions = true,
+		--- @type "always" | "never" Defaults to `"always"`
+		showExpandedAbbreviation = "always",
+		--- @type boolean Defaults to `false`
+		showSuggestionsAsSnippets = false,
+		--- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+		syntaxProfiles = {},
+		--- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+		variables = {},
+	},
+})
+setup_server("jsonls", {
+	noformat = true,
+	settings = {
+		json = {
+			schemas = require("schemastore").json.schemas(),
+			validate = { enable = true },
+		},
+	},
+})
+setup_server("yamlls", {
+	settings = {
+		yaml = {
+			schemaStore = {
+				-- You must disable built-in schemaStore support if you want to use
+				-- this plugin and its advanced options like `ignore`.
+				enable = false,
+				-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+				url = "",
+			},
+			schemas = require("schemastore").yaml.schemas(),
+		},
+	},
+})
+setup_server("ruff", {
+	noformat = true,
+	custom_attach = function(client)
+		client.server_capabilities.hoverProvider = false
+	end,
+})
+
 return M

@@ -62,7 +62,7 @@ local source_icons = {
 
 return {
 	"saghen/blink.cmp",
-	event = "VeryLazy",
+	-- event = "VeryLazy",
 	dependencies = {
 		"rafamadriz/friendly-snippets",
 	},
@@ -89,7 +89,19 @@ return {
 		-- C-k: Toggle signature help (if signature.enabled = true)
 		--
 		-- See :h blink-cmp-config-keymap for defining your own keymap
-		keymap = { preset = "default" },
+		keymap = {
+			preset = "default",
+			["<C-y>"] = {
+				function(cmp)
+					if cmp.is_visible() then
+						return false
+					end
+					cmp.show({ providers = { "lsp", "path" } })
+					return true
+				end,
+				"select_and_accept",
+			},
+		},
 		appearance = {
 			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 			-- Adjusts spacing to ensure icons are aligned
@@ -191,10 +203,10 @@ return {
 					},
 				},
 				-- Recommended to avoid unnecessary request
-				completion = { trigger = { prefetch_on_insert = false } },
+				-- completion = { trigger = { prefetch_on_insert = false } },
 			})
 			-- Enables suggestions as you type
-			table.insert(ctx.opts.sources.default, "minuet")
+			-- table.insert(ctx.opts.sources.default, "minuet")
 		end
 
 		require("blink.cmp").setup(ctx.opts)
