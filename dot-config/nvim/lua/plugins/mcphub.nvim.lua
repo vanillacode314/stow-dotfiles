@@ -16,5 +16,6 @@ return {
 		end
 		require("mcphub").setup()
 		require("plugins.mcphub.format")
+		require("plugins.mcphub.root_path")
 	end,
 }

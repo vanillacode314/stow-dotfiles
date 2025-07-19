@@ -25,7 +25,7 @@ return {
 				"wgsl_analyzer",
 				"svelte",
 				"astro",
-				"volar",
+				-- "volar",
 				"ts_ls",
 				"gopls",
 				"jsonls",

@@ -1,8 +1,92 @@
 {
-  "nativeMCPServers": {
-    "mcphub": {
+  "mcpServers": {
+    "puppeteer": {
+      "args": [
+        "@modelcontextprotocol/server-puppeteer"
+      ],
+      "command": "bunx",
       "disabled": true
     },
+    "android": {
+      "args": [
+        "--directory",
+        "/home/vc/.sources/android-mcp-server",
+        "run",
+        "server.py"
+      ],
+      "command": "uv",
+      "disabled": true
+    },
+    "postgres": {
+      "args": [
+        "postgres-mcp",
+        "--access-mode=restricted"
+      ],
+      "command": "uvx",
+      "env": {
+        "DATABASE_URI": ""
+      },
+      "disabled": true
+    },
+    "reddit": {
+      "args": [
+        "--from",
+        "git+https://github.com/adhikasp/mcp-reddit.git",
+        "mcp-reddit"
+      ],
+      "command": "uvx",
+      "env": [
+        
+      ],
+      "disabled": true
+    },
+    "vectorcode": {
+      "disabled": false,
+      "command": "vectorcode-mcp-server"
+    },
+    "github": {
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "command": "docker",
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+      },
+      "disabled": true
+    },
+    "cloudflare": {
+      "args": [
+        "@cloudflare/mcp-server-cloudflare",
+        "run",
+        "d16a8097e88add0fdf7e786a7b8f7620"
+      ],
+      "command": "bunx",
+      "disabled": true
+    },
+    "git": {
+      "args": [
+        "mcp-server-git"
+      ],
+      "command": "uvx",
+      "env": {
+        "MCP_PROJECT_ROOT_PATH": ""
+      },
+      "disabled": true
+    },
+    "fetch": {
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "command": "uvx",
+      "disabled": true
+    }
+  },
+  "nativeMCPServers": {
     "neovim": {
       "disabled_tools": [
         "replace_in_file",
@@ -12,93 +96,9 @@
         "execute_command",
         "delete_item"
       ]
-    }
-  },
-  "mcpServers": {
-    "reddit": {
-      "disabled": false,
-      "args": [
-        "--from",
-        "git+https://github.com/adhikasp/mcp-reddit.git",
-        "mcp-reddit"
-      ],
-      "env": [
-        
-      ],
-      "command": "uvx"
     },
-    "vectorcode": {
-      "disabled": true,
-      "command": "vectorcode-mcp-server"
-    },
-    "fetch": {
-      "disabled": false,
-      "args": [
-        "mcp-server-fetch"
-      ],
-      "command": "uvx"
-    },
-    "postgres": {
-      "disabled": true,
-      "args": [
-        "postgres-mcp",
-        "--access-mode=restricted"
-      ],
-      "env": {
-        "DATABASE_URI": ""
-      },
-      "command": "uvx"
-    },
-    "cloudflare": {
-      "disabled": true,
-      "args": [
-        "@cloudflare/mcp-server-cloudflare",
-        "run",
-        "d16a8097e88add0fdf7e786a7b8f7620"
-      ],
-      "command": "bunx"
-    },
-    "puppeteer": {
-      "disabled": true,
-      "args": [
-        "@modelcontextprotocol/server-puppeteer"
-      ],
-      "command": "bunx"
-    },
-    "android": {
-      "disabled": true,
-      "args": [
-        "--directory",
-        "/home/vc/.sources/android-mcp-server",
-        "run",
-        "server.py"
-      ],
-      "command": "uv"
-    },
-    "github": {
-      "disabled": true,
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "ghcr.io/github/github-mcp-server"
-      ],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
-      },
-      "command": "docker"
-    },
-    "git": {
-      "disabled": true,
-      "args": [
-        "mcp-server-git"
-      ],
-      "env": {
-        "MCP_PROJECT_ROOT_PATH": ""
-      },
-      "command": "uvx"
+    "mcphub": {
+      "disabled": true
     }
   }
 }

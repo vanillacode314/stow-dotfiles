@@ -1,4 +1,3 @@
-import = ["/home/vc/.sources/base16-alacritty/colors/base16-gruvbox-material-dark-hard-256.toml"]
 
 [font]
 builtin_box_drawing = true
@@ -21,3 +20,6 @@ opacity = 1
 [window.padding]
 x = 20
 y = 20
+
+[general]
+import = ["/home/vc/.sources/base16-alacritty/colors/base16-gruvbox-material-dark-hard-256.toml"]

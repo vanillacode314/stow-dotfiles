@@ -16,7 +16,7 @@ Your instructions
 1. Decide if tools provided by @mcp are needed to perform the instructions.
 1.1 If tools are needed, make the required tool calls before editing.
 1.2 If no tools are required, start performing the edits right away.
-2. Use @editor on #buffer{watch} to perform the instructions.
+2. Use @insert_edit_into_file on #buffer to perform the instructions.
 3. Format the buffer using the mcp `format` tool.]],
 		},
 	},

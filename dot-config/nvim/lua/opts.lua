@@ -1,4 +1,4 @@
-vim.cmd([[colorscheme vscode]])
+vim.cmd([[colorscheme arctic]])
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }

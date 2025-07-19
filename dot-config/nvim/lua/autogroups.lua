@@ -26,6 +26,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		)
 		vim.api.nvim_set_hl(0, "TelescopeSelection", vim.tbl_extend("force", VisualHighlight, {}))
 		vim.cmd([[
+				highlight StatusLine guibg=None ctermbg=None
 				" highlight Normal guibg=None ctermbg=None
 				" highlight WinSeparator guibg=None ctermbg=None
 				" highlight FloatNormal guibg=None ctermbg=None

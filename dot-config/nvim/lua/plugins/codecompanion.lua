@@ -18,7 +18,7 @@ return {
 					-- Keymap to open history from chat buffer (default: gh)
 					keymap = "gh",
 					-- Automatically generate titles for new chats
-					auto_generate_title = true,
+					auto_generate_title = false,
 					---On exiting and entering neovim, loads the last chat on opening chat
 					continue_last_chat = false,
 					---When chat is cleared with `gx` delete the chat from history
@@ -30,7 +30,7 @@ return {
 					---Directory path to save the chats
 					dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
 					-- Save all chats by default
-					auto_save = true,
+					auto_save = false,
 					-- Keymap to save the current chat manually
 					save_chat_keymap = "sc",
 				},
@@ -70,7 +70,7 @@ return {
 				return require("codecompanion.adapters").extend("gemini", {
 					schema = {
 						model = {
-							default = "gemini-2.5-flash-preview-04-17",
+							default = "gemini-2.5-flash",
 						},
 					},
 				})

@@ -1,6 +1,6 @@
 continue
 daemon=true
-dir=/home/media/Downloads
+dir=/home/vc/Downloads/aria2
 file-allocation=falloc
 log-level=warn
 max-connection-per-server=16

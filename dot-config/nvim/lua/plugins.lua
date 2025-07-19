@@ -15,6 +15,14 @@ return {
 	{ "lervag/vimtex", ft = { "latex", "tex" } },
 	{ "RRethy/nvim-base16", event = "VeryLazy" },
 	{ "Mofiqul/vscode.nvim", event = "ColorScheme" },
+	{ "askfiy/visual_studio_code", event = "ColorScheme" },
+	{
+		"rockyzhang24/arctic.nvim",
+		branch = "v2",
+		priority = 100,
+		dependencies = { "rktjmp/lush.nvim" },
+		event = "ColorScheme",
+	},
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
