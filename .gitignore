@@ -2,3 +2,4 @@ dot-config/fish/functions/*.fish
 !dot-config/fish/functions/nix-fish-shell.fish
 dot-config/fish/fish_variables
 /chroma.log
+.aider*

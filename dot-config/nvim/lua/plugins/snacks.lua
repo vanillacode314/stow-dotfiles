@@ -26,6 +26,14 @@ return {
 						end,
 					},
 					{
+						icon = "󰨇 ",
+						key = "S",
+						desc = "Store",
+						action = function()
+							vim.cmd("Store")
+						end,
+					},
+					{
 						icon = "󰭹 ",
 						key = "a",
 						desc = "AI Chat",

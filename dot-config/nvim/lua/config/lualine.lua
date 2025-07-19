@@ -1,7 +1,3 @@
--- Bubbles config for lualine
--- Author: lokesh-krishna
--- MIT license, see LICENSE for more details.
-
 -- stylua: ignore
 local colors = {
   blue   = '#80a0ff',
@@ -25,23 +21,86 @@ local bubbles_theme = {
 	replace = { a = { fg = colors.black, bg = colors.red } },
 
 	inactive = {
-		a = { fg = colors.white, bg = colors.black },
-		b = { fg = colors.white, bg = colors.black },
+		a = { fg = colors.white, bg = colors.grey },
+		b = { fg = colors.white, bg = colors.grey },
 		c = { fg = colors.white },
 	},
+}
+local vectorcode_extension = {
+	function()
+		return require("vectorcode.integrations").lualine(opts)[1]()
+	end,
+	separator = { left = "", right = "" },
+	cond = function()
+		if package.loaded["vectorcode"] == nil then
+			return false
+		else
+			return require("vectorcode.integrations").lualine(opts).cond()
+		end
+	end,
+}
+local lsp_clients_extension = {
+	function()
+		local retval = ""
+		for index, value in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+			if index > 1 then
+				retval = retval .. " "
+			end
+			retval = retval .. value.name
+		end
+		return retval
+	end,
+	separator = { left = "", right = "" },
 }
 
 require("lualine").setup({
 	options = {
+		icons_enabled = true,
 		theme = bubbles_theme,
 		component_separators = "",
 		section_separators = { left = "", right = "" },
+		disabled_filetypes = {
+			statusline = {},
+			winbar = {},
+		},
+		ignore_focus = {},
+		always_divide_middle = true,
+		always_show_tabline = true,
 		globalstatus = true,
+		refresh = {
+			statusline = 1000,
+			tabline = 1000,
+			winbar = 1000,
+			refresh_time = 16, -- ~60fps
+			events = {
+				"WinEnter",
+				"BufEnter",
+				"BufWritePost",
+				"SessionLoadPost",
+				"FileChangedShellPost",
+				"VimResized",
+				"Filetype",
+				"CursorMoved",
+				"CursorMovedI",
+				"ModeChanged",
+			},
+		},
 	},
 	sections = {
 		lualine_a = { { "mode", separator = { left = "", right = "" } } },
 		lualine_b = {
-			{ "filename", separator = { left = "", right = "" } },
+			{
+				"buffers",
+				buffers_color = {
+					active = { fg = colors.black, bg = colors.blue },
+				},
+				symbols = {
+					modified = " ●", -- Text to show when the buffer is modified
+					alternate_file = "", -- Text to show to identify the alternate file
+					directory = "", -- Text to show when the buffer is a directory
+				},
+				separator = { left = "", right = "" },
+			},
 			{ "branch", separator = { left = "", right = "" } },
 		},
 		lualine_c = {
@@ -85,34 +144,15 @@ require("lualine").setup({
 			},
 		},
 		lualine_y = {
-			{
-				function()
-					return require("vectorcode.integrations").lualine(opts)[1]()
-				end,
-				separator = { left = "", right = "" },
-				cond = function()
-					if package.loaded["vectorcode"] == nil then
-						return false
-					else
-						return require("vectorcode.integrations").lualine(opts).cond()
-					end
-				end,
-			},
-			{
-				function()
-					local retval = ""
-					for index, value in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
-						if index > 1 then
-							retval = retval .. " "
-						end
-						retval = retval .. value.name
-					end
-					return retval
-				end,
-				separator = { left = "", right = "" },
-			},
+			vectorcode_extension,
+			lsp_clients_extension,
 			{
 				"filetype",
+				color = {
+					fg = colors.black,
+					bg = colors.blue,
+				},
+				colored = false,
 				separator = { left = "", right = "" },
 			},
 			"progress",

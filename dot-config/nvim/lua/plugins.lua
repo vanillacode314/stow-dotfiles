@@ -950,7 +950,14 @@ return {
 	{ "andis-sprinkis/lf-vim", event = { "BufReadPre lfrc" } },
 	{ "sontungexpt/better-diagnostic-virtual-text", lazy = true },
 	{ "folke/ts-comments.nvim", opts = {}, event = "VeryLazy" },
-	{ "echasnovski/mini.icons", version = false },
+	{
+		"echasnovski/mini.icons",
+		version = false,
+		config = function()
+			require("mini.icons").setup()
+			MiniIcons.mock_nvim_web_devicons()
+		end,
+	},
 	{
 		"Bekaboo/dropbar.nvim",
 		event = "VeryLazy",
