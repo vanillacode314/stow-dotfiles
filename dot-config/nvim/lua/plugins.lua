@@ -861,7 +861,7 @@ return {
 	{
 		"pmizio/typescript-tools.nvim",
 		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-		enabled = true,
+		enabled = false,
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {
 			settings = {
@@ -886,7 +886,7 @@ return {
 					vim.api.nvim_create_autocmd("BufWritePre", {
 						group = vim.api.nvim_create_augroup("TypescriptToolsBufWritePre", { clear = true }),
 						callback = function()
-							vim.cmd("TSToolsAddMissingImports")
+							vim.cmd("TSToolsAddMissingImports sync")
 						end,
 					})
 				end,
@@ -995,5 +995,25 @@ return {
 			vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
 			vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
 		end,
+	},
+	{
+		"mistricky/codesnap.nvim",
+		build = "make",
+		opts = {
+			mac_window_bar = false,
+			title = "CodeSnap.nvim",
+			code_font_family = "CaskaydiaCove Nerd Font",
+			watermark_font_family = "Pacifico",
+			watermark = "CodeSnap.nvim",
+			bg_theme = "bamboo",
+			breadcrumbs_separator = "/",
+			has_breadcrumbs = true,
+			has_line_number = true,
+			show_workspace = false,
+			min_width = 0,
+			bg_x_padding = 32,
+			bg_y_padding = 32,
+			save_path = os.getenv("XDG_PICTURES_DIR") or (os.getenv("HOME") .. "/Pictures"),
+		},
 	},
 }

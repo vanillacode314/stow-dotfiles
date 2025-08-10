@@ -5,7 +5,7 @@ return {
 	lazy = false,
 	config = function(ctx)
 		require("snacks").setup(ctx.opts)
-		vim.g.snacks_animate = false
+		-- vim.g.snacks_animate = false
 	end,
 	---@type snacks.Config
 	opts = {
@@ -78,7 +78,7 @@ return {
 		picker = { enabled = true, ui_select = true },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
-		scroll = { enabled = false },
+		scroll = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
 		styles = {

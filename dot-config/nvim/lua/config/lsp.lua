@@ -88,14 +88,14 @@ M.on_attach = function(client, bufnr)
 	require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {})
 end
 
-local disabled_servers = { rust_analyzer = true, ts_ls = true }
+local disabled_servers = { rust_analyzer = true }
 
 local function on_attach(client, bufnr, noformat)
 	if noformat then
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
 	end
-	require("config.lsp").on_attach(client, bufnr)
+	M.on_attach(client, bufnr)
 end
 
 local function setup_server(server_name, config)
@@ -113,26 +113,26 @@ local function setup_server(server_name, config)
 	vim.lsp.config(server_name, config)
 end
 
-setup_server("*", { noformat = true })
+-- setup_server("*", { noformat = true })
 
--- local inlayHints = {
--- 	includeInlayParameterNameHints = "all",
--- 	includeInlayParameterNameHintsWhenArgumentMatchesName = false,
--- 	includeInlayFunctionParameterTypeHints = true,
--- 	includeInlayVariableTypeHints = true,
--- 	includeInlayVariableTypeHintsWhenTypeMatchesName = false,
--- 	includeInlayPropertyDeclarationTypeHints = true,
--- 	includeInlayFunctionLikeReturnTypeHints = true,
--- 	includeInlayEnumMemberValueHints = true,
--- }
--- setup_server("ts_ls", {
--- 	filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
--- 	settings = {
--- 		typescript = { inlayHints = inlayHints },
--- 		javascript = { inlayHints = inlayHints },
--- 	},
--- 	noformat = true,
--- })
+local inlayHints = {
+	includeInlayParameterNameHints = "all",
+	includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+	includeInlayFunctionParameterTypeHints = true,
+	includeInlayVariableTypeHints = true,
+	includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+	includeInlayPropertyDeclarationTypeHints = true,
+	includeInlayFunctionLikeReturnTypeHints = true,
+	includeInlayEnumMemberValueHints = true,
+}
+setup_server("ts_ls", {
+	filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+	settings = {
+		typescript = { inlayHints = inlayHints },
+		javascript = { inlayHints = inlayHints },
+	},
+	noformat = true,
+})
 
 setup_server("svelte", {
 	settings = {
@@ -190,7 +190,7 @@ setup_server("basedpyright", {
 		},
 	},
 })
-setup_server("volar", {
+setup_server("vue_ls", {
 	filetypes = { "vue" },
 	init_options = {
 		vue = {

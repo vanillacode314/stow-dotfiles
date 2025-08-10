@@ -3,7 +3,7 @@
 #assume_yes = true
 
 # Disable specific steps - same options as the command line flag
-disable = ["chezmoi", "containers", "poetry", 'uv', 'home_manager', 'auto_cpufreq']
+disable = ["chezmoi", "containers", "poetry", 'auto_cpufreq']
 
 # Ignore failures for these steps
 #ignore_failures = ["powershell"]

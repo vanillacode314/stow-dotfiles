@@ -44,6 +44,7 @@
 #
 #
 font-family = MapleMono
+# font-family-italic = Monaspace Radon
 font-size = 10
 
 window-padding-x = 15

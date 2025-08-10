@@ -202,7 +202,7 @@
     // "width": 1280, // Waybar width
     "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["hyprland/workspaces", "hyprland/mode", "hyprland/scratchpad", "hyprland/window"],
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": [],
     "modules-right": ["mpris", "idle_inhibitor", "pulseaudio", "backlight", "battery", "clock", "tray"],
     "hyprland/window": {

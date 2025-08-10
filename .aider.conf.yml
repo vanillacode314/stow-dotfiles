@@ -5,6 +5,6 @@ model: gemini/gemini-2.5-flash
 editor-model: gemini/gemini-2.5-flash
 # weak-model: groq/llama-3.1-8b-instant
 weak-model: gemini/gemini-2.5-flash
-chat-mode: architect
+chat-mode: ask
 dark-mode: true
 code-theme: gruvbox-dark

@@ -13,25 +13,28 @@ return {
 		opts = {},
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			"williamboman/mason.nvim",
+			"mason-org/mason.nvim",
+			"neovim/nvim-lspconfig",
 		},
 		opts = {
 			ensure_installed = {
-				"lua_ls",
+				"emmylua_ls",
+				"fish_lsp",
+				"nil_ls",
 				"rust_analyzer",
 				"wgsl_analyzer",
 				"svelte",
 				"astro",
-				-- "volar",
+				"vue_ls",
 				"ts_ls",
 				"gopls",
 				"jsonls",
 				"basedpyright",
 				"ruff",
-				-- "tailwindcss",
+				"tailwindcss",
 			},
 			automatic_enable = {
 				exclude = {
