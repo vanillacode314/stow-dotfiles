@@ -111,6 +111,7 @@ local function setup_server(server_name, config)
 		end
 	end
 	vim.lsp.config(server_name, config)
+	vim.lsp.enable(server_name)
 end
 
 -- setup_server("*", { noformat = true })

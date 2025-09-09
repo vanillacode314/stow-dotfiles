@@ -47,3 +47,4 @@ paginate = false
 
 [appearance]
 theme = 4
+show_speed_graphs_default = false

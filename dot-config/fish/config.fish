@@ -93,9 +93,9 @@ if status is-interactive
     bind -M insert \cZ 'zl; commandline -f repaint'
     # bind -M insert \eI 'clear; commandline -f repaint'
 
-    starship init fish | source
+    command -q starship; and starship init fish | source
+    command -q nix-your-shell; and nix-your-shell fish | source
     enable_transience
-
 end
 
 # pnpm
@@ -105,10 +105,10 @@ set -gx PATH "$PNPM_HOME" $PATH
 
 # tabtab source for packages
 # uninstall by removing these lines
-[ -f ~/.config/tabtab/fish/__tabtab.fish ]; and . ~/.config/tabtab/fish/__tabtab.fish; or true
+[ -f ~/.config/tabtab/fish/__tabtab.fish ]; and source ~/.config/tabtab/fish/__tabtab.fish; or true
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
-which pyenv >/dev/null 2>&1 && pyenv init - | source
-which fnm >/dev/null 2>&1 && fnm env | source
+command -q pyenv; and pyenv init - fish | source
+command -q fnm; and fnm env | source

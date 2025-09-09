@@ -32,7 +32,7 @@ return {
 				"ts_ls",
 				"gopls",
 				"jsonls",
-				"basedpyright",
+				"ty",
 				"ruff",
 				"tailwindcss",
 			},

@@ -37,74 +37,77 @@ return {
 			},
 		},
 		adapters = {
-			["llama-swap"] = function()
-				return require("codecompanion.adapters").extend("openai_compatible", {
-					name = "llama-swap",
-					formatted_name = "LlamaSwap",
-					schema = {
-						model = {
-							default = "qwen-2.5.1-coder-1.5b",
+			http = {
+
+				["llama-swap"] = function()
+					return require("codecompanion.adapters").extend("openai_compatible", {
+						name = "llama-swap",
+						formatted_name = "LlamaSwap",
+						schema = {
+							model = {
+								default = "qwen-2.5.1-coder-1.5b",
+							},
 						},
-					},
-					env = {
-						url = "http://localhost:9292",
-						api_key = "TERM",
-					},
-					handlers = {
-						inline_output = function(self, data)
-							local openai = require("codecompanion.adapters.openai")
-							return openai.handlers.inline_output(self, data)
-						end,
-						chat_output = function(self, data)
-							local openai = require("codecompanion.adapters.openai")
-							local result = openai.handlers.chat_output(self, data)
-							if result ~= nil then
-								result.output.role = "assistant"
-							end
-							return result
-						end,
-					},
-				})
-			end,
-			gemini = function()
-				return require("codecompanion.adapters").extend("gemini", {
-					schema = {
-						model = {
-							default = "gemini-2.5-flash",
+						env = {
+							url = "http://localhost:9292",
+							api_key = "TERM",
 						},
-					},
-				})
-			end,
-			["groq"] = function()
-				return require("codecompanion.adapters").extend("openai_compatible", {
-					name = "groq",
-					formatted_name = "Groq",
-					env = {
-						url = "https://api.groq.com/openai",
-						api_key = "GROQ_API_KEY",
-					},
-					schema = {
-						model = {
-							default = "qwen-qwq-32b",
+						handlers = {
+							inline_output = function(self, data)
+								local openai = require("codecompanion.adapters.openai")
+								return openai.handlers.inline_output(self, data)
+							end,
+							chat_output = function(self, data)
+								local openai = require("codecompanion.adapters.openai")
+								local result = openai.handlers.chat_output(self, data)
+								if result ~= nil then
+									result.output.role = "assistant"
+								end
+								return result
+							end,
 						},
-					},
-				})
-			end,
-			["openrouter"] = function()
-				return require("codecompanion.adapters").extend("openai_compatible", {
-					name = "openrouter",
-					formatted_name = "OpenRouter",
-					env = {
-						url = "https://openrouter.ai/api",
-						api_key = "OPENROUTER_API_KEY",
-					},
-					schema = {
-						model = {
-							default = "deepseek/deepseek-r1:free",
+					})
+				end,
+				gemini = function()
+					return require("codecompanion.adapters").extend("gemini", {
+						schema = {
+							model = {
+								default = "gemini-2.5-flash",
+							},
 						},
-					},
-				})
-			end,
+					})
+				end,
+				["groq"] = function()
+					return require("codecompanion.adapters").extend("openai_compatible", {
+						name = "groq",
+						formatted_name = "Groq",
+						env = {
+							url = "https://api.groq.com/openai",
+							api_key = "GROQ_API_KEY",
+						},
+						schema = {
+							model = {
+								default = "qwen-qwq-32b",
+							},
+						},
+					})
+				end,
+				["openrouter"] = function()
+					return require("codecompanion.adapters").extend("openai_compatible", {
+						name = "openrouter",
+						formatted_name = "OpenRouter",
+						env = {
+							url = "https://openrouter.ai/api",
+							api_key = "OPENROUTER_API_KEY",
+						},
+						schema = {
+							model = {
+								default = "deepseek/deepseek-r1:free",
+							},
+						},
+					})
+				end,
+			},
 		},
 		prompt_library = {
 			["deepthinking"] = {
