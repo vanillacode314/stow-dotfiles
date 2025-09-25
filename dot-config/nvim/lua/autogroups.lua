@@ -19,6 +19,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "TelescopePromptBorder", vim.tbl_extend("force", LineNrHighlight, { bg = nil }))
 		vim.api.nvim_set_hl(0, "TelescopeNormal", vim.tbl_extend("force", NormalHighlight, { bg = nil }))
 		vim.api.nvim_set_hl(0, "TelescopePromptNormal", vim.tbl_extend("force", NormalHighlight, { bg = nil }))
+		vim.api.nvim_set_hl(0, "Pmenu", { bg = nil })
+		vim.api.nvim_set_hl(0, "CmpItemAbbr", { bg = nil })
 		vim.api.nvim_set_hl(
 			0,
 			"TelescopePromptPrefix",

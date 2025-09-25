@@ -59,7 +59,7 @@ return {
 						desc = "Config",
 						action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
 					},
-					{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
+					{ icon = "", key = "s", desc = "Restore Session", section = "session" },
 					{
 						icon = "󰒲 ",
 						key = "L",

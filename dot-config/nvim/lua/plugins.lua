@@ -298,159 +298,7 @@ return {
 			},
 		},
 	},
-	-- DAP
-	{
-		"mfussenegger/nvim-dap",
-		keys = {
-			{
-				"<leader>qc",
-				function()
-					require("dap").continue()
-				end,
-				mode = { "n" },
-				desc = "Continue",
-			},
-			{
-				"<leader>qs",
-				function()
-					require("dap").step_over()
-				end,
-				mode = { "n" },
-				desc = "Step Over",
-			},
-			{
-				"<leader>qi",
-				function()
-					require("dap").step_into()
-				end,
-				mode = { "n" },
-				desc = "Step Into",
-			},
-			{
-				"<leader>qo",
-				function()
-					require("dap").step_out()
-				end,
-				mode = { "n" },
-				desc = "Step Out",
-			},
-			{
-				"<leader>qb",
-				function()
-					require("dap").toggle_breakpoint()
-				end,
-				mode = { "n" },
-				desc = "Toggle Breakpoint",
-			},
-			{
-				"<leader>qr",
-				function()
-					require("dap").restart()
-				end,
-				mode = { "n" },
-				desc = "Restart",
-			},
-		},
-		config = function()
-			local dap = require("dap")
-
-			dap.adapters.lldb = {
-				type = "executable",
-				command = "/usr/bin/lldb-vscode", -- adjust as needed, must be absolute path
-				name = "lldb",
-			}
-			dap.configurations.cpp = {
-				{
-					name = "Launch",
-					type = "lldb",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = false,
-					args = {},
-					-- 💀
-					-- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-					--
-					--    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-					--
-					-- Otherwise you might get the following error:
-					--
-					--    Error on launch: Failed to attach to the target process
-					--
-					-- But you should be aware of the implications:
-					-- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-					-- runInTerminal = false,
-				},
-			}
-
-			-- If you want to use this for Rust and C, add something like this:
-
-			dap.configurations.c = dap.configurations.cpp
-			dap.configurations.rust = dap.configurations.cpp
-		end,
-	},
-	-- { "LiadOz/nvim-dap-repl-highlights", config = true },
-	-- { "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },
-	{
-		"jay-babu/mason-nvim-dap.nvim",
-		cmd = { "DapInstall", "DapUninstall" },
-		config = function()
-			require("mason-nvim-dap").setup({
-				automatic_installation = false,
-				ensure_installed = { "firefox", "python" },
-				handlers = {
-					function(config)
-						require("mason-nvim-dap").default_setup(config)
-					end,
-					firefox = function(config)
-						config.configurations = {
-							{
-								name = "Debug with Firefox",
-								type = "firefox",
-								request = "launch",
-								reAttach = true,
-								url = "http://localhost:5173",
-								webRoot = "${workspaceFolder}",
-								firefoxExecutable = "/usr/bin/firefox",
-							},
-						}
-						config.filetypes =
-							{ "javascriptreact", "typescriptreact", "typescript", "javascript", "svelte", "astro" }
-						require("mason-nvim-dap").default_setup(config) -- don't forget this!
-					end,
-				},
-			})
-		end,
-		dependencies = {
-			"mason-org/mason.nvim",
-			"mfussenegger/nvim-dap",
-		},
-	},
-	{ "theHamsta/nvim-dap-virtual-text", config = true, event = "VeryLazy" },
 	-- { "sigmasd/deno-nvim", ft = { "typescript", "javascript" }, event = "VeryLazy" },
-	{
-		"rcarriga/nvim-dap-ui",
-		event = { "VeryLazy" },
-		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
-		config = function()
-			require("dapui").setup()
-			local dap, dapui = require("dap"), require("dapui")
-			dap.listeners.before.attach.dapui_config = function()
-				dapui.open()
-			end
-			dap.listeners.before.launch.dapui_config = function()
-				dapui.open()
-			end
-			dap.listeners.before.event_terminated.dapui_config = function()
-				dapui.close()
-			end
-			dap.listeners.before.event_exited.dapui_config = function()
-				dapui.close()
-			end
-		end,
-	},
 	{
 		"aserowy/tmux.nvim",
 		event = "VeryLazy",
@@ -699,7 +547,7 @@ return {
 		"tpope/vim-eunuch",
 		event = "CmdlineEnter",
 	},
-	-- { "dmmulroy/ts-error-translator.nvim", config = true },
+	{ enabled = false, "dmmulroy/ts-error-translator.nvim", opts = { auto_override_publish_diagnostics = true } },
 	{ "laytan/cloak.nvim", config = true },
 	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = {}, event = "ColorScheme" },
 	{ "sainnhe/gruvbox-material", event = "ColorScheme" },
@@ -721,7 +569,7 @@ return {
 		-- This is for lazy load and more performance on startup only
 		cmd = { "InjectmeToggle", "InjectmeSave", "InjectmeInfo", "InjectmeLeave" },
 	},
-	"kovetskiy/sxhkd-vim",
+	{ "kovetskiy/sxhkd-vim", ft = "sxhkd" },
 	{
 		"yamatsum/nvim-cursorline",
 		event = "BufEnter",
@@ -861,7 +709,7 @@ return {
 	{
 		"pmizio/typescript-tools.nvim",
 		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-		enabled = false,
+		enabled = true,
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {
 			settings = {
@@ -882,15 +730,15 @@ return {
 				on_attach = function(client, bufnr)
 					client.server_capabilities.documentFormattingProvider = false
 					client.server_capabilities.documentRangeFormattingProvider = false
-					require("config.lsp").on_attach(client, bufnr)
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						group = vim.api.nvim_create_augroup("TypescriptToolsBufWritePre", { clear = true }),
-						callback = function()
-							vim.cmd("TSToolsAddMissingImports sync")
-						end,
-					})
+					require("lsp-utils").on_attach(client, bufnr)
+					-- vim.api.nvim_create_autocmd("BufWritePre", {
+					-- 	group = vim.api.nvim_create_augroup("TypescriptToolsBufWritePre", { clear = true }),
+					-- 	callback = function()
+					-- 		vim.cmd("TSToolsAddMissingImports sync")
+					-- 	end,
+					-- })
 				end,
-				capabilities = require("config.lsp").capabilities,
+				capabilities = require("lsp-utils").capabilities,
 			})
 			require("typescript-tools").setup(ctx.opts)
 		end,
@@ -903,7 +751,7 @@ return {
 	{
 		"m4xshen/hardtime.nvim",
 		event = "BufReadPost",
-		enabled = true,
+		enabled = false,
 		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
 		opts = {
 			disabled_filetypes = {
@@ -945,7 +793,7 @@ return {
 	},
 	{ "ptdewey/pendulum-nvim", config = true },
 	-- { "tpope/vim-fugitive" },
-	{ "isobit/vim-caddyfile", ft = "caddyflie" },
+	{ "isobit/vim-caddyfile", ft = "caddyfile" },
 	{ "sitiom/nvim-numbertoggle", event = "InsertEnter" },
 	{ "andis-sprinkis/lf-vim", event = { "BufReadPre lfrc" } },
 	{ "sontungexpt/better-diagnostic-virtual-text", lazy = true },

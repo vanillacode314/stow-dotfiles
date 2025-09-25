@@ -8,7 +8,7 @@ set plugins \
     https://github.com/lilyball/nix-env.fish \
     https://github.com/laughedelic/pisces
 source $__fish_user_data_dir/plugins/plug.fish/conf.d/plugin_load.fish
-direnv hook fish | source
+command -q direnv; and direnv hook fish | source
 test -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh && bass source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 # if status is-interactive
 #     and not set -q TMUX

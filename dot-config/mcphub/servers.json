@@ -1,3 +1,93 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "basic-memory": {
+      "args": [
+        "basic-memory",
+        "mcp"
+      ],
+      "autoApprove": [
+        "delete_note",
+        "read_content",
+        "build_context",
+        "recent_activity",
+        "search_notes",
+        "read_note",
+        "view_note",
+        "write_note",
+        "canvas",
+        "list_directory",
+        "edit_note",
+        "move_note",
+        "sync_status",
+        "list_memory_projects",
+        "switch_project",
+        "get_current_project",
+        "set_default_project",
+        "create_memory_project",
+        "delete_project"
+      ],
+      "command": "uvx",
+      "disabled": true
+    },
+    "context7": {
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "autoApprove": [
+        "get-library-docs",
+        "resolve-library-id"
+      ],
+      "command": "bunx",
+      "disabled": true
+    },
+    "fetch": {
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "autoApprove": [
+        "fetch"
+      ],
+      "command": "uvx",
+      "disabled": true
+    },
+    "searxng": {
+      "args": [
+        "-y",
+        "mcp-searxng"
+      ],
+      "autoApprove": [
+        "searxng_web_search",
+        "web_url_read"
+      ],
+      "command": "bunx",
+      "disabled_tools": [],
+      "env": {
+        "SEARXNG_URL": "http://localhost:6004"
+      }
+    },
+    "sequentialthinking": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "autoApprove": [
+        "sequentialthinking"
+      ],
+      "command": "bunx",
+      "disabled": true
+    }
+  },
+  "nativeMCPServers": {
+    "mcphub": {
+      "disabled": true
+    },
+    "neovim": {
+      "autoApprove": [
+        "format",
+        "find_files",
+        "read_file"
+      ]
+    }
+  }
 }

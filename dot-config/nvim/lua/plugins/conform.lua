@@ -31,7 +31,7 @@ return {
 			formatters_by_ft = {
 				http = { "kulala" },
 				lua = { "stylua" },
-				yaml = { "yamlfmt" },
+				yaml = { "yamlfix" },
 				python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 				typescript = js_chain,
 				astro = js_chain,

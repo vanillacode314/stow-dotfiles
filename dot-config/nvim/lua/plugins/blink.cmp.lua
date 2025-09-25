@@ -65,6 +65,7 @@ return {
 	-- event = "VeryLazy",
 	dependencies = {
 		"rafamadriz/friendly-snippets",
+		-- "Kaiser-Yang/blink-cmp-avante",
 	},
 
 	-- use a release tag to download pre-built binaries
@@ -115,26 +116,15 @@ return {
 			default = { "lazydev", "lsp", "path", "snippets", "buffer" },
 			per_filetype = {
 				codecompanion = { "codecompanion" },
-				-- AvanteInput = { "avante_commands", "avante_files", "avante_mentions" },
+				-- AvanteInput = { "avante" },
 			},
 			providers = {
-				-- avante_commands = {
-				-- 	name = "avante_commands",
-				-- 	module = "blink.compat.source",
-				-- 	score_offset = 90, -- show at a higher priority than lsp
-				-- 	opts = {},
-				-- },
-				-- avante_files = {
-				-- 	name = "avante_files",
-				-- 	module = "blink.compat.source",
-				-- 	score_offset = 100, -- show at a higher priority than lsp
-				-- 	opts = {},
-				-- },
-				-- avante_mentions = {
-				-- 	name = "avante_mentions",
-				-- 	module = "blink.compat.source",
-				-- 	score_offset = 1000, -- show at a higher priority than lsp
-				-- 	opts = {},
+				-- avante = {
+				-- 	module = "blink-cmp-avante",
+				-- 	name = "Avante",
+				-- 	opts = {
+				-- 		-- options for blink-cmp-avante
+				-- 	},
 				-- },
 				lazydev = {
 					name = "LazyDev",
@@ -168,14 +158,14 @@ return {
 		-- See the fuzzy documentation for more information
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 		completion = {
-			-- menu = {
-			-- 	draw = {
-			-- 		columns = {
-			-- 			{ "label", "label_description", gap = 1 },
-			-- 			{ "kind_icon", gap = 1, "kind" },
-			-- 		},
-			-- 	},
-			-- },
+			menu = {
+				-- 	draw = {
+				-- 		columns = {
+				-- 			{ "label", "label_description", gap = 1 },
+				-- 			{ "kind_icon", gap = 1, "kind" },
+				-- 		},
+				-- 	},
+			},
 			documentation = {
 				auto_show = true,
 				auto_show_delay_ms = 0,

@@ -1,4 +1,4 @@
-vim.cmd([[colorscheme arctic]])
+vim.cmd([[colorscheme base16-gruvbox-material-dark-hard]])
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }

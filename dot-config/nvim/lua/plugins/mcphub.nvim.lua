@@ -12,7 +12,7 @@ return {
 			vim.fn.setenv("MCP_PROJECT_ROOT_PATH", root)
 		end
 		require("mcphub").setup()
-		-- require("plugins.mcphub.format")
-		-- require("plugins.mcphub.root_path")
+		require("plugins.mcphub.format")
+		require("plugins.mcphub.root_path")
 	end,
 }

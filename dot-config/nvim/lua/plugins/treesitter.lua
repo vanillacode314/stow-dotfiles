@@ -2,7 +2,7 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		event = "VeryLazy",
-		enabled = true,
+		enabled = false,
 		opts = {},
 		keys = {
 			{ "<leader>tc", "<cmd>TSContextToggle<cr>", desc = "Toggle Context" },

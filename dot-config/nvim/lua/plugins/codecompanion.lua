@@ -38,27 +38,26 @@ return {
 		},
 		adapters = {
 			http = {
-
 				["llama-swap"] = function()
 					return require("codecompanion.adapters").extend("openai_compatible", {
 						name = "llama-swap",
 						formatted_name = "LlamaSwap",
 						schema = {
 							model = {
-								default = "qwen-2.5.1-coder-1.5b",
+								default = "gemma-3-4b",
 							},
 						},
 						env = {
-							url = "http://localhost:9292",
+							url = "http://localhost:6003",
 							api_key = "TERM",
 						},
 						handlers = {
 							inline_output = function(self, data)
-								local openai = require("codecompanion.adapters.openai")
+								local openai = require("codecompanion.adapters.http.openai")
 								return openai.handlers.inline_output(self, data)
 							end,
 							chat_output = function(self, data)
-								local openai = require("codecompanion.adapters.openai")
+								local openai = require("codecompanion.adapters.http.openai")
 								local result = openai.handlers.chat_output(self, data)
 								if result ~= nil then
 									result.output.role = "assistant"
@@ -110,7 +109,7 @@ return {
 			},
 		},
 		prompt_library = {
-			["deepthinking"] = {
+			["Deepthinking"] = {
 				strategy = "chat",
 				opts = {
 					is_slash_cmd = true,
@@ -128,6 +127,14 @@ return {
 		strategies = {
 			chat = {
 				adapter = "gemini",
+				tools = {
+					opts = {
+						default_tools = {
+							"basic_memory",
+							"searxng",
+						},
+					},
+				},
 			},
 			inline = {
 				adapter = "gemini",

@@ -29,6 +29,7 @@ return {
 				"svelte",
 				"astro",
 				"vue_ls",
+				"eslint",
 				"ts_ls",
 				"gopls",
 				"jsonls",
@@ -36,11 +37,7 @@ return {
 				"ruff",
 				"tailwindcss",
 			},
-			automatic_enable = {
-				exclude = {
-					"ts_ls",
-				},
-			},
+			automatic_enable = { exclude = { "ts_ls" } },
 		},
 	},
 	{

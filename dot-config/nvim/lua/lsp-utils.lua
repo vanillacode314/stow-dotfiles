@@ -116,6 +116,50 @@ end
 
 -- setup_server("*", { noformat = true })
 
+local inlayHints = {
+	includeInlayParameterNameHints = "all",
+	includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+	includeInlayFunctionParameterTypeHints = true,
+	includeInlayVariableTypeHints = true,
+	includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+	includeInlayPropertyDeclarationTypeHints = true,
+	includeInlayFunctionLikeReturnTypeHints = true,
+	includeInlayEnumMemberValueHints = true,
+}
+setup_server("ts_ls", {
+	filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+	settings = {
+		typescript = { inlayHints = inlayHints },
+		javascript = { inlayHints = inlayHints },
+	},
+	noformat = true,
+})
+
+setup_server("svelte", {
+	settings = {
+		typescript = {
+			inlayHints = {
+				parameterNames = { enabled = "all" },
+				parameterTypes = { enabled = true },
+				variableTypes = { enabled = true },
+				propertyDeclarationTypes = { enabled = true },
+				functionLikeReturnTypes = { enabled = true },
+				enumMemberValues = { enabled = true },
+			},
+		},
+	},
+})
+setup_server("lua_ls", {
+	noformat = true,
+	settings = {
+		Lua = {
+			hint = { enable = true },
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
+	},
+})
 setup_server("gopls", {
 	settings = {
 		hints = {
@@ -129,12 +173,10 @@ setup_server("gopls", {
 		},
 	},
 })
-
 setup_server("unocss", {
 	noformat = true,
 	filetypes = { "typescriptreact", "astro", "svelte" },
 })
-
 setup_server("basedpyright", {
 	noformat = true,
 	settings = {
@@ -149,7 +191,6 @@ setup_server("basedpyright", {
 		},
 	},
 })
-
 setup_server("vue_ls", {
 	filetypes = { "vue" },
 	init_options = {
@@ -158,7 +199,6 @@ setup_server("vue_ls", {
 		},
 	},
 })
-
 setup_server("emmet_language_server", {
 	filetypes = {
 		"css",
@@ -193,7 +233,6 @@ setup_server("emmet_language_server", {
 		variables = {},
 	},
 })
-
 setup_server("jsonls", {
 	noformat = true,
 	settings = {
@@ -203,7 +242,6 @@ setup_server("jsonls", {
 		},
 	},
 })
-
 setup_server("yamlls", {
 	settings = {
 		yaml = {
@@ -218,12 +256,22 @@ setup_server("yamlls", {
 		},
 	},
 })
-
 setup_server("ruff", {
 	noformat = true,
 	custom_attach = function(client)
 		client.server_capabilities.hoverProvider = false
 	end,
 })
+
+M.inlayHints = {
+	includeInlayParameterNameHints = "all",
+	includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+	includeInlayFunctionParameterTypeHints = true,
+	includeInlayVariableTypeHints = true,
+	includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+	includeInlayPropertyDeclarationTypeHints = true,
+	includeInlayFunctionLikeReturnTypeHints = true,
+	includeInlayEnumMemberValueHints = true,
+}
 
 return M
