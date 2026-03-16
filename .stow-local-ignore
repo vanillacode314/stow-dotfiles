@@ -1,6 +1,7 @@
 Makefile
 justfile
 .git
+.jj
 .gitignore
 update_gitmodules.py
 .mypy_cache

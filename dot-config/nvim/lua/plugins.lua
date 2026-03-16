@@ -11,7 +11,7 @@ return {
 			},
 		},
 	},
-	{ "b0o/schemastore.nvim", event = "VeryLazy" },
+	{ "b0o/schemastore.nvim", lazy = true },
 	{ "lervag/vimtex", ft = { "latex", "tex" } },
 	{ "RRethy/nvim-base16", event = "VeryLazy" },
 	{ "Mofiqul/vscode.nvim", event = "ColorScheme" },
@@ -23,12 +23,7 @@ return {
 		dependencies = { "rktjmp/lush.nvim" },
 		event = "ColorScheme",
 	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			require("config.lsp")
-		end,
-	},
+	{ "neovim/nvim-lspconfig" },
 	{
 		"folke/zen-mode.nvim",
 		enabled = true,
@@ -96,7 +91,6 @@ return {
 		end,
 	},
 	{ "booperlv/nvim-gomove", config = true, event = "VeryLazy" },
-	{ "nvimtools/none-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }, event = "VeryLazy" },
 	{
 		"nvim-lualine/lualine.nvim",
 		enabled = true,
@@ -391,7 +385,6 @@ return {
 	{
 		"danymat/neogen",
 		cmd = { "Neogen" },
-		dependencies = "nvim-treesitter/nvim-treesitter",
 		keys = {
 			{
 				"<leader>nff",
@@ -451,16 +444,18 @@ return {
 	-- { "axieax/typo.nvim", config = true },
 	{
 		"saecki/crates.nvim",
-		-- branch = "v0.3.0",
-		branch = false,
-		dependencies = { "nvim-lua/plenary.nvim" },
 		event = { "BufRead Cargo.toml" },
-		opts = {
-			null_ls = {
-				enabled = true,
-				name = "crates.nvim",
-			},
-		},
+		config = function()
+			require("crates").setup({
+				lsp = {
+					enabled = true,
+					on_attach = require("lsp-utils").on_attach,
+					actions = true,
+					completion = true,
+					hover = true,
+				},
+			})
+		end,
 	},
 	{
 		"chrisgrieser/nvim-various-textobjs",
@@ -562,7 +557,6 @@ return {
 		enabled = false,
 		"Dronakurl/injectme.nvim",
 		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
 		},
@@ -709,7 +703,7 @@ return {
 	{
 		"pmizio/typescript-tools.nvim",
 		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-		enabled = true,
+		enabled = false,
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {
 			settings = {
@@ -789,7 +783,7 @@ return {
 		"MeanderingProgrammer/render-markdown.nvim",
 		opts = {},
 		ft = { "markdown", "codecompanion", "Avante" },
-		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
+		dependencies = { "echasnovski/mini.icons" },
 	},
 	{ "ptdewey/pendulum-nvim", config = true },
 	-- { "tpope/vim-fugitive" },
@@ -846,7 +840,8 @@ return {
 	},
 	{
 		"mistricky/codesnap.nvim",
-		build = "make",
+		enabled = false,
+		tag = "v2.0.0-beta.17",
 		opts = {
 			mac_window_bar = false,
 			title = "CodeSnap.nvim",
@@ -864,4 +859,21 @@ return {
 			save_path = os.getenv("XDG_PICTURES_DIR") or (os.getenv("HOME") .. "/Pictures"),
 		},
 	},
+	{
+		"romus204/referencer.nvim",
+		config = function()
+			require("referencer").setup({
+				enable = true, -- enable after LSP attach
+				format = "  %d reference(s)", -- format string for reference count
+				show_no_reference = true, -- show if refs count = 0
+				kinds = { 5, 6, 8, 12, 13, 14, 23 }, -- LSP SymbolKinds to show references for
+				hl_group = "Comment", -- default highlight group
+				color = nil, -- optional custom color (overrides hl_group)
+				virt_text_pos = "eol", -- virtual text position (eol | overlay | right_align)
+				pattern = nil, -- pattern for LspAttach autocmd to auto-enable
+				lsp_servers = {}, -- list of servers for which this plugin will be active. nil or {} is ALL LSP clients
+			})
+		end,
+	},
+	{ "stevearc/profile.nvim" },
 }

@@ -1,0 +1,4 @@
+BATPATH=/sys/class/power_supply/BAT1
+LEVEL=$(cat $BATPATH/capacity 2>/dev/null)
+STATUS=$(cat $BATPATH/status 2>/dev/null | sed 's/Discharging//;s/Charging//;s/Full//;s/Not charging//;s/Unknown//')
+echo -n "$STATUS $LEVEL%"

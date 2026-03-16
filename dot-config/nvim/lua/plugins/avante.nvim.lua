@@ -9,7 +9,7 @@ return {
 	opts = {
 		---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
 		---@type Provider
-		provider = "gemini", -- The provider used in Aider mode or in the planning phase of Cursor Planning Mode
+		provider = "openrouter",
 		---@alias Mode "agentic" | "legacy"
 		---@type Mode
 		mode = "agentic", -- The default mode for interaction. "agentic" uses tools to automatically generate code, "legacy" uses the old planning method to generate code.
@@ -20,6 +20,18 @@ return {
 		providers = {
 			gemini = {
 				model = "gemini-2.5-flash",
+			},
+			openrouter = {
+				__inherited_from = "openai",
+				endpoint = "https://openrouter.ai/api/v1",
+				api_key_name = "OPENROUTER_API_KEY",
+				model = "openai/gpt-oss-20b",
+			},
+			groq = {
+				__inherited_from = "openai",
+				api_key_name = "GROQ_API_KEY",
+				endpoint = "https://api.groq.com/openai/v1/",
+				model = "openai/gpt-oss-20b",
 			},
 		},
 		---Specify the special dual_boost mode
@@ -50,6 +62,10 @@ return {
 			-- Examples:
 			-- auto_approve_tool_permissions = true,                -- Auto-approve all tools (no prompts)
 			-- auto_approve_tool_permissions = {"bash", "replace_in_file"}, -- Auto-approve specific tools only
+			confirmation_ui_style = "inline_buttons",
+			--- Whether to automatically open files and navigate to lines when ACP agent makes edits
+			---@type boolean
+			acp_follow_agent_locations = true,
 		},
 		prompt_logger = { -- logs prompts to disk (timestamped, for replay/debugging)
 			enabled = true, -- toggle logging entirely
@@ -160,9 +176,14 @@ return {
 				thinking = { "🤯", "🙄" }, -- Spinner characters for the 'thinking' state
 			},
 			input = {
-				prefix = "> ",
-				height = 8, -- Height of the input window in vertical layout
+				provider = "snacks",
+				provider_opts = {
+					-- Additional snacks.input options
+					title = "Avante Input",
+					icon = " ",
+				},
 			},
+
 			edit = {
 				border = "rounded",
 				start_insert = true, -- Start insert mode when opening the edit window
@@ -201,7 +222,6 @@ return {
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
 		"echasnovski/mini.icons",
-		"stevearc/dressing.nvim", -- for input provider dressing
 		"folke/snacks.nvim", -- for input provider snacks
 		{
 			-- support for image pasting

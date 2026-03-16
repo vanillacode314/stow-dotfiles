@@ -13,9 +13,10 @@
     "hyprland/window": {
         "format": "{}",
         "rewrite": {
-            // "(.*) — Zen Browser": "🌎 $1",
-             "(.*) — .* — Personal — Zen Browser": "🌎 $1",
-            "(.*) - Youtube — .* — Zen Browser": "Youtube"
+             "(.*) — .* — Zen Browser": "🌎 $1",
+            "(.*) - Youtube — .* — Zen Browser": "Youtube",
+             "(.*) - Helium": "🌎 $1",
+            "(.*) - Youtube - Helium": "Youtube"
         },
         "separate-outputs": true
     },
@@ -205,12 +206,22 @@
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": [],
     "modules-right": ["mpris", "idle_inhibitor", "pulseaudio", "backlight", "battery", "clock", "tray"],
+    "niri/window": {
+        "rewrite": {
+             "(.*) — .* — Zen Browser": "🌎 $1",
+            "(.*) - Youtube — .* — Zen Browser": "Youtube",
+             "(.*) - Helium": "🌎 $1",
+            "(.*) - Youtube - Helium": "Youtube"
+        },
+        "separate-outputs": true
+    },
     "hyprland/window": {
         "format": "{}",
         "rewrite": {
-            // "(.*) — Zen Browser": "🌎 $1",
              "(.*) — .* — Zen Browser": "🌎 $1",
-            "(.*) - Youtube — .* — Zen Browser": "Youtube"
+            "(.*) - Youtube — .* — Zen Browser": "Youtube",
+             "(.*) - Helium": "🌎 $1",
+            "(.*) - Youtube - Helium": "Youtube"
         },
         "separate-outputs": true
     },

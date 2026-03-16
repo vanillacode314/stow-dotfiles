@@ -37,10 +37,11 @@ vim.opt.winborder = "rounded"
 
 -- Folding
 vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevelstart = 99
 
 -- Editing
+-- vim.opt.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 vim.opt.backspace = "indent,eol,start"
 vim.opt.updatetime = 500
 

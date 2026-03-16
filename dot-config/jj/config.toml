@@ -1,0 +1,12 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[user]
+name = "Raqueebuddin Aziz"
+email = "raqueebuddin.aziz.314@gmail.com"
+
+[ui]
+default-command = "log"
+diff-editor = ":builtin"
+
+[aliases]
+push = ["util", "exec", "--", "uvx", "jj-pre-push", "push"]

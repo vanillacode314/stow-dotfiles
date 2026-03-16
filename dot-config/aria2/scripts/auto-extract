@@ -1,0 +1,74 @@
+#!/bin/sh
+
+DEBUG=0
+watch_dir="$HOME/Downloads/aria2"
+
+cleanup() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') Received shutdown signal, cleaning up..."
+    exit 0
+}
+
+trap cleanup HUP INT TERM
+
+if [ ! -d "$watch_dir" ]; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') Error: Watch directory does not exist: $watch_dir"
+    exit 1
+fi
+
+if ! command -v aunpack >/dev/null 2>&1; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') Error: aunpack is not installed"
+    exit 1
+fi
+
+is_unpacking() {
+    dir="$1"
+    if find "$dir" -maxdepth 1 -type d -name "Unpack-*" 2>/dev/null | grep -q .; then
+        return 0
+    fi
+    return 1
+}
+
+handle_file() {
+    filepath="$1"
+    filename=$(basename "$filepath")
+    dirname=$(dirname "$filepath")
+    name_without_ext=$(printf '%s' "$filename" | sed 's/\.[^.]*$//')
+    aria2_file="$dirname/$filename.aria2"
+
+    if [ ! -d "$dirname/$name_without_ext" ]; then
+        if is_unpacking "$dirname"; then
+            echo "$(date '+%Y-%m-%d %H:%M:%S') Unpacking in progress for $filename. Waiting..."
+            while is_unpacking "$dirname"; do
+                sleep 1
+            done
+        fi
+
+        if [ -f "$aria2_file" ]; then
+            if [ "$DEBUG" -eq 1 ]; then
+                echo "$(date '+%Y-%m-%d %H:%M:%S') Download in progress for $filename. Skipping extraction."
+            fi
+            return
+        fi
+
+        echo "$(date '+%Y-%m-%d %H:%M:%S') Running aunpack on $filepath"
+        cd "$dirname"
+        if aunpack "$filepath" 2>&1; then
+            echo "$(date '+%Y-%m-%d %H:%M:%S') Successfully extracted $filename"
+        else
+            echo "$(date '+%Y-%m-%d %H:%M:%S') Error extracting $filename"
+        fi
+    else
+        if [ "$DEBUG" -eq 1 ]; then
+            echo "$(date '+%Y-%m-%d %H:%M:%S') Directory $name_without_ext already exists. Skipping $filepath."
+        fi
+    fi
+}
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') Starting auto-extract service on $watch_dir"
+
+while true; do
+    while IFS= read -r -d '' file; do
+        handle_file "$file"
+    done < <(find "$watch_dir" -type f \( -name "*.zip" -o -name "*.rar" -o -name "*.7z" \) -print0 2>/dev/null)
+    sleep 5
+done

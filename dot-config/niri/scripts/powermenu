@@ -1,0 +1,10 @@
+#!/bin/sh
+
+COMM="$(echo -e 'poweroff\nsuspend\nhibernate\nreboot\nlock' | tofi)"
+if [ "$COMM" = "lock" ]; then
+  loginctl lock-session && sleep 3 && hyprctl dispatch dpms off
+elif [ "$COMM" = "suspend" ]; then
+  systemctl suspend-then-hibernate
+elif [ -n "$COMM" ]; then
+  systemctl $COMM
+fi

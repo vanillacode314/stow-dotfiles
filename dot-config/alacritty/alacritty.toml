@@ -10,7 +10,7 @@ style = "Bold Italic"
 style = "Italic"
 
 [font.normal]
-family = "CaskaydiaCove Nerd Font"
+family = "Hack Nerd Font"
 style = "Regular"
 
 [window]

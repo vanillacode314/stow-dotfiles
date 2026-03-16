@@ -1,0 +1,91 @@
+#!/bin/sh
+
+DEBUG=0
+watch_dir="$HOME/Downloads/aria2"
+ebook_dir="/home/media/Sync/bookdrop"
+ebook_extensions=".epub .mobi .azw3 .pdf .cbr .cbz .djvu .fb2 .lit .lrf .pdb .rb .snb .tcr"
+
+cleanup() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') Received shutdown signal, cleaning up..."
+    exit 0
+}
+
+trap cleanup HUP INT TERM
+
+if [ ! -d "$watch_dir" ]; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') Error: Watch directory does not exist: $watch_dir"
+    exit 1
+fi
+
+if [ ! -d "$ebook_dir" ]; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') Creating destination directory: $ebook_dir"
+    mkdir -p "$ebook_dir"
+fi
+
+move_ebook() {
+    filepath="$1"
+
+    if [ ! -f "$filepath" ]; then
+        return
+    fi
+
+    filename=$(basename "$filepath")
+    dirname=$(dirname "$filepath")
+    dest_dir="$ebook_dir"
+    aria2_file="$dirname/$filename.aria2"
+
+    if [ "$dirname" = "$dest_dir" ]; then
+        if [ "$DEBUG" -eq 1 ]; then
+            echo "$(date '+%Y-%m-%d %H:%M:%S') File $filename is already in the destination directory. Skipping."
+        fi
+        return
+    fi
+
+    if [ -f "$aria2_file" ]; then
+        if [ "$DEBUG" -eq 1 ]; then
+            echo "$(date '+%Y-%m-%d %H:%M:%S') Download in progress for $filename. Skipping."
+        fi
+        return
+    fi
+
+    dest_path="$dest_dir/$filename"
+
+    if [ -f "$dest_path" ]; then
+        echo "$(date '+%Y-%m-%d %H:%M:%S') File $filename already exists in destination. Skipping."
+        return
+    fi
+
+    echo "$(date '+%Y-%m-%d %H:%M:%S') Moving $filename to $dest_dir"
+    if mv "$filepath" "$dest_dir"; then
+        echo "$(date '+%Y-%m-%d %H:%M:%S') Successfully moved $filename"
+    else
+        echo "$(date '+%Y-%m-%d %H:%M:%S') Error moving $filename"
+    fi
+}
+
+is_ebook() {
+    filepath="$1"
+
+    if [ ! -f "$filepath" ]; then
+        return 1
+    fi
+
+    filename=$(basename "$filepath")
+    for ext in $ebook_extensions; do
+        case "$filename" in
+            *$ext) return 0 ;;
+        esac
+    done
+    return 1
+}
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') Starting move-ebooks service on $watch_dir -> $ebook_dir"
+
+while true; do
+    while IFS= read -r -d '' file; do
+        if is_ebook "$file"; then
+            move_ebook "$file"
+        fi
+    done < <(find "$watch_dir" -type f -print0 2>/dev/null)
+    sleep 10
+done

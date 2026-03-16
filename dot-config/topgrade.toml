@@ -1,4 +1,5 @@
 [misc]
+sudo_command = "sudo"
 # Don't ask for confirmations
 #assume_yes = true
 

@@ -18,7 +18,7 @@ return {
 	config = function()
 		local prettier_chain = { "prettierd", "prettier", stop_after_first = true }
 		local js_chain = function(bufnr)
-			return { first(bufnr, "prettierd", "prettier"), "eslint_d" }
+			return { first(bufnr, "prettierd", "prettier") }
 		end
 		require("conform").setup({
 			formatters = {
@@ -28,10 +28,12 @@ return {
 					stdin = false,
 				},
 			},
+			notify_no_formatters = true,
+			notify_on_error = true,
 			formatters_by_ft = {
 				http = { "kulala" },
 				lua = { "stylua" },
-				yaml = { "yamlfix" },
+				-- yaml = { "yamlfix" },
 				python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 				typescript = js_chain,
 				astro = js_chain,
@@ -56,10 +58,14 @@ return {
 				-- ["*"] = { "injected" },
 			},
 			format_on_save = {
-				-- These options will be passed to conform.format()
 				timeout_ms = 500,
 				lsp_format = "fallback",
 			},
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = vim.api.nvim_create_augroup("LspEslintFixAll", { clear = true }),
+				pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
+				command = "silent! LspEslintFixAll",
+			}),
 		})
 		require("conform").formatters.sql_formatter = {
 			prepend_args = { "-c", vim.fn.expand("~/.config/sql-formatter.json") },

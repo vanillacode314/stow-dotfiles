@@ -60,8 +60,8 @@ require("lualine").setup({
 		component_separators = "",
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {
-			statusline = {},
-			winbar = {},
+			statusline = { "AgenticChat", "AgenticInput", "AgenticCode", "AgenticFiles" },
+			winbar = { "AgenticChat", "AgenticInput", "AgenticCode", "AgenticFiles" },
 		},
 		ignore_focus = {},
 		always_divide_middle = true,

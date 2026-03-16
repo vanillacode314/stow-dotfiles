@@ -64,6 +64,7 @@ if status is-interactive
     alias ls="eza --long --group --icons --group-directories-first"
     alias la="eza --all --long --group --icons --group-directories-first"
     alias vim=nvim
+    alias oc="opencode -c"
     alias svim='nvim -u ~/.config/nvim/stream.lua'
     alias sudo=doas
     alias lg=lazygit
@@ -110,5 +111,5 @@ set -gx PATH "$PNPM_HOME" $PATH
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
-command -q pyenv; and pyenv init - fish | source
+# command -q pyenv; and pyenv init - fish | source
 command -q fnm; and fnm env | source

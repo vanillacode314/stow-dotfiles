@@ -1,10 +1,9 @@
 return {
 	"olimorris/codecompanion.nvim",
-	enabled = true,
+	enabled = false,
 	event = { "VeryLazy" },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		"nvim-treesitter/nvim-treesitter",
 		"ravitemer/codecompanion-history.nvim",
 	},
 	opts = {
@@ -13,7 +12,7 @@ return {
 		-- },
 		extensions = {
 			history = {
-				enabled = true,
+				enabled = false,
 				opts = {
 					-- Keymap to open history from chat buffer (default: gh)
 					keymap = "gh",
@@ -86,7 +85,7 @@ return {
 						},
 						schema = {
 							model = {
-								default = "qwen-qwq-32b",
+								default = "openai/gpt-oss-120b",
 							},
 						},
 					})
@@ -101,7 +100,7 @@ return {
 						},
 						schema = {
 							model = {
-								default = "deepseek/deepseek-r1:free",
+								default = "z-ai/glm-4.7-flash",
 							},
 						},
 					})
@@ -126,18 +125,18 @@ return {
 		},
 		strategies = {
 			chat = {
-				adapter = "gemini",
+				adapter = "openrouter",
 				tools = {
 					opts = {
 						default_tools = {
-							"basic_memory",
-							"searxng",
+							-- "basic_memory",
+							-- "searxng",
 						},
 					},
 				},
 			},
 			inline = {
-				adapter = "gemini",
+				adapter = "openrouter",
 			},
 			agent = {
 				adapter = "gemini",
@@ -152,10 +151,17 @@ return {
 			},
 			diff = {
 				enabled = true,
-				close_chat_at = 240, -- Close an open chat buffer if the total columns of your display are less than...
-				layout = "vertical", -- vertical|horizontal split for default provider
-				opts = { "internal", "filler", "closeoff", "algorithm:patience", "followwrap", "linematch:120" },
-				provider = "mini_diff", -- default|mini_diff
+				provider = "mini_diff", -- mini_diff|split|inline
+
+				provider_opts = {
+					opts = {
+						context_lines = 3, -- Number of context lines in hunks
+						dim = 25, -- Background dim level for floating diff (0-100, [100 full transparent], only applies when layout = "float")
+						full_width_removed = true, -- Make removed lines span full width
+						show_keymap_hints = true, -- Show "gda: accept | gdr: reject" hints above diff
+						show_removed = true, -- Show removed lines as virtual text
+					},
+				},
 			},
 		},
 	},

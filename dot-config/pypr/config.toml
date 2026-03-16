@@ -1,5 +1,9 @@
 [pyprland]
-plugins = ["scratchpads"]
+plugins = ["scratchpads", "menubar"]
+
+[menubar]
+command = "waybar"
+monitors = ["HDMI-1", "eDP-1"]
 
 [scratchpads.term]
 animation = "fromTop"
