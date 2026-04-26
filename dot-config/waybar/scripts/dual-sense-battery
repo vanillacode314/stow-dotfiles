@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# DualSense controller battery indicator for waybar
+
+# Check if controller is connected
+if ! dualsensectl -l 2>/dev/null | grep -q "Devices:"; then
+  exit 1
+fi
+
+# Get battery info
+output=$(dualsensectl battery 2>/dev/null)
+if [[ -z "$output" ]]; then
+  exit 1
+fi
+
+# Parse battery percentage and state
+read -r percentage state <<<"$output"
+
+# Validate percentage is a number
+if ! [[ "$percentage" =~ ^[0-9]+$ ]]; then
+  exit 1
+fi
+
+# Determine CSS class based on percentage and charging state
+text="󰊴 $percentage%"
+if [[ "$state" == "charging" ]]; then
+  class="ds-charging"
+fi
+
+# Output for waybar
+echo "{\"text\": \"$text\", \"class\": \"$class\", \"tooltip\": \"DualSense: $percentage% ($state)\"}"
+exit 0

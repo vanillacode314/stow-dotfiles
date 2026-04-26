@@ -1,0 +1,3 @@
+#!/bin/bash -m
+wl-paste -p --watch wl-copy &
+wl-paste --watch wl-copy -p

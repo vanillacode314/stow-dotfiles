@@ -1,6 +1,6 @@
 return {
 	"carlos-algms/agentic.nvim",
-
+	enabled = false,
 	opts = {
 		-- Available by default: "claude-acp" | "gemini-acp" | "codex-acp" | "opencode-acp" | "cursor-acp" | "auggie-acp"
 		provider = "opencode-acp", -- setting the name here is all you need to get started

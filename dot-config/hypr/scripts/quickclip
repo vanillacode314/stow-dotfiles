@@ -1,6 +1,14 @@
 #!/usr/bin/env fish
-set items "https://raqueeb.com" "My Portfolio: https://raqueeb.com" "raqueebuddin.aziz.314@gmail.com" "https://github.com/vanillacode314" "Since I have not heard from you on this, I have to assume your priorities have changed." "Feel free to ask me any questions you might have :)"
-set choice (printf "%s\n" $items | tofi --prompt-text "Select an item: ")
+set items "https://raqueeb.com" "My Portfolio: https://raqueeb.com" "raqueebuddin.aziz.314@gmail.com" "https://github.com/vanillacode314" "Since I have not heard from you on this, I have to assume your priorities have changed." "Feel free to ask me any questions you might have :)" "OS: Arch Linux x86_64 
+Host: 82L7 IdeaPad 5 Pro 14ACN6 
+Kernel: 6.19.11-zen1-1-zen 
+Resolution: 2240x1400 
+DE: Hyprland 
+CPU: AMD Ryzen 7 5800U with Radeon Graphics (16) @ 4.508GHz 
+GPU: AMD ATI Radeon Vega Series / Radeon Vega Mobile Series 
+Memory: 5826MiB / 13816MiB 
+"
+set choice (printf "%s\0" $items | tofi --prompt-text "Select an item: ")
 if test -n "$choice"
     echo $choice | wl-copy
 end

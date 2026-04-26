@@ -1,0 +1,2 @@
+[commands]
+"Update pi-agent flake" = "sh -c 'cd ~/.config/agents/pi && just update'"

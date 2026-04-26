@@ -69,7 +69,7 @@ M.on_attach = function(client, bufnr)
 		vim.lsp.buf.type_definition,
 		vim.tbl_extend("force", client_opts, { desc = "Jump To Type Definition" })
 	)
-	vim.keymap.set("n", "<leader>ca", function()
+	vim.keymap.set({ "n", "v" }, "<leader>ca", function()
 		require("fastaction").code_action()
 	end, vim.tbl_extend("force", client_opts, { desc = "Code Actions" }))
 	vim.keymap.set(

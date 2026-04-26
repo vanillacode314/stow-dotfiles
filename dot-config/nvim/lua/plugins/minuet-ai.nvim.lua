@@ -6,20 +6,36 @@ return {
 	config = function()
 		require("minuet").setup({
 			provider = "codestral",
-			-- request_timeout = 5,
+			request_timeout = 10,
 			-- throttle = 1500, -- Increase to reduce costs and avoid rate limits
 			-- debounce = 600, -- Increase to reduce costs and avoid rate limits
 			n_completions = 1,
-			-- context_window = 1024,
+			add_single_line_entry = false,
+			-- context_window = 512,
 			provider_options = {
+				openai_compatible = {
+					api_key = "OPENROUTER_API_KEY",
+					end_point = "https://openrouter.ai/api/v1/chat/completions",
+					model = "openai/gpt-oss-120b",
+					name = "Openrouter",
+					optional = {
+						-- max_completion_tokens = 256,
+						reasoning_effort = "none",
+						reasoning = { effort = "none" },
+						top_p = 0.9,
+						provider = { sort = "throughput" },
+					},
+				},
 				openai_fim_compatible = {
 					api_key = "TERM",
-					end_point = "http://localhost:9292/v1/completions",
-					model = "qwen2.5.1-coder-1.5b",
-					name = "Llama.cpp",
+					end_point = "https://llama-swap.homelab.lan/v1/completions",
+					model = "qwen-2.5-coder-3b",
+					name = "llama-swap",
 					optional = {
-						max_tokens = 128,
-						top_p = 0.9,
+						-- max_tokens = 256,
+						-- chat_template_kwargs = {
+						-- 	enable_thinking = false,
+						-- },
 					},
 					template = {
 						prompt = function(context_before_cursor, context_after_cursor, _)

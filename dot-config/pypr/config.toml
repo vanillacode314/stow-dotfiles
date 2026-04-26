@@ -7,36 +7,36 @@ monitors = ["HDMI-1", "eDP-1"]
 
 [scratchpads.term]
 animation = "fromTop"
-command = "ghostty --class=term.ghostty.scratchpad -e tmux new-session -A -s dropterm"
-class = "term.ghostty.scratchpad"
+command = "alacritty --class=term.alacritty.scratchpad -e tmux new-session -A -s dropterm"
+class = "term.alacritty.scratchpad"
 size = "75% 60%"
 
 [scratchpads.music]
 animation = "fromTop"
-command = "ghostty --class=music.ghostty.scratchpad -e ncmpcpp"
+command = "alacritty --class=music.alacritty.scratchpad -e ncmpcpp"
 lazy = true
-class = "music.ghostty.scratchpad"
+class = "music.alacritty.scratchpad"
 size = "75% 60%"
 unfocus = "hide"
 
 [scratchpads.top]
 animation = "fromTop"
-command = "ghostty --class=top.ghostty.scratchpad -e btm"
+command = "alacritty --class=top.alacritty.scratchpad -e btm"
 lazy = true
-class = "top.ghostty.scratchpad"
+class = "top.alacritty.scratchpad"
 size = "75% 60%"
 
 [scratchpads.fm]
 animation = "fromTop"
-command = "ghostty --class=fm.ghostty.scratchpad -e lf"
-class = "fm.ghostty.scratchpad"
+command = "alacritty --class=fm.alacritty.scratchpad -e lf"
+class = "fm.alacritty.scratchpad"
 lazy = true
 size = "75% 60%"
 
 [scratchpads.volume]
 animation = "fromRight"
-command = "ghostty --class=volume.ghostty.scratchpad -e pulsemixer"
-class = "volume.ghostty.scratchpad"
+command = "alacritty --class=volume.alacritty.scratchpad -e pulsemixer"
+class = "volume.alacritty.scratchpad"
 lazy = true
 size = "40% 90%"
 unfocus = "hide"

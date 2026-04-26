@@ -70,7 +70,7 @@ return {
 					return require("codecompanion.adapters").extend("gemini", {
 						schema = {
 							model = {
-								default = "gemini-2.5-flash",
+								default = "gemini-3-flash-preview",
 							},
 						},
 					})
@@ -100,7 +100,7 @@ return {
 						},
 						schema = {
 							model = {
-								default = "z-ai/glm-4.7-flash",
+								default = "deepseek/deepseek-v3.2",
 							},
 						},
 					})

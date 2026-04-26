@@ -68,7 +68,8 @@ disable = ["chezmoi", "containers", "poetry", 'auto_cpufreq']
 
 # Commands to run before anything
 [pre_commands]
-#"Emacs Snapshot" = "rm -rf ~/.emacs.d/elpa.bak && cp -rl ~/.emacs.d/elpa ~/.emacs.d/elpa.bak"
+# "Emacs Snapshot" = "rm -rf ~/.emacs.d/elpa.bak && cp -rl ~/.emacs.d/elpa ~/.emacs.d/elpa.bak"
+
 
 # Custom commands
 [commands]
@@ -121,7 +122,7 @@ disable = ["chezmoi", "containers", "poetry", 'auto_cpufreq']
 
 [firmware]
 # Offer to update firmware; if false just check for and display available updates
-#upgrade = true
+upgrade = true
 
 [flatpak]
 # Use sudo for updating the system-wide installation

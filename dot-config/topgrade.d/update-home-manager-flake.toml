@@ -1,0 +1,2 @@
+[pre_commands]
+"Update home-manager flake" = "sh -c 'cd ~/.config/home-manager && just update'"

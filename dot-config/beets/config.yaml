@@ -1,5 +1,9 @@
 directory: /home/media/Music
 library: /home/media/Music/beets.db
+paths:
+    default: '%first{$albumartists}/$album%aunique{}/$track $title'
+    singleton: 'Non-Album/%first{$artists}/$title'
+    comp: Compilations/$album%aunique{}/$track $title
 import:
   move: no
   copy: no
@@ -14,8 +18,7 @@ import:
   incremental: yes
   resume: yes
   duplicate_action: remove
-plugins: fromfilename fetchart lyrics lastgenre fish embedart replaygain chroma ftintitle musicbrainz
-  info mbsync badfiles
+plugins: fetchart lyrics lastgenre fish embedart replaygain chroma ftintitle musicbrainz spotify info mbsync badfiles
 badfiles:
   check_on_import: no
   commands:
@@ -26,7 +29,7 @@ chroma:
   auto: no
 lyrics:
   auto: yes
-  sources: lrclib genius
+  sources: [lrclib, genius]
   synced: yes
 fetchart:
   auto: yes

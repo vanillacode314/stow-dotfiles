@@ -1,0 +1,71 @@
+{
+  "lastChangelogVersion": "0.75.3",
+  "packages": [
+    "npm:pi-mono-multi-edit",
+    {
+      "source": "npm:@complexthings/pi-dynamic-context-pruning",
+      "extensions": [
+        "-index.ts"
+      ]
+    },
+    {
+      "source": "npm:@ifi/oh-pi-prompts",
+      "prompts": [
+        "-prompts/commit.md"
+      ]
+    },
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@feniix/pi-statusline",
+    "npm:context-mode"
+  ],
+  "defaultProvider": "llama-swap",
+  "defaultModel": "qwen-3.5-9b",
+  "enabledModels": [
+    "*",
+    "deepseek/deepseek-v4*",
+    "qwen/qwen3.5-*",
+    "qwen/qwen3.6-*"
+  ],
+  "npmCommand": [
+    "bun"
+  ],
+  "tools": [
+    "read"
+  ],
+  "powerline": "default",
+  "defaultThinkingLevel": "medium",
+  "subagents": {
+    "agentOverrides": {
+      "scout": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      },
+      "planner": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      },
+      "worker": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      },
+      "reviewer": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      },
+      "context-builder": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      },
+      "researcher": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      },
+      "delegate": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      },
+      "oracle": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      },
+      "oracle-executor": {
+        "model": "openrouter/deepseek/deepseek-v3.2"
+      }
+    }
+  },
+  "skills": [
+    "-skills/jujutsu/SKILL.md"
+  ]
+}

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+LOCK_FILE="/tmp/lid_inhibitor.pid"
+
+if [ -f "$LOCK_FILE" ]; then
+  rm "$LOCK_FILE"
+  echo '{"text": "  Lid: Sleep", "class": "default"}'
+else
+  touch "$LOCK_FILE"
+  echo '{"text": "  Lid: Stay Awake", "class": "active"}'
+fi
