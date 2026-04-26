@@ -1,0 +1,8 @@
+#!/bin/bash
+LOCK_FILE="/tmp/lid_inhibitor.pid"
+
+if [ -f "$LOCK_FILE" ]; then
+  loginctl lock-session && sleep 1 && hyprctl dispatch dpms off
+else
+  systemctl suspend-then-hibernate
+fi

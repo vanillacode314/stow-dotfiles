@@ -6,12 +6,29 @@ return {
 	config = function()
 		require("minuet").setup({
 			provider = "codestral",
-			-- request_timeout = 5,
+			request_timeout = 10,
 			-- throttle = 1500, -- Increase to reduce costs and avoid rate limits
 			-- debounce = 600, -- Increase to reduce costs and avoid rate limits
 			n_completions = 1,
 			-- context_window = 1024,
 			provider_options = {
+				openai_compatible = {
+					api_key = "OPENROUTER_API_KEY",
+					end_point = "https://openrouter.ai/api/v1/chat/completions",
+					model = "openai/gpt-oss-120b",
+					name = "Openrouter",
+					optional = {
+						-- max_completion_tokens = 256,
+						-- reasoning = {
+						-- 	effort = "high",
+						-- },
+						top_p = 0.9,
+						provider = {
+							-- Prioritize throughput for faster completion
+							sort = "latency",
+						},
+					},
+				},
 				openai_fim_compatible = {
 					api_key = "TERM",
 					end_point = "http://localhost:9292/v1/completions",

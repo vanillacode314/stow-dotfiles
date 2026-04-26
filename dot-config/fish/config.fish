@@ -86,6 +86,10 @@ if status is-interactive
     alias gf="git fetch"
     alias gfp="git pull"
 
+    ## pi
+    # alias pi="pi --tools read,bash,edit,write,grep,find,ls"
+    # alias pir="pi --tools read,grep,find,ls"
+
     # Keybinds
     bind -M insert \eo 'lfcd; commandline -f repaint'
     bind -M insert ! bind_bang

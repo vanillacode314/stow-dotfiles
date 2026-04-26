@@ -1,6 +1,6 @@
 window#waybar {
-  font-family: 'Iosevka Nerd Font';
-  font-size: 14px;
+  font-family: 'SpaceMono Nerd Font';
+  font-size: 13px;
   background-color: #000000;
   color: #ffffff;
   transition-property: background-color;
@@ -227,6 +227,18 @@ label:focus {
 }
 
 #mpd.paused {
+}
+
+#custom-dualsense,
+#custom-lid_toggle {
+  padding: 0 10px;
+  background-color: #000000;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#custom-dualsense.ds-charging {
+  background-color: #26a65b;
+  color: #ffffff;
 }
 
 #language {

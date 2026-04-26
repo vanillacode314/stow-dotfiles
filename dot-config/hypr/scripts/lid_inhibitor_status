@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ -f "/tmp/lid_inhibitor.pid" ]; then
+  echo '{"text": "  Lid: Stay Awake", "class": "active"}'
+else
+  echo '{"text": "  Lid: Sleep", "class": "default"}'
+fi

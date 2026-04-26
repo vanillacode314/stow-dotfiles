@@ -9,14 +9,12 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "hyprland/submap", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["mpris", "idle_inhibitor", "pulseaudio", "network", "battery", "clock", "tray"],
+    "modules-right": ["mpris", "custom/dualsense", "idle_inhibitor", "pulseaudio", "network", "battery",  "clock", "tray"],
     "hyprland/window": {
         "format": "{}",
         "rewrite": {
-             "(.*) — .* — Zen Browser": "🌎 $1",
-            "(.*) - Youtube — .* — Zen Browser": "Youtube",
-             "(.*) - Helium": "🌎 $1",
-            "(.*) - Youtube - Helium": "Youtube"
+            "(.*) — Zen Browser": "🌎 $1",
+            "(.*) - Helium": "🌎 $1"
         },
         "separate-outputs": true
     },
@@ -108,6 +106,18 @@
     "tray": {
         // "icon-size": 21,
         "spacing": 10
+    },
+    "custom/dualsense": {
+        "exec": "~/.config/waybar/scripts/dual-sense-battery",
+        "interval": 30,
+        "return-type": "json"
+    },
+    "custom/lid_toggle": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "~/.config/hypr/scripts/lid_inhibitor_status", 
+        "on-click": "~/.config/hypr/scripts/lid_inhibitor_toggle",
+        "interval": 1
     },
     "clock": {
         // "timezone": "America/New_York",
@@ -205,23 +215,20 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["mpris", "idle_inhibitor", "pulseaudio", "backlight", "battery", "clock", "tray"],
+    "modules-right": ["mpris", "custom/dualsense","custom/lid_toggle", "pulseaudio", "backlight", "battery", "clock", "tray"],
     "niri/window": {
         "rewrite": {
-             "(.*) — .* — Zen Browser": "🌎 $1",
-            "(.*) - Youtube — .* — Zen Browser": "Youtube",
-             "(.*) - Helium": "🌎 $1",
-            "(.*) - Youtube - Helium": "Youtube"
+            "(.*) — Zen Browser": "🌎 $1",
+            "(.*) - Helium": "🌎 $1"
         },
         "separate-outputs": true
     },
     "hyprland/window": {
         "format": "{}",
+        "max-length": 50,
         "rewrite": {
-             "(.*) — .* — Zen Browser": "🌎 $1",
-            "(.*) - Youtube — .* — Zen Browser": "Youtube",
-             "(.*) - Helium": "🌎 $1",
-            "(.*) - Youtube - Helium": "Youtube"
+            "(.*) — Zen Browser": "🌎 $1",
+            "(.*) - Helium": "🌎 $1"
         },
         "separate-outputs": true
     },
@@ -309,6 +316,19 @@
     "tray": {
         // "icon-size": 21,
         "spacing": 10
+    },
+    "custom/dualsense": {
+        "exec": "~/.config/waybar/scripts/dual-sense-battery",
+        "exec-if": "which dualsensectl",
+        "interval": 30,
+        "return-type": "json"
+    },
+    "custom/lid_toggle": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "~/.config/hypr/scripts/lid_inhibitor_status", 
+        "on-click": "~/.config/hypr/scripts/lid_inhibitor_toggle",
+        "interval": 1
     },
     "clock": {
         // "timezone": "America/New_York",

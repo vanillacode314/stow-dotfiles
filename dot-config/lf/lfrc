@@ -106,6 +106,7 @@ cmd zip ${{
 }}
 cmd fzf_jump ${{
     res="$(find . -maxdepth 3 | sk --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
+    if [ -z "$res" ]; then exit; fi
     if [ -d "$res" ]; then
         cmd="cd"
     else
